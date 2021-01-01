@@ -10,6 +10,8 @@ Cli tool to develop vlang itself
 - [ ] ci: CI tests
     - [x] cleancode
     - [x] fixed
+- [x] self
+- [x] bootstrap
 
 ## Installation
 
