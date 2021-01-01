@@ -4,3 +4,5 @@ tasks:
     run: v .
   run:
     run: v run .
+  fmt:
+    run: v fmt -w .
