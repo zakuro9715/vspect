@@ -17,6 +17,13 @@ fn setup_app(mut app Command) {
 				exit(os.system('VCOLORS=always v test-cleancode'))
 			}
 		},
+		Command{
+			name: 'fixed'
+			description: 'test-fixed'
+			execute: fn (cmd Command) ? {
+				exit(os.system('VCOLORS=always v test-fixed'))
+			}
+		},
 	])
 	app.add_commands([ci])
 }
