@@ -17,3 +17,7 @@ v . -prod
 ln -s "$(pwd)/vv" $YOUR_PATH/vv
 vv
 ```
+
+## Development
+
+- Use [z](https://github.com/zakuro9715/z)

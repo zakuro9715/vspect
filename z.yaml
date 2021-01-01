@@ -1,0 +1,3 @@
+tasks:
+  run:
+    run: v run .
