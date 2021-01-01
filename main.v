@@ -1,7 +1,7 @@
 module main
 
 import cli { Command }
-import os { system }
+import os { system, dir }
 import v.vmod
 
 fn v(cmd string) int {
@@ -23,7 +23,7 @@ fn setup_app(mut app Command) {
 			description: 'test-fixed'
 			execute: fn (cmd Command) ? {
 				exit(vv('ci cleancode') + vv('ci fixed') + vv('ci fmt') + vv('ci examples') +
-					vv('ci tools'))
+					vv('ci tools') + vv('ci md'))
 			}
 		},
 		Command{
@@ -38,6 +38,13 @@ fn setup_app(mut app Command) {
 			description: 'test-cleancode'
 			execute: fn (cmd Command) ? {
 				exit(v('test-cleancode'))
+			}
+		},
+		Command{
+			name: 'md'
+			description: 'check-md'
+			execute: fn (cmd Command) ? {
+				exit(v('run ${dir(@VEXE)}/cmd/tools/check-md.v -all'))
 			}
 		},
 		Command{
