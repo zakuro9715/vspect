@@ -8,6 +8,9 @@ fn setup_app(mut app Command) {
 	mut ci := Command{
 		name: 'ci'
 		description: 'Run ci tests'
+		execute: fn (cmd Command) ? {
+			exit(system('vv ci cleancode') + system('vv ci fixed'))
+		}
 	}
 	ci.add_commands([
 		Command{
