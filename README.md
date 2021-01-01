@@ -22,4 +22,4 @@ vv
 
 ## Development
 
-- Use [z](https://github.com/zakuro9715/z)
+- Using [z](https://github.com/zakuro9715/z)
