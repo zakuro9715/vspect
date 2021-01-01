@@ -8,6 +8,8 @@ Cli tool to develop vlang itself
     - [ ] ast   : Print ast
     - [ ] tokens: Print tokens
 - [ ] ci: CI tests
+    - [x] cleancode
+    - [x] fixed
 
 ## Installation
 
