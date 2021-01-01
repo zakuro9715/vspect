@@ -69,7 +69,17 @@ fn setup_app(mut app Command) {
 			}
 		},
 	])
-	app.add_commands([ci])
+	mut self := Command{
+		name: 'self'
+		description: 'self compilation'
+		execute: fn (cmd Command) ? {
+			mut code := v('self')
+			println('Compiling vv...')
+			code += v(dir(@FILE))
+			exit(code)
+		}
+	}
+	app.add_commands([ci, self])
 }
 
 fn main() {
