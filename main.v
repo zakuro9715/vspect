@@ -79,7 +79,14 @@ fn setup_app(mut app Command) {
 			exit(code)
 		}
 	}
-	app.add_commands([ci, self])
+	mut bootstrap := Command{
+		name: 'bootstrap'
+		description: 'make V'
+		execute: fn (cmd Command) ? {
+			exit(system('cd ${dir(@VEXE)} && make'))
+		}
+	}
+	app.add_commands([ci, self, bootstrap])
 }
 
 fn main() {
