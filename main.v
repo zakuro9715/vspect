@@ -1,7 +1,7 @@
 module main
 
 import cli { Command }
-import os
+import os { system }
 import v.vmod
 
 fn setup_app(mut app Command) {
@@ -14,14 +14,14 @@ fn setup_app(mut app Command) {
 			name: 'cleancode'
 			description: 'test-cleancode'
 			execute: fn (cmd Command) ? {
-				exit(os.system('VCOLORS=always v test-cleancode'))
+				exit(system('VCOLORS=always v test-cleancode'))
 			}
 		},
 		Command{
 			name: 'fixed'
 			description: 'test-fixed'
 			execute: fn (cmd Command) ? {
-				exit(os.system('VCOLORS=always v test-fixed'))
+				exit(system('VCOLORS=always v test-fixed'))
 			}
 		},
 	])
