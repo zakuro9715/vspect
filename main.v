@@ -22,7 +22,14 @@ fn setup_app(mut app Command) {
 			name: 'all'
 			description: 'test-fixed'
 			execute: fn (cmd Command) ? {
-				exit(vv('ci cleancode') + vv('ci fixed'))
+				exit(vv('ci cleancode') + vv('ci fixed') + vv('ci fmt'))
+			}
+		},
+		Command{
+			name: 'fmt'
+			description: 'test-fmt'
+			execute: fn (cmd Command) ? {
+				exit(v('test-fmt'))
 			}
 		},
 		Command{
