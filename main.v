@@ -4,12 +4,20 @@ import cli { Command }
 import os { system }
 import v.vmod
 
+fn v(cmd string) int {
+	return system('VCOLORS=always ' + @VEXE + ' $cmd')
+}
+
+fn vv(cmd string) int {
+	return system('vv $cmd')
+}
+
 fn setup_app(mut app Command) {
 	mut ci := Command{
 		name: 'ci'
 		description: 'Run ci tests'
 		execute: fn (cmd Command) ? {
-			exit(system('vv ci cleancode') + system('vv ci fixed'))
+			exit(vv('ci cleancode') + vv('ci fixed'))
 		}
 	}
 	ci.add_commands([
@@ -17,14 +25,14 @@ fn setup_app(mut app Command) {
 			name: 'cleancode'
 			description: 'test-cleancode'
 			execute: fn (cmd Command) ? {
-				exit(system('VCOLORS=always v test-cleancode'))
+				exit(v('test-cleancode'))
 			}
 		},
 		Command{
 			name: 'fixed'
 			description: 'test-fixed'
 			execute: fn (cmd Command) ? {
-				exit(system('VCOLORS=always v test-fixed'))
+				exit(v('test-fixed'))
 			}
 		},
 	])
