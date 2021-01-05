@@ -86,7 +86,14 @@ fn setup_app(mut app Command) {
 			exit(system('cd ${dir(@VEXE)} && make'))
 		}
 	}
-	app.add_commands([ci, self, bootstrap])
+	mut inspect := Command{
+		name: 'inspect'
+		description: 'inspect code tools'
+	}
+	inspect.add_commands([
+		ast_command,
+	])
+	app.add_commands([ci, self, bootstrap, inspect])
 }
 
 fn main() {
