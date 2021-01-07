@@ -96,11 +96,8 @@ fn new_app() Command {
 					exit(code)
 				}
 			},
-			Command{
-				name: 'inspect'
-				description: 'inspect code tools'
-				commands: inspect_commands()
-			},
+			ci_command(),
+			inspect_command(),
 		]
 	}
 	app.setup()
