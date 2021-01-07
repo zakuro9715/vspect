@@ -12,99 +12,102 @@ fn vv(cmd string) int {
 	return system('vv $cmd')
 }
 
-fn setup_app(mut app Command) {
-	mut ci := Command{
+fn ci_command() Command {
+	return Command{
 		name: 'ci'
 		description: 'Run ci tests'
+		commands: [
+			Command{
+				name: 'all'
+				description: 'test-fixed'
+				execute: fn (cmd Command) ? {
+					exit(vv('ci cleancode') + vv('ci fixed') + vv('ci fmt') + vv('ci examples') +
+						vv('ci tools') + vv('ci md'))
+				}
+			},
+			Command{
+				name: 'fmt'
+				description: 'test-fmt'
+				execute: fn (cmd Command) ? {
+					exit(v('test-fmt'))
+				}
+			},
+			Command{
+				name: 'cleancode'
+				description: 'test-cleancode'
+				execute: fn (cmd Command) ? {
+					exit(v('test-cleancode'))
+				}
+			},
+			Command{
+				name: 'md'
+				description: 'check-md'
+				execute: fn (cmd Command) ? {
+					exit(v('run ${dir(@VEXE)}/cmd/tools/check-md.v -all'))
+				}
+			},
+			Command{
+				name: 'fixed'
+				description: 'test-fixed'
+				execute: fn (cmd Command) ? {
+					exit(v('test-fixed'))
+				}
+			},
+			Command{
+				name: 'examples'
+				description: 'build-examples'
+				execute: fn (cmd Command) ? {
+					exit(v('build-examples'))
+				}
+			},
+			Command{
+				name: 'tools'
+				description: 'build-tools'
+				execute: fn (cmd Command) ? {
+					exit(v('build-tools'))
+				}
+			},
+		]
 	}
-	ci.add_commands([
-		Command{
-			name: 'all'
-			description: 'test-fixed'
-			execute: fn (cmd Command) ? {
-				exit(vv('ci cleancode') + vv('ci fixed') + vv('ci fmt') + vv('ci examples') +
-					vv('ci tools') + vv('ci md'))
-			}
-		},
-		Command{
-			name: 'fmt'
-			description: 'test-fmt'
-			execute: fn (cmd Command) ? {
-				exit(v('test-fmt'))
-			}
-		},
-		Command{
-			name: 'cleancode'
-			description: 'test-cleancode'
-			execute: fn (cmd Command) ? {
-				exit(v('test-cleancode'))
-			}
-		},
-		Command{
-			name: 'md'
-			description: 'check-md'
-			execute: fn (cmd Command) ? {
-				exit(v('run ${dir(@VEXE)}/cmd/tools/check-md.v -all'))
-			}
-		},
-		Command{
-			name: 'fixed'
-			description: 'test-fixed'
-			execute: fn (cmd Command) ? {
-				exit(v('test-fixed'))
-			}
-		},
-		Command{
-			name: 'examples'
-			description: 'build-examples'
-			execute: fn (cmd Command) ? {
-				exit(v('build-examples'))
-			}
-		},
-		Command{
-			name: 'tools'
-			description: 'build-tools'
-			execute: fn (cmd Command) ? {
-				exit(v('build-tools'))
-			}
-		},
-	])
-	mut self := Command{
-		name: 'self'
-		description: 'self compilation'
-		execute: fn (cmd Command) ? {
-			mut code := v('self')
-			println('Compiling vv...')
-			code += v(dir(@FILE))
-			exit(code)
-		}
-	}
-	mut bootstrap := Command{
-		name: 'bootstrap'
-		description: 'make V'
-		execute: fn (cmd Command) ? {
-			exit(system('cd ${dir(@VEXE)} && make'))
-		}
-	}
-	mut inspect := Command{
-		name: 'inspect'
-		description: 'inspect code tools'
-	}
-	inspect.add_commands([
-		ast_command,
-		tokens_command,
-	])
-	app.add_commands([ci, self, bootstrap, inspect])
 }
 
-fn main() {
+fn new_app() Command {
 	mod := vmod.decode(@VMOD_FILE) or { panic(err) }
 	mut app := Command{
 		name: mod.name
 		description: mod.description
 		version: mod.version
 		disable_flags: true
+		commands: [
+			Command{
+				name: 'bootstrap'
+				description: 'make V'
+				execute: fn (cmd Command) ? {
+					exit(system('cd ${dir(@VEXE)} && make'))
+				}
+			},
+			Command{
+				name: 'self'
+				description: 'self compilation'
+				execute: fn (cmd Command) ? {
+					mut code := v('self')
+					println('Compiling vv...')
+					code += v(dir(@FILE))
+					exit(code)
+				}
+			},
+			Command{
+				name: 'inspect'
+				description: 'inspect code tools'
+				commands: inspect_commands()
+			},
+		]
 	}
-	setup_app(mut app)
+	app.setup()
+	return app
+}
+
+fn main() {
+	mut app := new_app()
 	app.parse(os.args)
 }
