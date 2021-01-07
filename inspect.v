@@ -1,6 +1,6 @@
 module main
 
-import cli
+import cli { Command }
 import v.ast
 import v.parser
 import v.pref { Preferences }
@@ -13,15 +13,15 @@ fn new_pref() pref.Preferences {
 	return prefs
 }
 
-fn inspect_command() cli.Command {
-	return cli.Command{
+fn inspect_command() Command {
+	return Command{
 		name: 'inspect'
 		description: 'inspect code tools'
 		commands: [
-			cli.Command{
+			Command{
 				name: 'ast'
 				description: 'print AST'
-				execute: fn (cmd cli.Command) ? {
+				execute: fn (cmd Command) ? {
 					paths := cmd.args
 					prefs := new_pref()
 					global_scope := ast.Scope{
@@ -33,10 +33,10 @@ fn inspect_command() cli.Command {
 					println(parsed_files)
 				}
 			},
-			cli.Command{
+			Command{
 				name: 'tokens'
 				description: 'print tokens'
-				execute: fn (cmd cli.Command) ? {
+				execute: fn (cmd Command) ? {
 					println('Not implemented')
 				}
 			},
