@@ -4,7 +4,7 @@ import cli { Command }
 import os { dir }
 
 const (
-	ci_command = Command{
+	ci_cmd = Command{
 		name: 'ci'
 		description: 'Run ci tests'
 		commands: [

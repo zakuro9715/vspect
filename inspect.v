@@ -14,7 +14,7 @@ fn new_pref() pref.Preferences {
 }
 
 const (
-	inspect_command = Command{
+	inspect_cmd = Command{
 		name: 'inspect'
 		description: 'inspect code tools'
 		commands: [

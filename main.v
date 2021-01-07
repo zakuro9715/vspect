@@ -29,8 +29,8 @@ fn new_app() Command {
 					exit(code)
 				}
 			},
-			ci_command,
-			inspect_command,
+			ci_cmd,
+			inspect_cmd,
 		]
 	}
 	app.setup()
