@@ -92,6 +92,7 @@ fn setup_app(mut app Command) {
 	}
 	inspect.add_commands([
 		ast_command,
+		tokens_command,
 	])
 	app.add_commands([ci, self, bootstrap, inspect])
 }
