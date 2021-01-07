@@ -12,8 +12,8 @@ fn vv(cmd string) int {
 	return system('vv $cmd')
 }
 
-fn ci_command() Command {
-	return Command{
+const (
+	ci_command = Command{
 		name: 'ci'
 		description: 'Run ci tests'
 		commands: [
@@ -69,7 +69,7 @@ fn ci_command() Command {
 			},
 		]
 	}
-}
+)
 
 fn new_app() Command {
 	mod := vmod.decode(@VMOD_FILE) or { panic(err) }
@@ -96,8 +96,8 @@ fn new_app() Command {
 					exit(code)
 				}
 			},
-			ci_command(),
-			inspect_command(),
+			ci_command,
+			inspect_command,
 		]
 	}
 	app.setup()

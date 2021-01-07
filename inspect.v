@@ -13,8 +13,8 @@ fn new_pref() pref.Preferences {
 	return prefs
 }
 
-fn inspect_command() Command {
-	return Command{
+const (
+	inspect_command = Command{
 		name: 'inspect'
 		description: 'inspect code tools'
 		commands: [
@@ -42,4 +42,4 @@ fn inspect_command() Command {
 			},
 		]
 	}
-}
+)
