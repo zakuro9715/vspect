@@ -22,4 +22,5 @@ jobs:
         run:  v fmt -verify .
       - name: Build
         run: v .
-
+      - name: Run
+        run: ./vv
