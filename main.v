@@ -4,15 +4,15 @@ import cli { Command }
 import os { system, dir }
 import v.vmod
 
-const (
-	self_cmd      = Command{
+const self_cmd = Command{
 		name: 'bootstrap'
 		description: 'make V'
 		execute: fn (cmd Command) ? {
 			exit(system('cd ${dir(@VEXE)} && make'))
 		}
 	}
-	bootstrap_cmd = Command{
+
+const bootstrap_cmd = Command{
 		name: 'self'
 		description: 'self compilation'
 		execute: fn (cmd Command) ? {
@@ -22,7 +22,6 @@ const (
 			exit(code)
 		}
 	}
-)
 
 fn new_app() Command {
 	mod := vmod.decode(@VMOD_FILE) or { panic(err) }
