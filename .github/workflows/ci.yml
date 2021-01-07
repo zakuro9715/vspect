@@ -13,10 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup V
-        uses: nocturlab/setup-vlang-action@v1
-        with:
-          v-version: latest
-        id: v
+        run: |
+          git clone https://github.com/vlang/v v && cd v
+          make
+          sudo ./v symlink
       - name: Code formatting
         run:  v fmt -verify .
       - name: Build
