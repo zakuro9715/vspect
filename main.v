@@ -4,14 +4,6 @@ import cli { Command }
 import os { system, dir }
 import v.vmod
 
-fn v(cmd string) int {
-	return system('VCOLORS=always ' + @VEXE + ' $cmd')
-}
-
-fn vv(cmd string) int {
-	return system('vv $cmd')
-}
-
 fn new_app() Command {
 	mod := vmod.decode(@VMOD_FILE) or { panic(err) }
 	mut app := Command{
