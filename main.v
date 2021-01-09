@@ -4,7 +4,7 @@ import cli { Command }
 import os { system, dir }
 import v.vmod
 
-const self_cmd = Command{
+const bootstrap_cmd = Command{
 		name: 'bootstrap'
 		description: 'make V'
 		execute: fn (cmd Command) ? {
@@ -12,7 +12,7 @@ const self_cmd = Command{
 		}
 	}
 
-const bootstrap_cmd = Command{
+const self_cmd = Command{
 		name: 'self'
 		description: 'self compilation'
 		execute: fn (cmd Command) ? {
