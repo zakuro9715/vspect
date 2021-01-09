@@ -30,7 +30,7 @@ fn new_app() Command {
 		description: mod.description
 		version: mod.version
 		disable_flags: true
-		commands: [self_cmd, bootstrap_cmd, ci_cmd, inspect_cmd]
+		commands: [self_cmd, bootstrap_cmd, inspect_cmd]
 	}
 	app.setup()
 	return app
