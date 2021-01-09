@@ -8,10 +8,8 @@ const self_cmd = Command{
 		name: 'self'
 		description: 'self compilation'
 		execute: fn (cmd Command) ? {
-			mut code := v('self')
 			println('Compiling vv...')
-			code += v(dir(@FILE))
-			exit(code)
+			exit(v(dir(@FILE)))
 		}
 	}
 
