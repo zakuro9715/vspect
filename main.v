@@ -4,14 +4,6 @@ import cli { Command }
 import os { system, dir }
 import v.vmod
 
-const bootstrap_cmd = Command{
-		name: 'bootstrap'
-		description: 'make V'
-		execute: fn (cmd Command) ? {
-			exit(system('cd ${dir(@VEXE)} && make'))
-		}
-	}
-
 const self_cmd = Command{
 		name: 'self'
 		description: 'self compilation'
@@ -30,7 +22,7 @@ fn new_app() Command {
 		description: mod.description
 		version: mod.version
 		disable_flags: true
-		commands: [self_cmd, bootstrap_cmd, inspect_cmd]
+		commands: [self_cmd, inspect_cmd]
 	}
 	app.setup()
 	return app
