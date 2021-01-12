@@ -1,4 +1,4 @@
-module main
+module inspect
 
 import cli { Command }
 import v.ast
@@ -13,8 +13,8 @@ fn new_pref() pref.Preferences {
 	return prefs
 }
 
-const (
-	inspect_commands = [
+pub const (
+	commands = [
 		Command{
 			name: 'ast'
 			description: 'print AST'

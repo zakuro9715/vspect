@@ -3,6 +3,7 @@ module main
 import cli { Command }
 import os { system, dir }
 import v.vmod
+import inspect
 
 const self_cmd = Command{
 		name: 'self'
@@ -16,7 +17,7 @@ const self_cmd = Command{
 fn new_app() Command {
 	mod := vmod.decode(@VMOD_FILE) or { panic(err) }
 	mut commands := [self_cmd]
-	commands << inspect_commands
+	commands << inspect.commands
 
 	mut app := Command{
 		name: mod.name
