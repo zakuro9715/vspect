@@ -17,7 +17,7 @@ const self_cmd = Command{
 fn new_app() Command {
 	mod := vmod.decode(@VMOD_FILE) or { panic(err) }
 	mut commands := [self_cmd]
-	commands << inspect.commands
+	commands << inspect.command
 
 	mut app := Command{
 		name: mod.name

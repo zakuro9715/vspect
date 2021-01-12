@@ -14,27 +14,32 @@ fn new_pref() pref.Preferences {
 }
 
 pub const (
-	commands = [
-		Command{
-			name: 'ast'
-			description: 'print AST'
-			execute: fn (cmd Command) ? {
-				paths := cmd.args
-				prefs := new_pref()
-				global_scope := ast.Scope{
-					start_pos: 0
-					parent: 0
+	command = Command{
+		name: 'inspect'
+		description: 'inspect source code'
+		commands: [
+			Command{
+				name: 'ast'
+				description: 'print AST'
+				execute: fn (cmd Command) ? {
+					paths := cmd.args
+					prefs := new_pref()
+					global_scope := ast.Scope{
+						start_pos: 0
+						parent: 0
+					}
+					parsed_files := parser.parse_files(paths, table.new_table(), &prefs,
+						&global_scope)
+					println(parsed_files)
 				}
-				parsed_files := parser.parse_files(paths, table.new_table(), &prefs, &global_scope)
-				println(parsed_files)
-			}
-		},
-		Command{
-			name: 'tokens'
-			description: 'print tokens'
-			execute: fn (cmd Command) ? {
-				println('Not implemented')
-			}
-		},
-	]
+			},
+			Command{
+				name: 'tokens'
+				description: 'print tokens'
+				execute: fn (cmd Command) ? {
+					println('Not implemented')
+				}
+			},
+		]
+	}
 )
