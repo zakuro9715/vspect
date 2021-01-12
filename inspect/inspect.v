@@ -30,7 +30,7 @@ pub const (
 					}
 					parsed_files := parser.parse_files(paths, table.new_table(), &prefs,
 						&global_scope)
-					println(parsed_files)
+					print_ast_files(parsed_files)
 				}
 			},
 			Command{
