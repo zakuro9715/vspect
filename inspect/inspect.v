@@ -6,7 +6,7 @@ import v.parser
 import v.pref { Preferences }
 import v.table
 
-fn new_pref() pref.Preferences {
+fn new_prefs() pref.Preferences {
 	mut prefs := Preferences{}
 	prefs.fill_with_defaults()
 	prefs.is_fmt = true
@@ -23,7 +23,7 @@ pub const (
 				description: 'print AST'
 				execute: fn (cmd Command) ? {
 					paths := cmd.args
-					prefs := new_pref()
+					prefs := new_prefs()
 					global_scope := ast.Scope{
 						start_pos: 0
 						parent: 0
