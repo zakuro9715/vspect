@@ -28,9 +28,11 @@ pub const (
 						start_pos: 0
 						parent: 0
 					}
-					parsed_files := parser.parse_files(paths, table.new_table(), &prefs,
-						&global_scope)
-					print_ast_files(parsed_files)
+					for path in paths {
+						f := parser.parse_file(path, table.new_table(), .parse_comments,
+							&prefs, &global_scope)
+						print_ast_file(f)
+					}
 				}
 			},
 			Command{
