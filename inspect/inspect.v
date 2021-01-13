@@ -5,7 +5,7 @@ import v.ast
 import v.parser
 import v.pref { Preferences }
 import v.table
-import v.scanner
+import inspect.scanner
 
 fn new_prefs() pref.Preferences {
 	mut prefs := Preferences{}
@@ -43,8 +43,7 @@ pub const (
 					paths := cmd.args
 					prefs := new_prefs()
 					for path in paths {
-						mut scanner := scanner.new_scanner_file(path, .parse_comments,
-							&prefs)
+						mut scanner := scanner.new(path, &prefs)
 						println('===== $path =====')
 						for {
 							tok := scanner.scan()
