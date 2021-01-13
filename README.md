@@ -7,9 +7,6 @@ Cli tool to develop vlang itself
 - [ ] inspect: inspect code
     - [ ] ast   : Print ast
     - [ ] tokens: Print tokens
-- [ ] ci: CI tests
-    - [x] cleancode
-    - [x] fixed
 
 ## Installation
 
