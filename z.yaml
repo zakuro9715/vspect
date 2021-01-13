@@ -6,3 +6,7 @@ tasks:
     run: v run .
   fmt:
     run: v fmt -w .
+  test:
+    tasks:
+      scanner: v test inspect/scanner
+
