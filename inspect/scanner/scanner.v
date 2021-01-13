@@ -22,3 +22,19 @@ pub fn (mut s Scanner) each_token(f TokenFn) ? {
 		}
 	}
 }
+
+pub fn inspect_tokens(paths []string, prefs &pref.Preferences) {
+	for path in paths {
+		mut scanner := new(path, prefs)
+		println('===== $path =====')
+		for {
+			tok := scanner.scan()
+			line, col := tok.line_nr, tok.pos - scanner.last_nl_pos
+			println("$line, $col: $tok.kind '$tok.lit'")
+			if tok.kind == .eof {
+				break
+			}
+		}
+		println('===== END =====')
+	}
+}
