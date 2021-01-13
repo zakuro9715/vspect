@@ -5,6 +5,7 @@ import v.ast
 import v.parser
 import v.pref { Preferences }
 import v.table
+import v.scanner
 
 fn new_prefs() pref.Preferences {
 	mut prefs := Preferences{}
@@ -39,7 +40,23 @@ pub const (
 				name: 'tokens'
 				description: 'print tokens'
 				execute: fn (cmd Command) ? {
-					println('Not implemented')
+					paths := cmd.args
+					prefs := new_prefs()
+					for path in paths {
+						mut scanner := scanner.new_scanner_file(path, .parse_comments,
+							&prefs)
+						println('===== $path =====')
+						for {
+							tok := scanner.scan()
+							line, col := tok.line_nr, tok.pos - scanner.last_nl_pos
+							println("$line, $col: $tok.kind '$tok.lit'")
+							if tok.kind == .eof {
+								break
+							}
+						}
+						println('===== END =====')
+					}
+					return
 				}
 			},
 		]
