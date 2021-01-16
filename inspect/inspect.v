@@ -5,7 +5,6 @@ import v.ast
 import v.parser
 import v.pref { Preferences }
 import v.table
-import inspect.scanner
 
 fn new_prefs() pref.Preferences {
 	mut prefs := Preferences{}
@@ -43,7 +42,7 @@ pub const (
 					println('he')
 					paths := cmd.args
 					prefs := new_prefs()
-					scanner.inspect_tokens(paths, &prefs)
+					inspect_tokens(paths, &prefs)
 					return
 				}
 			},

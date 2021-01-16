@@ -1,19 +1,12 @@
-module scanner
+module inspect
 
 import v.pref { Preferences }
 import v.scanner
-import v.token
 import cli { Command }
-
-type Scanner = scanner.Scanner
-
-pub fn new(path string, prefs &pref.Preferences) &Scanner {
-	return scanner.new_scanner_file(path, .parse_comments, prefs)
-}
 
 pub fn inspect_tokens(paths []string, prefs &pref.Preferences) {
 	for path in paths {
-		mut scanner := new(path, prefs)
+		mut scanner := scanner.new_scanner_file(path, .parse_comments, prefs)
 		println('===== $path =====')
 		for {
 			tok := scanner.scan()
