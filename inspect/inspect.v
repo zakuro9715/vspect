@@ -1,10 +1,8 @@
 module inspect
 
 import cli { Command }
-import v.ast
-import v.parser
 import v.pref { Preferences }
-import v.table
+import inspect.ast
 
 fn new_prefs() pref.Preferences {
 	mut prefs := Preferences{}
@@ -24,15 +22,7 @@ pub const (
 				execute: fn (cmd Command) ? {
 					paths := cmd.args
 					prefs := new_prefs()
-					global_scope := ast.Scope{
-						start_pos: 0
-						parent: 0
-					}
-					for path in paths {
-						f := parser.parse_file(path, table.new_table(), .parse_comments,
-							&prefs, &global_scope)
-						print_ast_file(f)
-					}
+					ast.inspect_files(paths, prefs)
 				}
 			},
 			Command{
