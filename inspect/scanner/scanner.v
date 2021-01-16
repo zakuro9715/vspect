@@ -29,8 +29,11 @@ pub fn inspect_tokens(paths []string, prefs &pref.Preferences) {
 		println('===== $path =====')
 		for {
 			tok := scanner.scan()
-			line, col := tok.line_nr, tok.pos - scanner.last_nl_pos
-			println("$line, $col: $tok.kind '$tok.lit'")
+			line, mut col := tok.line_nr, tok.pos - scanner.last_nl_pos
+			if line == 1 {
+				col++
+			}
+			println("${line:4}, ${col:2}  |  ${tok.kind:-8}  | '$tok.lit'")
 			if tok.kind == .eof {
 				break
 			}
