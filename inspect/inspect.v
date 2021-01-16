@@ -39,7 +39,6 @@ pub const (
 				name: 'tokens'
 				description: 'print tokens'
 				execute: fn (cmd Command) ? {
-					println('he')
 					paths := cmd.args
 					prefs := new_prefs()
 					inspect_tokens(paths, &prefs)
