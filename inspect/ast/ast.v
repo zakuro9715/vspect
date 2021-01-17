@@ -1,5 +1,6 @@
 module ast
 
+import strings
 import v.ast
 import v.parser
 import v.pref
@@ -12,10 +13,23 @@ pub fn inspect_files(paths []string, prefs &pref.Preferences) {
 	}
 	for path in paths {
 		f := parser.parse_file(path, table.new_table(), .parse_comments, prefs, &global_scope)
-		print_file(f)
+		mut p := new_printer()
+		p.print_file(f)
 	}
 }
 
-fn print_file(file ast.File) {
+pub struct Printer {
+mut:
+	out          strings.Builder
+	indent_level int
+}
+
+pub fn new_printer() Printer {
+	return Printer {
+		out: strings.new_builder(1000),
+	}
+}
+
+pub fn (mut p Printer) print_file(file ast.File) {
 	println(file)
 }
