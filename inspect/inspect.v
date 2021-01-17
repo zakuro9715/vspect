@@ -23,6 +23,7 @@ pub const (
 					paths := cmd.args
 					prefs := new_prefs()
 					ast.inspect_files(paths, prefs)
+					return
 				}
 			},
 			Command{
