@@ -1,6 +1,5 @@
 module ast
 
-import strings
 import v.ast
 import v.parser
 import v.pref
@@ -20,16 +19,19 @@ pub fn inspect_files(paths []string, prefs &pref.Preferences) {
 
 pub struct Printer {
 mut:
-	out          strings.Builder
-	indent_level int
+	indent_n int
 }
 
 pub fn new_printer() Printer {
 	return Printer {
-		out: strings.new_builder(1000),
 	}
 }
 
+fn (mut p Printer) println(s string) {
+	println('\t'.repeat(p.indent_n) + s)
+}
+
 pub fn (mut p Printer) print_file(file ast.File) {
-	println(file)
+	p.println('File{')
+	p.println('}')
 }
