@@ -27,6 +27,16 @@ pub fn new_printer() Printer {
 	return Printer{}
 }
 
+fn (mut p Printer) print(text string) {
+	if p.newline {
+		p.print_indent()
+	}
+	if text.len > 0 {
+		print(text)
+		p.newline = text[text.len - 1] == `\n`
+	}
+}
+
 fn (p &Printer) print_indent() {
 	print('  '.repeat(p.indent_n))
 }
