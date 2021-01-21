@@ -32,7 +32,7 @@ fn (p &Printer) println(text string) {
 	}
 }
 
-fn (mut p Printer) print_stmts(stmts []ast.Expr) {
+fn (mut p Printer) print_stmts(stmts []ast.Stmt) {
 	p.println('[')
 	for stmt in stmts {
 		p.print_stmt(stmt)
@@ -40,7 +40,7 @@ fn (mut p Printer) print_stmts(stmts []ast.Expr) {
 	p.println(']')
 }
 
-fn (mut p Printer) print_stmt(stmt ast.Expr) {
+fn (mut p Printer) print_stmt(stmt ast.Stmt) {
 	p.println(stmt.str())
 }
 
