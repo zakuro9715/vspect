@@ -79,5 +79,9 @@ fn (mut p Printer) print_expr(expr ast.Expr) {
 
 pub fn (mut p Printer) print_file(file ast.File) {
 	p.println('File{')
+	p.indent()
+	p.print('stmts: ')
+	p.print_stmts(file.stmts)
+	p.unindent()
 	p.println('}')
 }
