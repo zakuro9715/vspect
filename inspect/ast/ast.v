@@ -23,22 +23,21 @@ mut:
 }
 
 pub fn new_printer() Printer {
-	return Printer {
-	}
+	return ast.Printer{}
 }
 
-fn (mut p Printer) println(text string) {
+fn (p &Printer) println(text string) {
 	for s in text.split_into_lines() {
 		println('\t'.repeat(p.indent_n) + s)
 	}
 }
 
 fn (mut p Printer) print_stmts(stmts []ast.Expr) {
-	p.println("[")
+	p.println('[')
 	for stmt in stmts {
 		p.print_stmt(stmt)
 	}
-	p.println("]")
+	p.println(']')
 }
 
 fn (mut p Printer) print_stmt(stmt ast.Expr) {
