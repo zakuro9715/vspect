@@ -41,11 +41,21 @@ fn (mut p Printer) println(text string) {
 	}
 }
 
+fn (mut p Printer) indent() {
+	p.indent_n++
+}
+
+fn (mut p Printer) unindent() {
+	p.indent_n--
+}
+
 fn (mut p Printer) print_stmts(stmts []ast.Stmt) {
 	p.println('[')
+	p.indent()
 	for stmt in stmts {
 		p.print_stmt(stmt)
 	}
+	p.unindent()
 	p.println(']')
 }
 
