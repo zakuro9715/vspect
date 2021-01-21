@@ -16,11 +16,16 @@ fn (mut b StringBuilder) write_indent() {
 }
 
 fn (mut b StringBuilder) writeln<T>(v T) {
-	for s in v.str().split_into_lines() {
+	for i, s in v.str().split_into_lines() {
 		if b.newline {
 			b.write_indent()
 		}
-		b.buf.writeln(s)
+		// Hack to remove v.ast from struct type name. v.ast.File -> File
+		if i == 0 && s.starts_with('v.ast.') && s.ends_with('{') {
+			b.buf.writeln(s.trim_prefix('v.ast.'))
+		} else {
+			b.buf.writeln(s)
+		}
 		b.newline = true
 	}
 }
@@ -34,7 +39,7 @@ fn (mut b StringBuilder) unindent() {
 }
 
 fn (mut b StringBuilder) begin_struct(name string) {
-	b.writeln('v.ast.$name' + '{')
+	b.writeln('$name' + '{')
 	b.indent()
 }
 
