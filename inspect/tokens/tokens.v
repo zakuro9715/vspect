@@ -2,7 +2,6 @@ module tokens
 
 import v.pref { Preferences }
 import v.scanner
-import cli { Command }
 
 pub fn inspect_tokens(paths []string, prefs &pref.Preferences) {
 	for path in paths {
