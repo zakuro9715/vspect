@@ -13,82 +13,78 @@ pub fn inspect_files(paths []string, prefs &pref.Preferences) {
 	}
 	for path in paths {
 		f := parser.parse_file(path, table.new_table(), .parse_comments, prefs, &global_scope)
-		mut p := new_printer()
-		p.print_file(f)
+		mut b := StringBuilder{}
+		b.write_file(f)
+		print(b.str())
 	}
 }
 
-pub struct Printer {
+pub struct StringBuilder {
 mut:
 	buf strings.Builder
 	indent_n int
 	newline  bool = true
 }
 
-pub fn new_printer() Printer {
-	return Printer{}
-}
-
-fn (mut p Printer) write(text string) {
-	if p.newline {
-		p.write_indent()
+fn (mut b StringBuilder) write(text string) {
+	if b.newline {
+		b.write_indent()
 	}
 	if text.len > 0 {
-		p.buf.write(text)
-		p.newline = text[text.len - 1] == `\n`
+		b.buf.write(text)
+		b.newline = text[text.len - 1] == `\n`
 	}
 }
 
-fn (mut p Printer) write_indent() {
-	p.buf.write('  '.repeat(p.indent_n))
+fn (mut b StringBuilder) write_indent() {
+	b.buf.write('  '.repeat(b.indent_n))
 }
 
-fn (mut p Printer) writeln(text string) {
+fn (mut b StringBuilder) writeln(text string) {
 	for s in text.split_into_lines() {
-		if p.newline {
-			p.write_indent()
+		if b.newline {
+			b.write_indent()
 		}
-		p.buf.writeln(s)
-		p.newline = true
+		b.buf.writeln(s)
+		b.newline = true
 	}
 }
 
-fn (mut p Printer) indent() {
-	p.indent_n++
+fn (mut b StringBuilder) indent() {
+	b.indent_n++
 }
 
-fn (mut p Printer) unindent() {
-	p.indent_n--
+fn (mut b StringBuilder) unindent() {
+	b.indent_n--
 }
 
-pub fn (mut p Printer) write_stmts(stmts []ast.Stmt) {
-	p.writeln('[')
-	p.indent()
+pub fn (mut b StringBuilder) write_stmts(stmts []ast.Stmt) {
+	b.writeln('[')
+	b.indent()
 	for stmt in stmts {
-		p.write_stmt(stmt)
+		b.write_stmt(stmt)
 	}
-	p.unindent()
-	p.writeln(']')
+	b.unindent()
+	b.writeln(']')
 }
 
-pub fn (mut p Printer) write_stmt(stmt ast.Stmt) {
-	p.writeln(stmt.str())
+pub fn (mut b StringBuilder) write_stmt(stmt ast.Stmt) {
+	b.writeln(stmt.str())
 }
 
-pub fn (mut p Printer) write_expr(expr ast.Expr) {
-	p.writeln(expr.str())
+pub fn (mut b StringBuilder) write_expr(expr ast.Expr) {
+	b.writeln(expr.str())
 }
 
-pub fn (mut p Printer) write_file(file ast.File) {
-	p.writeln('File{')
-	p.indent()
-	p.write('stmts: ')
-	p.write_stmts(file.stmts)
-	p.unindent()
-	p.writeln('}')
+pub fn (mut b StringBuilder) write_file(file ast.File) {
+	b.writeln('File{')
+	b.indent()
+	b.write('stmts: ')
+	b.write_stmts(file.stmts)
+	b.unindent()
+	b.writeln('}')
 }
 
-pub fn (mut p Printer) print_file(file ast.File) {
-	p.write_file(file)
-	println(p.buf.str().trim_space())
+pub fn (mut b StringBuilder) str() string {
+	return b.buf.str()
 }
