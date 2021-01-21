@@ -63,7 +63,7 @@ fn (mut b StringBuilder) label(name string) {
 }
 
 fn (mut b StringBuilder) field<T>(name string, v T) {
-	mut val := v
+	mut val := v.str()
 	$if T is string {
 		val = "'$v'"
 	}
