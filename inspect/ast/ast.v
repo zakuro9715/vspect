@@ -14,7 +14,7 @@ pub fn inspect_files(paths []string, prefs &pref.Preferences) {
 	for path in paths {
 		f := parser.parse_file(path, table.new_table(), .parse_comments, prefs, &global_scope)
 		mut b := StringBuilder{}
-		b.write_file(f)
+		b.write_file(&f)
 		print(b.str())
 	}
 }
@@ -76,7 +76,7 @@ pub fn (mut b StringBuilder) write_expr(expr ast.Expr) {
 	b.writeln(expr.str())
 }
 
-pub fn (mut b StringBuilder) write_file(file ast.File) {
+pub fn (mut b StringBuilder) write_file(file &ast.File) {
 	b.writeln('File{')
 	b.indent()
 	b.write('stmts: ')
