@@ -21,6 +21,6 @@ pub fn inspect_tokens(paths []string, prefs &pref.Preferences) {
 				break
 			}
 		}
-		println(ui.divider('= END =', divider_width))
+		println(ui.divider('=', divider_width))
 	}
 }
