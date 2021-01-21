@@ -1,4 +1,4 @@
-module inspect
+module tokens
 
 import v.pref { Preferences }
 import v.scanner

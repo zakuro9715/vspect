@@ -3,6 +3,7 @@ module inspect
 import cli { Command }
 import v.pref { Preferences }
 import inspect.ast
+import inspect.tokens
 
 fn new_prefs() pref.Preferences {
 	mut prefs := Preferences{}
@@ -32,7 +33,7 @@ pub const (
 				execute: fn (cmd Command) ? {
 					paths := cmd.args
 					prefs := new_prefs()
-					inspect_tokens(paths, &prefs)
+					tokens.inspect_tokens(paths, &prefs)
 					return
 				}
 			},
