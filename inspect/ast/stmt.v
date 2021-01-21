@@ -17,15 +17,12 @@ pub fn (mut b StringBuilder) stmts(stmts ...ast.Stmt) {
 
 pub fn (mut b StringBuilder) stmt(stmt ast.Stmt) {
 	match stmt {
-		ast.FnDecl {
-			b.fn_decl(stmt)
-		}
-		ast.Module {
-			b.writeln(stmt)
-		}
+		ast.FnDecl { b.fn_decl(stmt) }
+		ast.Module { b.writeln(stmt) }
 		else { b.writeln(stmt) }
 	}
 }
+
 pub fn (mut b StringBuilder) fn_decl(v ast.FnDecl) {
 	b.begin_struct('FnDecl')
 
