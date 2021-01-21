@@ -3,13 +3,11 @@ module ast
 import v.ast
 
 pub fn (mut b StringBuilder) write_stmts(stmts []ast.Stmt) {
-	b.writeln('[')
-	b.indent()
+	b.begin_array()
 	for stmt in stmts {
 		b.write_stmt(stmt)
 	}
-	b.unindent()
-	b.writeln(']')
+	b.end_array()
 }
 
 pub fn (mut b StringBuilder) write_stmt(stmt ast.Stmt) {

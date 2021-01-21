@@ -69,6 +69,16 @@ fn (mut b StringBuilder) end_struct() {
 	b.writeln('}')
 }
 
+fn (mut b StringBuilder) begin_array() {
+	b.writeln('[')
+	b.indent()
+}
+
+fn (mut b StringBuilder) end_array() {
+	b.unindent()
+	b.writeln(']')
+}
+
 pub fn (mut b StringBuilder) write_file(file &ast.File) {
 	// b.begin_struct<ast.File>(file)
 	b.begin_struct('File')
