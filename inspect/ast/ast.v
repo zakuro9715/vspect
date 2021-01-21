@@ -29,7 +29,7 @@ mut:
 pub fn (mut b StringBuilder) write_file(file &ast.File) {
 	// b.begin_struct<ast.File>(file)
 	b.begin_struct('File')
-	b.write('stmts: ')
+	b.label('stmts')
 	b.write_stmts(file.stmts)
 	b.end_struct()
 }

@@ -53,6 +53,10 @@ fn (mut b StringBuilder) end_array() {
 	b.writeln(']')
 }
 
+fn (mut b StringBuilder) label(name string) {
+	b.write('$name: ')
+}
+
 fn (mut b StringBuilder) insert_array_comma() {
 	if b.newline {
 		b.buf.go_back(1)
