@@ -9,4 +9,4 @@ tasks:
   test:
     tasks:
       scanner: v test inspect/scanner
-
+  example.ast: v run . inspect ast example.vv
