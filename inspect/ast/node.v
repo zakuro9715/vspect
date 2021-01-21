@@ -3,6 +3,10 @@ module ast
 import v.ast
 
 pub fn (mut b StringBuilder) nodes(nodes ...ast.Node) {
+	if nodes.len == 0 {
+		b.writeln('[]')
+		return
+	}
 	b.begin_array()
 	for node in nodes {
 		b.node(node)

@@ -3,6 +3,10 @@ module ast
 import v.ast
 
 pub fn (mut b StringBuilder) stmts(stmts ...ast.Stmt) {
+	if stmts.len == 0 {
+		b.writeln('[]')
+		return
+	}
 	b.begin_array()
 	for stmt in stmts {
 		b.stmt(stmt)
