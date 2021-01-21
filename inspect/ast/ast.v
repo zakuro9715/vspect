@@ -41,8 +41,8 @@ fn (mut b StringBuilder) write_indent() {
 	b.buf.write('  '.repeat(b.indent_n))
 }
 
-fn (mut b StringBuilder) writeln(text string) {
-	for s in text.split_into_lines() {
+fn (mut b StringBuilder) writeln<T>(v T) {
+	for s in v.str().split_into_lines() {
 		if b.newline {
 			b.write_indent()
 		}
