@@ -33,6 +33,10 @@ fn (mut p Printer) println(text string) {
 	}
 }
 
+fn (mut p Printer) print_expr(expr ast.Expr) {
+	p.println(expr.str())
+}
+
 pub fn (mut p Printer) print_file(file ast.File) {
 	p.println('File{')
 	p.println('}')
