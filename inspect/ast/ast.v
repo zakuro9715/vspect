@@ -26,10 +26,11 @@ mut:
 	newline  bool = true
 }
 
-fn (mut b StringBuilder) write(text string) {
+fn (mut b StringBuilder) write<T>(v T) {
 	if b.newline {
 		b.write_indent()
 	}
+	text := v.str()
 	if text.len > 0 {
 		b.buf.write(text)
 		b.newline = text[text.len - 1] == `\n`
