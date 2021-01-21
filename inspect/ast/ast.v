@@ -71,13 +71,13 @@ pub fn (mut b StringBuilder) write_stmts(stmts []ast.Stmt) {
 
 pub fn (mut b StringBuilder) write_stmt(stmt ast.Stmt) {
 	match stmt {
-		else { b.writeln(stmt.str()) }
+		else { b.writeln(stmt) }
 	}
 }
 
 pub fn (mut b StringBuilder) write_expr(expr ast.Expr) {
 	match expr {
-		else { b.writeln(expr.str()) }
+		else { b.writeln(expr) }
 	}
 }
 
