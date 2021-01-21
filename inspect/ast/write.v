@@ -12,7 +12,7 @@ fn (mut b StringBuilder) write<T>(v T) {
 }
 
 fn (mut b StringBuilder) write_indent() {
-	b.buf.write('  '.repeat(b.indent_n))
+	b.buf.write(' '.repeat(b.indent_n * 4))
 }
 
 fn (mut b StringBuilder) writeln<T>(v T) {
