@@ -79,6 +79,14 @@ fn (mut b StringBuilder) end_array() {
 	b.writeln(']')
 }
 
+fn (mut b StringBuilder) insert_array_comma() {
+	if b.newline {
+		b.buf.go_back(1)
+		b.newline = false
+	}
+	b.writeln(',')
+}
+
 pub fn (mut b StringBuilder) write_file(file &ast.File) {
 	// b.begin_struct<ast.File>(file)
 	b.begin_struct('File')

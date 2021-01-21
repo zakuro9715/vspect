@@ -6,6 +6,7 @@ pub fn (mut b StringBuilder) write_stmts(stmts []ast.Stmt) {
 	b.begin_array()
 	for stmt in stmts {
 		b.write_stmt(stmt)
+		b.insert_array_comma()
 	}
 	b.end_array()
 }
