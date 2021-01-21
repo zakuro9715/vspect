@@ -26,14 +26,6 @@ mut:
 	newline  bool = true
 }
 
-pub fn (mut b StringBuilder) write_file(file &ast.File) {
-	// b.begin_struct<ast.File>(file)
-	b.begin_struct('File')
-	b.write_label('stmts')
-	b.stmts(file.stmts)
-	b.end_struct()
-}
-
 pub fn (mut b StringBuilder) str() string {
 	return b.buf.str()
 }
