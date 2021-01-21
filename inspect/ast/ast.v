@@ -59,13 +59,21 @@ fn (mut b StringBuilder) unindent() {
 	b.indent_n--
 }
 
-pub fn (mut b StringBuilder) write_file(file &ast.File) {
-	b.writeln('v.ast.File{')
+fn (mut b StringBuilder) begin_struct(name string) {
+	b.writeln('v.ast.$name' + '{')
 	b.indent()
-	b.write('stmts: ')
-	b.write_stmts(file.stmts)
+}
+fn (mut b StringBuilder) end_struct() {
 	b.unindent()
 	b.writeln('}')
+}
+
+pub fn (mut b StringBuilder) write_file(file &ast.File) {
+	//b.begin_struct<ast.File>(file)
+	b.begin_struct('File')
+	b.write('stmts: ')
+	b.write_stmts(file.stmts)
+	b.end_struct()
 }
 
 pub fn (mut b StringBuilder) str() string {
