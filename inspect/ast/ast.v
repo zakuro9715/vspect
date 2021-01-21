@@ -20,15 +20,24 @@ pub fn inspect_files(paths []string, prefs &pref.Preferences) {
 pub struct Printer {
 mut:
 	indent_n int
+	newline  bool = true
 }
 
 pub fn new_printer() Printer {
 	return Printer{}
 }
 
-fn (p &Printer) println(text string) {
+fn (p &Printer) print_indent() {
+	print('  '.repeat(p.indent_n))
+}
+
+fn (mut p Printer) println(text string) {
 	for s in text.split_into_lines() {
-		println('\t'.repeat(p.indent_n) + s)
+		if p.newline {
+			p.print_indent()
+		}
+		println(s)
+		p.newline = true
 	}
 }
 
