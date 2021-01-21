@@ -60,7 +60,7 @@ fn (mut b StringBuilder) unindent() {
 }
 
 pub fn (mut b StringBuilder) write_file(file &ast.File) {
-	b.writeln('File{')
+	b.writeln('v.ast.File{')
 	b.indent()
 	b.write('stmts: ')
 	b.write_stmts(file.stmts)
