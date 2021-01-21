@@ -69,7 +69,9 @@ pub fn (mut b StringBuilder) write_stmts(stmts []ast.Stmt) {
 }
 
 pub fn (mut b StringBuilder) write_stmt(stmt ast.Stmt) {
-	b.writeln(stmt.str())
+	match stmt {
+		else { b.writeln(stmt.str()) }
+	}
 }
 
 pub fn (mut b StringBuilder) write_expr(expr ast.Expr) {
