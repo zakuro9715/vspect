@@ -14,7 +14,7 @@ pub fn inspect_files(paths []string, prefs &pref.Preferences) {
 	for path in paths {
 		f := parser.parse_file(path, table.new_table(), .parse_comments, prefs, &global_scope)
 		mut b := StringBuilder{}
-		b.write_file(&f)
+		b.file(&f)
 		print(b.str())
 	}
 }
@@ -29,8 +29,8 @@ mut:
 pub fn (mut b StringBuilder) write_file(file &ast.File) {
 	// b.begin_struct<ast.File>(file)
 	b.begin_struct('File')
-	b.label('stmts')
-	b.write_stmts(file.stmts)
+	b.write_label('stmts')
+	b.stmts(file.stmts)
 	b.end_struct()
 }
 

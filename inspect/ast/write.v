@@ -58,11 +58,11 @@ fn (mut b StringBuilder) end_array() {
 	b.writeln(']')
 }
 
-fn (mut b StringBuilder) label(name string) {
+fn (mut b StringBuilder) write_label(name string) {
 	b.write('$name: ')
 }
 
-fn (mut b StringBuilder) field<T>(name string, v T) {
+fn (mut b StringBuilder) write_field<T>(name string, v T) {
 	mut val := v.str()
 	$if T is string {
 		val = "'$v'"
