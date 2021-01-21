@@ -14,6 +14,9 @@ pub fn (mut b StringBuilder) write_stmts(stmts []ast.Stmt) {
 
 pub fn (mut b StringBuilder) write_stmt(stmt ast.Stmt) {
 	match stmt {
+		ast.Module {
+			b.writeln(stmt)
+		}
 		else { b.writeln(stmt) }
 	}
 }
