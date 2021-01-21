@@ -10,3 +10,4 @@ tasks:
     tasks:
       scanner: v test inspect/scanner
   example.ast: v run . inspect ast example.vv
+  example.tokens: v run . inspect tokens example.vv
