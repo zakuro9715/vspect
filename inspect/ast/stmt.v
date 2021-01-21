@@ -19,6 +19,7 @@ pub fn (mut b StringBuilder) stmt(stmt ast.Stmt) {
 	match stmt {
 		ast.FnDecl { b.fn_decl(stmt) }
 		ast.Module { b.writeln(stmt) }
+		ast.ExprStmt { b.expr_stmt(stmt) }
 		else { b.writeln(stmt) }
 	}
 }
@@ -48,6 +49,18 @@ pub fn (mut b StringBuilder) fn_decl(v ast.FnDecl) {
 	b.write_field('comments', v.comments)
 	b.write_field('next_comments', v.next_comments)
 	b.write_field('scope', *v.scope)
+
+	b.end_struct()
+}
+
+pub fn (mut b StringBuilder) expr_stmt(stmt ast.ExprStmt) {
+	b.begin_struct('ExprStmt')
+
+	b.write_label('expr')
+	b.expr(stmt.expr)
+	b.write_field('pos', stmt.pos)
+	b.write_exprs_field('comments', ...stmt.comments)
+	b.write_field('is_expr', stmt.is_expr)
 
 	b.end_struct()
 }
