@@ -73,7 +73,9 @@ pub fn (mut b StringBuilder) write_stmt(stmt ast.Stmt) {
 }
 
 pub fn (mut b StringBuilder) write_expr(expr ast.Expr) {
-	b.writeln(expr.str())
+	match expr {
+		else { b.writeln(expr.str()) }
+	}
 }
 
 pub fn (mut b StringBuilder) write_file(file &ast.File) {
