@@ -27,8 +27,10 @@ pub fn new_printer() Printer {
 	}
 }
 
-fn (mut p Printer) println(s string) {
-	println('\t'.repeat(p.indent_n) + s)
+fn (mut p Printer) println(text string) {
+	for s in text.split_into_lines() {
+		println('\t'.repeat(p.indent_n) + s)
+	}
 }
 
 pub fn (mut p Printer) print_file(file ast.File) {
