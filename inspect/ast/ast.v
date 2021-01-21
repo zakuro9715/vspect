@@ -33,6 +33,10 @@ fn (mut p Printer) println(text string) {
 	}
 }
 
+fn (mut p Printer) print_stmt(stmt ast.Expr) {
+	p.println(stmt.str())
+}
+
 fn (mut p Printer) print_expr(expr ast.Expr) {
 	p.println(expr.str())
 }
