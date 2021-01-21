@@ -21,7 +21,7 @@ pub fn inspect_files(paths []string, prefs &pref.Preferences) {
 
 pub struct StringBuilder {
 mut:
-	buf strings.Builder
+	buf      strings.Builder
 	indent_n int
 	newline  bool = true
 }
@@ -63,13 +63,14 @@ fn (mut b StringBuilder) begin_struct(name string) {
 	b.writeln('v.ast.$name' + '{')
 	b.indent()
 }
+
 fn (mut b StringBuilder) end_struct() {
 	b.unindent()
 	b.writeln('}')
 }
 
 pub fn (mut b StringBuilder) write_file(file &ast.File) {
-	//b.begin_struct<ast.File>(file)
+	// b.begin_struct<ast.File>(file)
 	b.begin_struct('File')
 	b.write('stmts: ')
 	b.write_stmts(file.stmts)
