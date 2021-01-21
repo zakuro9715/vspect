@@ -23,7 +23,7 @@ mut:
 }
 
 pub fn new_printer() Printer {
-	return ast.Printer{}
+	return Printer{}
 }
 
 fn (p &Printer) println(text string) {
