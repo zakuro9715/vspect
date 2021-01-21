@@ -1,5 +1,6 @@
 module ast
 
+import strings
 import v.ast
 import v.parser
 import v.pref
@@ -19,6 +20,7 @@ pub fn inspect_files(paths []string, prefs &pref.Preferences) {
 
 pub struct Printer {
 mut:
+	buf strings.Builder
 	indent_n int
 	newline  bool = true
 }
@@ -27,26 +29,26 @@ pub fn new_printer() Printer {
 	return Printer{}
 }
 
-fn (mut p Printer) print(text string) {
+fn (mut p Printer) write(text string) {
 	if p.newline {
-		p.print_indent()
+		p.write_indent()
 	}
 	if text.len > 0 {
-		print(text)
+		p.buf.write(text)
 		p.newline = text[text.len - 1] == `\n`
 	}
 }
 
-fn (p &Printer) print_indent() {
-	print('  '.repeat(p.indent_n))
+fn (mut p Printer) write_indent() {
+	p.buf.write('  '.repeat(p.indent_n))
 }
 
-fn (mut p Printer) println(text string) {
+fn (mut p Printer) writeln(text string) {
 	for s in text.split_into_lines() {
 		if p.newline {
-			p.print_indent()
+			p.write_indent()
 		}
-		println(s)
+		p.buf.writeln(s)
 		p.newline = true
 	}
 }
@@ -59,29 +61,34 @@ fn (mut p Printer) unindent() {
 	p.indent_n--
 }
 
-fn (mut p Printer) print_stmts(stmts []ast.Stmt) {
-	p.println('[')
+fn (mut p Printer) write_stmts(stmts []ast.Stmt) {
+	p.writeln('[')
 	p.indent()
 	for stmt in stmts {
-		p.print_stmt(stmt)
+		p.write_stmt(stmt)
 	}
 	p.unindent()
-	p.println(']')
+	p.writeln(']')
 }
 
-fn (mut p Printer) print_stmt(stmt ast.Stmt) {
-	p.println(stmt.str())
+fn (mut p Printer) write_stmt(stmt ast.Stmt) {
+	p.writeln(stmt.str())
 }
 
-fn (mut p Printer) print_expr(expr ast.Expr) {
-	p.println(expr.str())
+fn (mut p Printer) write_expr(expr ast.Expr) {
+	p.writeln(expr.str())
+}
+
+pub fn (mut p Printer) write_file(file ast.File) {
+	p.writeln('File{')
+	p.indent()
+	p.write('stmts: ')
+	p.write_stmts(file.stmts)
+	p.unindent()
+	p.writeln('}')
 }
 
 pub fn (mut p Printer) print_file(file ast.File) {
-	p.println('File{')
-	p.indent()
-	p.print('stmts: ')
-	p.print_stmts(file.stmts)
-	p.unindent()
-	p.println('}')
+	p.write_file(file)
+	println(p.buf.str().trim_space())
 }
