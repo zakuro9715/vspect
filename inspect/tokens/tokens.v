@@ -2,11 +2,14 @@ module tokens
 
 import v.pref { Preferences }
 import v.scanner
+import utils.ui
+
+const divider_width = "xxxx, xx  | xxxxxxxx  | 'xxxxxxxxxx'".len
 
 pub fn inspect_tokens(paths []string, prefs &pref.Preferences) {
 	for path in paths {
 		mut scanner := scanner.new_scanner_file(path, .parse_comments, prefs)
-		println('===== $path =====')
+		println(ui.divider('= $path =', divider_width))
 		for {
 			tok := scanner.scan()
 			line, mut col := tok.line_nr, tok.pos - scanner.last_nl_pos
@@ -18,6 +21,6 @@ pub fn inspect_tokens(paths []string, prefs &pref.Preferences) {
 				break
 			}
 		}
-		println('===== END =====')
+		println(ui.divider('= END =', divider_width))
 	}
 }
