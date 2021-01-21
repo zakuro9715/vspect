@@ -28,8 +28,7 @@ pub fn (mut b StringBuilder) fn_decl(v ast.FnDecl) {
 
 	b.write_field('name', v.name)
 	b.write_field('mod', v.mod)
-	b.write_label('params')
-	b.nodes(...v.params)
+	b.write_nodes_field('params', ...v.params)
 	b.write_field('is_pub', v.is_pub)
 	b.write_field('is_method', v.is_method)
 	b.write_field('is_anon', v.is_anon)
@@ -40,17 +39,15 @@ pub fn (mut b StringBuilder) fn_decl(v ast.FnDecl) {
 	b.write_field('is_direct_arr', v.is_direct_arr)
 	b.write_field('is_variadic', v.is_variadic)
 	b.write_field('no_body', v.no_body)
-	b.write_label('receiver')
-	b.node(v.receiver)
+	b.write_node_field('receiver', v.receiver)
 	b.write_field('no_body', v.no_body)
 	b.write_field('pos', v.pos)
 	b.write_field('body_pos', v.body_pos)
-
-	b.write_label('stmts')
-	b.stmts(...v.stmts)
+	b.write_stmts_field('stmts', ...v.stmts)
 	b.write_field('return_type', v.return_type)
 	b.write_field('comments', v.comments)
 	b.write_field('next_comments', v.next_comments)
 	b.write_field('scope', *v.scope)
+
 	b.end_struct()
 }

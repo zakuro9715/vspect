@@ -1,5 +1,7 @@
 module ast
 
+import v.ast
+
 fn (mut b StringBuilder) write<T>(v T) {
 	if b.newline {
 		b.write_indent()
@@ -69,6 +71,39 @@ fn (mut b StringBuilder) write_field<T>(name string, v T) {
 	}
 	b.writeln('$name: $val')
 }
+
+fn (mut b StringBuilder) write_node_field(name string, v ast.Node) {
+	b.write('$name: ')
+	b.node(v)
+}
+
+fn (mut b StringBuilder) write_nodes_field(name string, nodes ...ast.Node) {
+	b.write('$name: ')
+	b.nodes(...nodes)
+}
+
+fn (mut b StringBuilder) write_stmt_field(name string, v ast.Stmt) {
+	b.write('$name: ')
+	b.stmt(v)
+}
+
+fn (mut b StringBuilder) write_stmts_field(name string, stmts ...ast.Stmt) {
+	b.write('$name: ')
+	b.stmts(...stmts)
+}
+
+fn (mut b StringBuilder) write_expr_field(name string, v ast.Expr) {
+	b.write('$name: ')
+	b.expr(v)
+}
+
+fn (mut b StringBuilder) write_exprs_field(name string, exprs ...ast.Expr) {
+	b.write('$name: ')
+	b.exprs(...exprs)
+}
+
+
+
 
 fn (mut b StringBuilder) insert_array_comma() {
 	if b.newline {
