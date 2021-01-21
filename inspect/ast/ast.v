@@ -61,7 +61,7 @@ fn (mut p Printer) unindent() {
 	p.indent_n--
 }
 
-fn (mut p Printer) write_stmts(stmts []ast.Stmt) {
+pub fn (mut p Printer) write_stmts(stmts []ast.Stmt) {
 	p.writeln('[')
 	p.indent()
 	for stmt in stmts {
@@ -71,11 +71,11 @@ fn (mut p Printer) write_stmts(stmts []ast.Stmt) {
 	p.writeln(']')
 }
 
-fn (mut p Printer) write_stmt(stmt ast.Stmt) {
+pub fn (mut p Printer) write_stmt(stmt ast.Stmt) {
 	p.writeln(stmt.str())
 }
 
-fn (mut p Printer) write_expr(expr ast.Expr) {
+pub fn (mut p Printer) write_expr(expr ast.Expr) {
 	p.writeln(expr.str())
 }
 
