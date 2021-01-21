@@ -62,6 +62,14 @@ fn (mut b StringBuilder) label(name string) {
 	b.write('$name: ')
 }
 
+fn (mut b StringBuilder) field<T>(name string, v T) {
+	mut val := v
+	$if T is string {
+		val = "'$v'"
+	}
+	b.writeln('$name: $val')
+}
+
 fn (mut b StringBuilder) insert_array_comma() {
 	if b.newline {
 		b.buf.go_back(1)
