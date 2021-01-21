@@ -2,7 +2,7 @@ module ast
 
 import v.ast
 
-pub fn (mut b StringBuilder) stmts(stmts []ast.Stmt) {
+pub fn (mut b StringBuilder) stmts(stmts ...ast.Stmt) {
 	b.begin_array()
 	for stmt in stmts {
 		b.stmt(stmt)
@@ -46,7 +46,7 @@ pub fn (mut b StringBuilder) fn_decl(v ast.FnDecl) {
 	b.write_field('body_pos', v.body_pos)
 
 	b.write_label('stmts')
-	b.stmts(v.stmts)
+	b.stmts(...v.stmts)
 	b.write_field('return_type', v.return_type)
 	b.write_field('comments', v.comments)
 	b.write_field('next_comments', v.next_comments)
