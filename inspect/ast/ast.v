@@ -12,8 +12,9 @@ pub fn inspect_files(paths []string, prefs &pref.Preferences) {
 		parent: 0
 	}
 	for path in paths {
-		f := parser.parse_file(path, table.new_table(), .parse_comments, prefs, &global_scope)
-		mut b := StringBuilder{}
+		table := table.new_table()
+		f := parser.parse_file(path, table, .parse_comments, prefs, &global_scope)
+		mut b := StringBuilder{table: table}
 		b.file(&f)
 		print(b.str())
 	}
@@ -21,6 +22,7 @@ pub fn inspect_files(paths []string, prefs &pref.Preferences) {
 
 pub struct StringBuilder {
 mut:
+	table    &table.Table
 	buf      strings.Builder
 	indent_n int
 	newline  bool = true
