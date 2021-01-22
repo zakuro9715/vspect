@@ -60,11 +60,9 @@ fn (mut b StringBuilder) begin_array(n int) {
 }
 
 fn (mut b StringBuilder) end_array(n int) {
-	if n == 0 {
-		b.write(']')
-		return
+	if n > 0 {
+		b.unindent()
 	}
-	b.unindent()
 	b.writeln(']')
 }
 
