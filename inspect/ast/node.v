@@ -3,16 +3,13 @@ module ast
 import v.ast
 
 pub fn (mut b StringBuilder) nodes(nodes ...ast.Node) {
-	if nodes.len == 0 {
-		b.writeln('[]')
-		return
-	}
-	b.begin_array()
+	n := nodes.len
+	b.begin_array(n)
 	for node in nodes {
 		b.node(node)
-		b.insert_array_comma()
+		b.array_comma(n)
 	}
-	b.end_array()
+	b.end_array(n)
 }
 
 pub fn (mut b StringBuilder) node(v ast.Node) {

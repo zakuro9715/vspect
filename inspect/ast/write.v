@@ -50,14 +50,33 @@ fn (mut b StringBuilder) end_struct() {
 	b.writeln('}')
 }
 
-fn (mut b StringBuilder) begin_array() {
+fn (mut b StringBuilder) begin_array(n int) {
+	if n == 0 {
+		b.write('[')
+		return
+	}
 	b.writeln('[')
 	b.indent()
 }
 
-fn (mut b StringBuilder) end_array() {
+fn (mut b StringBuilder) end_array(n int) {
+	if n == 0 {
+		b.write(']')
+		return
+	}
 	b.unindent()
 	b.writeln(']')
+}
+
+fn (mut b StringBuilder) array_comma(n int) {
+	if n == 0 {
+		return
+	}
+	if b.newline {
+		b.buf.go_back(1)
+		b.newline = false
+	}
+	b.writeln(',')
 }
 
 fn (mut b StringBuilder) write_label(name string) {
@@ -70,12 +89,4 @@ fn (mut b StringBuilder) write_field<T>(name string, v T) {
 		val = "'$v'"
 	}
 	b.writeln('$name: $val')
-}
-
-fn (mut b StringBuilder) insert_array_comma() {
-	if b.newline {
-		b.buf.go_back(1)
-		b.newline = false
-	}
-	b.writeln(',')
 }

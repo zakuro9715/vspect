@@ -3,16 +3,13 @@ module ast
 import v.ast
 
 pub fn (mut b StringBuilder) stmts(stmts ...ast.Stmt) {
-	if stmts.len == 0 {
-		b.writeln('[]')
-		return
-	}
-	b.begin_array()
+	n := stmts.len
+	b.begin_array(n)
 	for stmt in stmts {
 		b.stmt(stmt)
-		b.insert_array_comma()
+		b.array_comma(n)
 	}
-	b.end_array()
+	b.end_array(n)
 }
 
 pub fn (mut b StringBuilder) stmt(stmt ast.Stmt) {
