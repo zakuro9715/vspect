@@ -44,3 +44,14 @@ pub fn (mut b StringBuilder) file(file &ast.File) {
 	b.stmts(...file.stmts)
 	b.end_struct()
 }
+
+pub fn (mut b StringBuilder) visit(node ast.Node) ? {
+	if node is ast.Stmt {
+		if node is ast.FnDecl {
+			if node.name.split('.').last() == b.target_fn {
+				b.fn_decl(node)
+			}
+		}
+	}
+	return
+}

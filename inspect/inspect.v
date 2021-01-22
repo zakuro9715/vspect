@@ -1,6 +1,6 @@
 module inspect
 
-import cli { Command }
+import cli { Command, Flag }
 import v.pref { Preferences }
 import inspect.ast
 import inspect.tokens
@@ -20,10 +20,20 @@ pub const (
 			Command{
 				name: 'ast'
 				description: 'print AST'
+				flags: [
+					Flag{
+						flag: .string
+						name: 'fn'
+						abbrev: 'f'
+						description: 'Show only specified function'
+					},
+				]
 				execute: fn (cmd Command) ? {
 					paths := cmd.args
 					prefs := new_prefs()
-					ast.inspect_files(paths, prefs)
+					func := cmd.flags.get_string('fn') or { '' }
+					opts := ast.InspectOpts { func: func }
+					ast.inspect(paths, prefs, opts)
 					return
 				}
 			},
