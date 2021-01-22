@@ -7,7 +7,7 @@ pub fn divider(template string, width int) string {
 	}
 	left_n := fill_n / 2 + (if fill_n % 2 == 0 { 0 } else { 1 })
 	right_n := fill_n / 2
-	left := template.left(1).repeat(left_n)
-	right := template.right(template.len - 1).repeat(right_n)
+	left := template[..1].repeat(left_n)
+	right := template[template.len - 1..].repeat(right_n)
 	return left + template + right
 }
