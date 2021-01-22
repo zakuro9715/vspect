@@ -3,7 +3,6 @@ module main
 import cli { Command }
 import os { system, dir }
 import v.vmod
-import inspect
 
 fn new_app() Command {
 	mod := vmod.decode(@VMOD_FILE) or { panic(err) }
@@ -13,7 +12,7 @@ fn new_app() Command {
 		description: mod.description
 		version: mod.version
 		disable_flags: true
-		commands: [inspect.command]
+		commands: commands
 	}
 	app.setup()
 	return app
