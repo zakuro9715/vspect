@@ -5,26 +5,15 @@ import os { system, dir }
 import v.vmod
 import inspect
 
-const self_cmd = Command{
-		name: 'self'
-		description: 'self compilation'
-		execute: fn (cmd Command) ? {
-			println('Compiling vv...')
-			exit(v(dir(@FILE)))
-		}
-	}
-
 fn new_app() Command {
 	mod := vmod.decode(@VMOD_FILE) or { panic(err) }
-	mut commands := [self_cmd]
-	commands << inspect.command
 
 	mut app := Command{
 		name: mod.name
 		description: mod.description
 		version: mod.version
 		disable_flags: true
-		commands: commands
+		commands: [inspect.command]
 	}
 	app.setup()
 	return app
