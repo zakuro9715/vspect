@@ -54,7 +54,6 @@ pub fn (mut b StringBuilder) fn_decl(v ast.FnDecl) {
 	b.exprs(...v.comments)
 	b.write_label('next_comments')
 	b.exprs(...v.next_comments)
-	b.write_field('scope', *v.scope)
 
 	b.end_struct()
 }
