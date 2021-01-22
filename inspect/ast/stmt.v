@@ -27,7 +27,7 @@ pub fn (mut b StringBuilder) fn_decl(v ast.FnDecl) {
 	b.write_field('name', v.name)
 	b.write_field('mod', v.mod)
 	b.write_label('params')
-	b.nodes(...v.params)
+	b.params(...v.params)
 	b.write_field('is_pub', v.is_pub)
 	b.write_field('is_method', v.is_method)
 	b.write_field('is_anon', v.is_anon)
