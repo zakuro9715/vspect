@@ -1,20 +1,18 @@
-# vv
+# vinspect
 
-Cli tool to develop vlang itself
+inspect [vlang](https://github.com/vlang/v) source file
 
-## Commands
+## Feature
 
-- [ ] inspect: inspect code
-    - [ ] ast   : Print ast
-    - [ ] tokens: Print tokens
+- ast   : Print ast
+- tokens: Print tokens
 
 ## Installation
 
 ```
-git clone https://github.com/zakuro9715/vv.git vv && cd vv
+git clone git@github.com:zakuro9715/vinspect && cd vinspect
 v . -prod
-ln -s "$(pwd)/vv" $YOUR_PATH/vv
-vv
+./vinspect
 ```
 
 ## Development
