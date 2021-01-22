@@ -11,7 +11,6 @@ fn new_app() Command {
 		name: mod.name
 		description: mod.description
 		version: mod.version
-		disable_flags: true
 		commands: commands
 	}
 	app.setup()
