@@ -102,9 +102,6 @@ fn (mut b StringBuilder) write_exprs_field(name string, exprs ...ast.Expr) {
 	b.exprs(...exprs)
 }
 
-
-
-
 fn (mut b StringBuilder) insert_array_comma() {
 	if b.newline {
 		b.buf.go_back(1)
