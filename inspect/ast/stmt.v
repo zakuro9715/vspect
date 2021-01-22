@@ -46,8 +46,8 @@ pub fn (mut b StringBuilder) fn_decl(v ast.FnDecl) {
 	b.write_field('body_pos', v.body_pos)
 	b.write_stmts_field('stmts', ...v.stmts)
 	b.write_field('return_type', v.return_type)
-	b.write_field('comments', v.comments)
-	b.write_field('next_comments', v.next_comments)
+	b.write_exprs_field('comments', ...v.comments)
+	b.write_exprs_field('next_comments', ...v.next_comments)
 	b.write_field('scope', *v.scope)
 
 	b.end_struct()

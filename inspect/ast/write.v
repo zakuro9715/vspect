@@ -82,24 +82,20 @@ fn (mut b StringBuilder) write_nodes_field(name string, nodes ...ast.Node) {
 	b.nodes(...nodes)
 }
 
-fn (mut b StringBuilder) write_stmt_field(name string, v ast.Stmt) {
-	b.write('$name: ')
-	b.stmt(v)
+fn (mut b StringBuilder) write_stmt_field(name string, stmt ast.Stmt) {
+	b.write_node_field(name, stmt)
 }
 
 fn (mut b StringBuilder) write_stmts_field(name string, stmts ...ast.Stmt) {
-	b.write('$name: ')
-	b.stmts(...stmts)
+	b.write_nodes_field(name, ...stmts)
 }
 
-fn (mut b StringBuilder) write_expr_field(name string, v ast.Expr) {
-	b.write('$name: ')
-	b.expr(v)
+fn (mut b StringBuilder) write_expr_field(name string, expr ast.Expr) {
+	b.write_node_field(name, expr)
 }
 
 fn (mut b StringBuilder) write_exprs_field(name string, exprs ...ast.Expr) {
-	b.write('$name: ')
-	b.exprs(...exprs)
+	b.write_nodes_field(name, ...exprs)
 }
 
 fn (mut b StringBuilder) insert_array_comma() {
