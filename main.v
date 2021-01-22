@@ -11,6 +11,8 @@ fn new_app() Command {
 		name: mod.name
 		description: mod.description
 		version: mod.version
+		sort_flags: false
+		sort_commands: false
 		commands: commands
 	}
 	app.setup()
