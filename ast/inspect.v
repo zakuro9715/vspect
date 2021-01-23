@@ -86,8 +86,8 @@ fn (mut b Inspector) writeln<T>(v T) {
 			b.write_indent()
 		}
 		// Hack to remove v.ast from struct type name. v.ast.File -> File
-		s := if i == 0 && line.starts_with('v.ast.') && line.ends_with('{') {
-			line.trim_prefix('v.ast.')
+		s := if i == 0 && line.contains('v.ast.') && line.contains('{') {
+			line.replace('v.ast.', '')
 		} else {
 			line
 		}
