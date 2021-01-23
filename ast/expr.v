@@ -22,7 +22,7 @@ import v.ast
 	EnumVal
 	FloatLiteral
 	GoExpr
-o	Ident
+_	Ident
 	IfExpr
 	IfGuardExpr
 	IndexExpr
