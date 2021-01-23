@@ -22,7 +22,7 @@ import v.ast
 	EnumVal
 	FloatLiteral
 	GoExpr
-	Ident
+o	Ident
 	IfExpr
 	IfGuardExpr
 	IndexExpr
@@ -61,8 +61,17 @@ pub fn (mut b Inspector) exprs(exprs ...ast.Expr) {
 
 pub fn (mut b Inspector) expr(expr ast.Expr) {
 	match expr {
+		ast.Ident { b.ident(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
 		else { b.writeln(expr) }
+	}
+}
+
+pub fn (mut b Inspector) ident(expr ast.Ident) {
+	if b.short_ident {
+		b.writeln(expr.name)
+	} else {
+		b.writeln(expr)
 	}
 }
 

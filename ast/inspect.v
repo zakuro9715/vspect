@@ -51,7 +51,8 @@ pub fn (mut p Pos) inc_line() {
 }
 
 pub struct Inspector {
-	target_fn string
+	target_fn   string
+	short_ident bool
 mut:
 	pos             Pos
 	array_begin_pos []Pos
