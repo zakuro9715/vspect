@@ -3,41 +3,42 @@ module ast
 import v.ast
 
 fn (mut b Inspector) write<T>(v T) {
-	if b.newline {
+	if b.pos.is_line_head {
 		b.write_indent()
 	}
 	text := v.str()
 	if text.len > 0 {
 		b.buf.write(text)
 		if text[text.len - 1] == `\n` {
-			b.inc_line()
+			b.pos.inc_line()
+		} else {
+			b.pos.is_line_head = false
 		}
 	}
-}
-
-
-fn (mut b Inspector) inc_line() {
-	b.newline = true
-	b.line++
+	b.pos.i = b.buf.len
 }
 
 fn (mut b Inspector) write_indent() {
 	b.buf.write(' '.repeat(b.indent_n * 4))
+	b.pos.is_line_head = false
+	b.pos.i = b.buf.len
 }
 
 fn (mut b Inspector) writeln<T>(v T) {
-	for i, s in v.str().split_into_lines() {
-		if b.newline {
+	for i, line in v.str().split_into_lines() {
+		if b.pos.is_line_head {
 			b.write_indent()
 		}
 		// Hack to remove v.ast from struct type name. v.ast.File -> File
-		if i == 0 && s.starts_with('v.ast.') && s.ends_with('{') {
-			b.buf.writeln(s.trim_prefix('v.ast.'))
+		s := if i == 0 && line.starts_with('v.ast.') && line.ends_with('{') {
+			line.trim_prefix('v.ast.')
 		} else {
-			b.buf.writeln(s)
+			line
 		}
-		b.inc_line()
+		b.buf.writeln(s)
+		b.pos.inc_line()
 	}
+	b.pos.i = b.buf.len
 }
 
 fn (mut b Inspector) indent() {
@@ -78,9 +79,9 @@ fn (mut b Inspector) array_comma(n int) {
 	if n == 0 {
 		return
 	}
-	if b.newline {
+	if b.pos.is_line_head {
 		b.buf.go_back(1)
-		b.newline = false
+		b.pos.is_line_head = false
 	}
 	b.writeln(',')
 }
