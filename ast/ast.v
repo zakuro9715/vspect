@@ -33,6 +33,7 @@ pub fn inspect(paths []string, prefs &pref.Preferences, opts &InspectOpts) {
 pub struct Inspector {
 	target_fn string
 mut:
+	line     int
 	table    &table.Table
 	buf      strings.Builder
 	indent_n int

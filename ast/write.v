@@ -9,8 +9,16 @@ fn (mut b Inspector) write<T>(v T) {
 	text := v.str()
 	if text.len > 0 {
 		b.buf.write(text)
-		b.newline = text[text.len - 1] == `\n`
+		if text[text.len - 1] == `\n` {
+			b.inc_line()
+		}
 	}
+}
+
+
+fn (mut b Inspector) inc_line() {
+	b.newline = true
+	b.line++
 }
 
 fn (mut b Inspector) write_indent() {
@@ -28,7 +36,7 @@ fn (mut b Inspector) writeln<T>(v T) {
 		} else {
 			b.buf.writeln(s)
 		}
-		b.newline = true
+		b.inc_line()
 	}
 }
 
