@@ -60,6 +60,10 @@ pub fn (mut b Inspector) exprs(exprs ...ast.Expr) {
 }
 
 pub fn (mut b Inspector) expr(expr ast.Expr) {
+	if b.short_expr {
+		b.writeln(expr)
+		return
+	}
 	match expr {
 		ast.Ident { b.ident(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
