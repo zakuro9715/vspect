@@ -21,6 +21,22 @@ pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
 	}
 }
 
+pub fn (mut b Inspector) generic_params(params ...ast.GenericParam) {
+	n := params.len
+	b.begin_array(n)
+	for param in params {
+		b.generic_param(param)
+		b.array_comma(n)
+	}
+	b.end_array(n)
+}
+
+pub fn (mut b Inspector) generic_param(param ast.GenericParam) {
+	b.begin_struct('GenericParam')
+	b.write_field('name', param.name)
+	b.end_struct()
+}
+
 pub fn (mut b Inspector) fn_decl(v ast.FnDecl) {
 	b.begin_struct('FnDecl')
 
@@ -28,11 +44,12 @@ pub fn (mut b Inspector) fn_decl(v ast.FnDecl) {
 	b.write_field('mod', v.mod)
 	b.write_label('params')
 	b.params(...v.params)
+	b.write_label('generic_params')
+	b.generic_params(...v.generic_params)
 	b.write_field('is_pub', v.is_pub)
 	b.write_field('is_method', v.is_method)
 	b.write_field('is_anon', v.is_anon)
 	b.write_field('is_builtin', v.is_builtin)
-	b.write_field('is_generic', v.is_generic)
 	b.write_field('is_deprecated', v.is_deprecated)
 	b.write_field('is_manualfree', v.is_manualfree)
 	b.write_field('is_direct_arr', v.is_direct_arr)
