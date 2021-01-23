@@ -125,7 +125,6 @@ fn (mut b Inspector) end_struct() {
 }
 
 fn (mut b Inspector) begin_array() {
-	println('begin $b.array_begin_pos.len')
 	b.array_begin_pos << b.pos
 	b.writeln('[')
 	b.indent()
