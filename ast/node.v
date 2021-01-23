@@ -3,13 +3,12 @@ module ast
 import v.ast
 
 pub fn (mut b Inspector) nodes(nodes ...ast.Node) {
-	n := nodes.len
-	b.begin_array(n)
+	b.begin_array()
 	for node in nodes {
 		b.node(node)
-		b.array_comma(n)
+		b.array_comma()
 	}
-	b.end_array(n)
+	b.end_array()
 }
 
 pub fn (mut b Inspector) node(v ast.Node) {

@@ -48,6 +48,7 @@ pub struct Inspector {
 	target_fn string
 mut:
 	pos      Pos
+	array_begin_pos []Pos
 	table    &table.Table
 	buf      strings.Builder
 	indent_n int
@@ -114,26 +115,24 @@ fn (mut b Inspector) end_struct() {
 	b.writeln('}')
 }
 
-fn (mut b Inspector) begin_array(n int) {
-	if n == 0 {
-		b.write('[')
-		return
-	}
+fn (mut b Inspector) begin_array() {
+	println('begin ${b.array_begin_pos.len}')
+	b.array_begin_pos << b.pos
 	b.writeln('[')
 	b.indent()
 }
 
-fn (mut b Inspector) end_array(n int) {
-	if n > 0 {
-		b.unindent()
-	}
+fn (mut b Inspector) end_array() {
+	begin_pos := b.array_begin_pos.pop()
+	b.unindent()
 	b.writeln(']')
+	if b.pos.line - begin_pos.line <= 2 { // [\n]\n
+		b.buf.go_back_to(begin_pos.i)
+		b.buf.writeln('[]')
+	}
 }
 
-fn (mut b Inspector) array_comma(n int) {
-	if n == 0 {
-		return
-	}
+fn (mut b Inspector) array_comma() {
 	if b.pos.is_line_head {
 		b.buf.go_back(1)
 		b.pos.is_line_head = false

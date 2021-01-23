@@ -3,13 +3,12 @@ module ast
 import v.ast
 
 pub fn (mut b Inspector) stmts(stmts ...ast.Stmt) {
-	n := stmts.len
-	b.begin_array(n)
+	b.begin_array()
 	for stmt in stmts {
 		b.stmt(stmt)
-		b.array_comma(n)
+		b.array_comma()
 	}
-	b.end_array(n)
+	b.end_array()
 }
 
 pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
@@ -22,13 +21,12 @@ pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
 }
 
 pub fn (mut b Inspector) generic_params(params ...ast.GenericParam) {
-	n := params.len
-	b.begin_array(n)
+	b.begin_array()
 	for param in params {
 		b.generic_param(param)
-		b.array_comma(n)
+		b.array_comma()
 	}
-	b.end_array(n)
+	b.end_array()
 }
 
 pub fn (mut b Inspector) generic_param(param ast.GenericParam) {

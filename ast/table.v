@@ -7,13 +7,12 @@ pub fn (mut b Inspector) typ(v table.Type) {
 }
 
 pub fn (mut b Inspector) params(params ...table.Param) {
-	n := params.len
-	b.begin_array(n)
+	b.begin_array()
 	for p in params {
 		b.param(p)
-		b.array_comma(n)
+		b.array_comma()
 	}
-	b.end_array(n)
+	b.end_array()
 
 }
 pub fn (mut b Inspector) param(v table.Param) {
