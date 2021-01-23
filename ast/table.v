@@ -2,6 +2,15 @@ module ast
 
 import v.table
 
+pub fn (mut b Inspector) types(types ...table.Type) {
+	b.begin_array()
+	for typ in types {
+		b.typ(typ)
+		b.array_comma()
+	}
+	b.end_array()
+}
+
 pub fn (mut b Inspector) typ(v table.Type) {
 	b.writeln('${b.table.type_to_str(v)} -> table.Type($v)')
 }
