@@ -26,6 +26,11 @@ const (
 				},
 				Flag{
 					flag: .bool
+					name: 'short-ident'
+					description: 'Omit ident details'
+				},
+				Flag{
+					flag: .bool
 					name: 'use-checker'
 					abbrev: 'c'
 					description: 'Use checker'
@@ -36,9 +41,11 @@ const (
 				prefs := new_prefs()
 				func := cmd.flags.get_string('fn') or { '' }
 				use_checker := cmd.flags.get_bool('checker') or { false }
+				short_ident := cmd.flags.get_bool('short-ident') or { false }
 				opts := ast.InspectOpts{
 					func: func
 					use_checker: use_checker
+					short_ident: short_ident
 				}
 				ast.inspect(paths, prefs, opts)
 				return

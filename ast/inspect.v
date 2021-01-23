@@ -12,6 +12,7 @@ import v.table
 pub struct InspectOpts {
 	func        string
 	use_checker bool
+	short_ident bool
 }
 
 pub fn inspect(paths []string, prefs &pref.Preferences, opts &InspectOpts) {
@@ -28,6 +29,7 @@ pub fn inspect(paths []string, prefs &pref.Preferences, opts &InspectOpts) {
 		mut b := Inspector{
 			table: table
 			target_fn: opts.func
+			short_ident: opts.short_ident
 		}
 		if b.target_fn.len > 0 {
 			walker.walk(b, f)
