@@ -24,13 +24,21 @@ const (
 					abbrev: 'f'
 					description: 'Show only specified function'
 				},
+				Flag{
+					flag: .bool
+					name: 'use-checker'
+					abbrev: 'c'
+					description: 'Use checker'
+				},
 			]
 			execute: fn (cmd Command) ? {
 				paths := cmd.args
 				prefs := new_prefs()
 				func := cmd.flags.get_string('fn') or { '' }
+				use_checker := cmd.flags.get_bool('checker') or { false }
 				opts := ast.InspectOpts{
 					func: func
+					use_checker: use_checker
 				}
 				ast.inspect(paths, prefs, opts)
 				return

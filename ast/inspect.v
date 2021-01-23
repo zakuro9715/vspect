@@ -5,11 +5,13 @@ import v.ast { Scope }
 import v.ast.walker
 import v.parser
 import v.pref
+import v.checker { new_checker }
 import v.table
 
 // V 0.2.1 71d3d4c
 pub struct InspectOpts {
-	func string
+	func        string
+	use_checker bool
 }
 
 pub fn inspect(paths []string, prefs &pref.Preferences, opts &InspectOpts) {
@@ -18,7 +20,11 @@ pub fn inspect(paths []string, prefs &pref.Preferences, opts &InspectOpts) {
 	}
 	for path in paths {
 		table := table.new_table()
-		f := parser.parse_file(path, table, .parse_comments, prefs, &global_scope)
+		mut f := parser.parse_file(path, table, .parse_comments, prefs, &global_scope)
+		if opts.use_checker {
+			mut checker := new_checker(table, prefs)
+			checker.check(f)
+		}
 		mut b := Inspector{
 			table: table
 			target_fn: opts.func
@@ -47,11 +53,11 @@ pub fn (mut p Pos) inc_line() {
 pub struct Inspector {
 	target_fn string
 mut:
-	pos      Pos
+	pos             Pos
 	array_begin_pos []Pos
-	table    &table.Table
-	buf      strings.Builder
-	indent_n int
+	table           &table.Table
+	buf             strings.Builder
+	indent_n        int
 }
 
 pub fn (mut b Inspector) str() string {
@@ -86,11 +92,8 @@ fn (mut b Inspector) writeln<T>(v T) {
 			b.write_indent()
 		}
 		// Hack to remove v.ast from struct type name. v.ast.File -> File
-		s := if i == 0 && line.contains('v.ast.') && line.contains('{') {
-			line.replace('v.ast.', '')
-		} else {
-			line
-		}
+		s := if i == 0 && line.contains('v.ast.') && line.contains('{') { line.replace('v.ast.',
+				'') } else { line }
 		b.buf.writeln(s)
 		b.pos.inc_line()
 	}
@@ -116,7 +119,7 @@ fn (mut b Inspector) end_struct() {
 }
 
 fn (mut b Inspector) begin_array() {
-	println('begin ${b.array_begin_pos.len}')
+	println('begin $b.array_begin_pos.len')
 	b.array_begin_pos << b.pos
 	b.writeln('[')
 	b.indent()
