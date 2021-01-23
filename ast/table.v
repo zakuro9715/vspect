@@ -2,11 +2,11 @@ module ast
 
 import v.table
 
-pub fn (mut b StringBuilder) typ(v table.Type) {
+pub fn (mut b Inspector) typ(v table.Type) {
 	b.writeln('${b.table.type_to_str(v)} -> table.Type($v)')
 }
 
-pub fn (mut b StringBuilder) params(params ...table.Param) {
+pub fn (mut b Inspector) params(params ...table.Param) {
 	n := params.len
 	b.begin_array(n)
 	for p in params {
@@ -16,7 +16,7 @@ pub fn (mut b StringBuilder) params(params ...table.Param) {
 	b.end_array(n)
 
 }
-pub fn (mut b StringBuilder) param(v table.Param) {
+pub fn (mut b Inspector) param(v table.Param) {
 	b.begin_struct('Param')
 
 	b.write_field('name', v.name)

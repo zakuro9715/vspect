@@ -20,7 +20,7 @@ pub fn inspect(paths []string, prefs &pref.Preferences, opts &InspectOpts) {
 	for path in paths {
 		table := table.new_table()
 		f := parser.parse_file(path, table, .parse_comments, prefs, &global_scope)
-		mut b := StringBuilder{table: table, target_fn: opts.func}
+		mut b := Inspector{table: table, target_fn: opts.func}
 		if b.target_fn.len > 0 {
 			walker.walk(b, f)
 		} else {
@@ -30,7 +30,7 @@ pub fn inspect(paths []string, prefs &pref.Preferences, opts &InspectOpts) {
 	}
 }
 
-pub struct StringBuilder {
+pub struct Inspector {
 	target_fn string
 mut:
 	table    &table.Table
@@ -39,6 +39,6 @@ mut:
 	newline  bool = true
 }
 
-pub fn (mut b StringBuilder) str() string {
+pub fn (mut b Inspector) str() string {
 	return b.buf.str()
 }

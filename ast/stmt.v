@@ -2,7 +2,7 @@ module ast
 
 import v.ast
 
-pub fn (mut b StringBuilder) stmts(stmts ...ast.Stmt) {
+pub fn (mut b Inspector) stmts(stmts ...ast.Stmt) {
 	n := stmts.len
 	b.begin_array(n)
 	for stmt in stmts {
@@ -12,7 +12,7 @@ pub fn (mut b StringBuilder) stmts(stmts ...ast.Stmt) {
 	b.end_array(n)
 }
 
-pub fn (mut b StringBuilder) stmt(stmt ast.Stmt) {
+pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
 	match stmt {
 		ast.FnDecl { b.fn_decl(stmt) }
 		ast.Module { b.writeln(stmt) }
@@ -21,7 +21,7 @@ pub fn (mut b StringBuilder) stmt(stmt ast.Stmt) {
 	}
 }
 
-pub fn (mut b StringBuilder) fn_decl(v ast.FnDecl) {
+pub fn (mut b Inspector) fn_decl(v ast.FnDecl) {
 	b.begin_struct('FnDecl')
 
 	b.write_field('name', v.name)
@@ -55,7 +55,7 @@ pub fn (mut b StringBuilder) fn_decl(v ast.FnDecl) {
 	b.end_struct()
 }
 
-pub fn (mut b StringBuilder) expr_stmt(stmt ast.ExprStmt) {
+pub fn (mut b Inspector) expr_stmt(stmt ast.ExprStmt) {
 	b.begin_struct('ExprStmt')
 
 	b.write_label('expr')

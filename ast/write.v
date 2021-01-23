@@ -2,7 +2,7 @@ module ast
 
 import v.ast
 
-fn (mut b StringBuilder) write<T>(v T) {
+fn (mut b Inspector) write<T>(v T) {
 	if b.newline {
 		b.write_indent()
 	}
@@ -13,11 +13,11 @@ fn (mut b StringBuilder) write<T>(v T) {
 	}
 }
 
-fn (mut b StringBuilder) write_indent() {
+fn (mut b Inspector) write_indent() {
 	b.buf.write(' '.repeat(b.indent_n * 4))
 }
 
-fn (mut b StringBuilder) writeln<T>(v T) {
+fn (mut b Inspector) writeln<T>(v T) {
 	for i, s in v.str().split_into_lines() {
 		if b.newline {
 			b.write_indent()
@@ -32,25 +32,25 @@ fn (mut b StringBuilder) writeln<T>(v T) {
 	}
 }
 
-fn (mut b StringBuilder) indent() {
+fn (mut b Inspector) indent() {
 	b.indent_n++
 }
 
-fn (mut b StringBuilder) unindent() {
+fn (mut b Inspector) unindent() {
 	b.indent_n--
 }
 
-fn (mut b StringBuilder) begin_struct(name string) {
+fn (mut b Inspector) begin_struct(name string) {
 	b.writeln('$name' + '{')
 	b.indent()
 }
 
-fn (mut b StringBuilder) end_struct() {
+fn (mut b Inspector) end_struct() {
 	b.unindent()
 	b.writeln('}')
 }
 
-fn (mut b StringBuilder) begin_array(n int) {
+fn (mut b Inspector) begin_array(n int) {
 	if n == 0 {
 		b.write('[')
 		return
@@ -59,14 +59,14 @@ fn (mut b StringBuilder) begin_array(n int) {
 	b.indent()
 }
 
-fn (mut b StringBuilder) end_array(n int) {
+fn (mut b Inspector) end_array(n int) {
 	if n > 0 {
 		b.unindent()
 	}
 	b.writeln(']')
 }
 
-fn (mut b StringBuilder) array_comma(n int) {
+fn (mut b Inspector) array_comma(n int) {
 	if n == 0 {
 		return
 	}
@@ -77,11 +77,11 @@ fn (mut b StringBuilder) array_comma(n int) {
 	b.writeln(',')
 }
 
-fn (mut b StringBuilder) write_label(name string) {
+fn (mut b Inspector) write_label(name string) {
 	b.write('$name: ')
 }
 
-fn (mut b StringBuilder) write_field<T>(name string, v T) {
+fn (mut b Inspector) write_field<T>(name string, v T) {
 	mut val := v.str()
 	$if T is string {
 		val = "'$v'"

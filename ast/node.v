@@ -2,7 +2,7 @@ module ast
 
 import v.ast
 
-pub fn (mut b StringBuilder) nodes(nodes ...ast.Node) {
+pub fn (mut b Inspector) nodes(nodes ...ast.Node) {
 	n := nodes.len
 	b.begin_array(n)
 	for node in nodes {
@@ -12,7 +12,7 @@ pub fn (mut b StringBuilder) nodes(nodes ...ast.Node) {
 	b.end_array(n)
 }
 
-pub fn (mut b StringBuilder) node(v ast.Node) {
+pub fn (mut b Inspector) node(v ast.Node) {
 	match v {
 		ast.Expr {
 			b.expr(v)
@@ -37,7 +37,7 @@ pub fn (mut b StringBuilder) node(v ast.Node) {
 }
 
 // WIP
-pub fn (mut b StringBuilder) file(file &ast.File) {
+pub fn (mut b Inspector) file(file &ast.File) {
 	// b.begin_struct<ast.File>(file)
 	b.begin_struct('File')
 	b.write_label('stmts')
@@ -45,7 +45,7 @@ pub fn (mut b StringBuilder) file(file &ast.File) {
 	b.end_struct()
 }
 
-pub fn (mut b StringBuilder) visit(node ast.Node) ? {
+pub fn (mut b Inspector) visit(node ast.Node) ? {
 	if node is ast.Stmt {
 		if node is ast.FnDecl {
 			if node.name.split('.').last() == b.target_fn {
