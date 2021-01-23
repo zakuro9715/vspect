@@ -2,6 +2,13 @@ module ast
 
 import v.table
 
+/*
+o	Type
+o Param
+	Attr
+o	Language
+	ShareType
+*/
 pub fn (mut b Inspector) types(types ...table.Type) {
 	b.begin_array()
 	for typ in types {

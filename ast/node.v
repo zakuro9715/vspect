@@ -2,6 +2,23 @@ module ast
 
 import v.ast
 
+/*
+	ConstField
+	EnumField
+	Expr
+o	Field
+_ File
+	GlobalField
+	IfBranch
+	MatchBranch
+	ScopeObject
+	SelectBranch
+o	Stmt
+	StructField
+	StructInitField
+o	table.Param
+*/
+
 pub fn (mut b Inspector) nodes(nodes ...ast.Node) {
 	b.begin_array()
 	for node in nodes {

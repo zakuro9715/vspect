@@ -2,6 +2,38 @@ module ast
 
 import v.ast
 
+/*
+	AssertStmt
+	AssignStmt
+	Block
+	BranchStmt
+	CompFor
+	ConstDecl
+	DeferStmt
+	EnumDecl
+	ExprStmt
+o FnDecl
+	ForCStmt
+	ForInStmt
+	ForStmt
+	GlobalDecl
+	GoStmt
+	GotoLabel
+	GotoStmt
+	HashStmt
+	Import
+	InterfaceDecl
+	Module
+o	Return
+	SqlStmt
+	StructDecl
+	TypeDecl
+		AliasTypeDecl
+		FnTypeDecl
+		SumTypeDecl
+*/
+
+
 pub fn (mut b Inspector) stmts(stmts ...ast.Stmt) {
 	b.begin_array()
 	for stmt in stmts {
