@@ -16,6 +16,7 @@ pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
 		ast.FnDecl { b.fn_decl(stmt) }
 		ast.Module { b.writeln(stmt) }
 		ast.ExprStmt { b.expr_stmt(stmt) }
+		ast.Return { b.return_stmt(stmt) }
 		else { b.writeln(stmt) }
 	}
 }
@@ -83,5 +84,17 @@ pub fn (mut b Inspector) expr_stmt(stmt ast.ExprStmt) {
 	b.exprs(...stmt.comments)
 	b.write_field('is_expr', stmt.is_expr)
 
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) return_stmt(stmt ast.Return) {
+	b.begin_struct('Return')
+	b.write_field('pos', stmt.pos)
+	b.write_label('exprs')
+	b.exprs(...stmt.exprs)
+	b.write_label('comments')
+	b.exprs(...stmt.comments)
+	b.write_label('types')
+	b.types(...stmt.types)
 	b.end_struct()
 }
