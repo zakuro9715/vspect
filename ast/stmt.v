@@ -29,10 +29,13 @@ pub fn (mut b Inspector) generic_params(params ...ast.GenericParam) {
 	b.end_array()
 }
 
+type GenericParam = ast.GenericParam
+fn (p GenericParam) str() string {
+	return 'GenericParam{ name: $p.name }'
+}
+
 pub fn (mut b Inspector) generic_param(param ast.GenericParam) {
-	b.begin_struct('GenericParam')
-	b.write_field('name', param.name)
-	b.end_struct()
+	b.writeln(GenericParam(param))
 }
 
 pub fn (mut b Inspector) fn_decl(v ast.FnDecl) {
