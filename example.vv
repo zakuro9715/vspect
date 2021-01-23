@@ -1,6 +1,6 @@
 module main
 
-fn add(a int, b int) int {
+fn add<T>(a T, b T) T {
 	return a + b
 }
 
