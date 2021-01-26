@@ -33,7 +33,7 @@ o	InfixExpr
 	MapInit
 	MatchExpr
 	None
-	OrExpr
+o	OrExpr
 	ParExpr
 	PostfixExpr
 	PrefixExpr
@@ -67,6 +67,7 @@ pub fn (mut b Inspector) expr(expr ast.Expr) {
 	match expr {
 		ast.Ident { b.ident(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
+		ast.OrExpr { b.or_expr(expr) }
 		else { b.writeln(expr) }
 	}
 }
@@ -92,5 +93,18 @@ pub fn (mut b Inspector) infix_expr(expr ast.InfixExpr) {
 	b.write_label('or_block')
 	b.expr(expr.or_block)
 
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) or_expr(expr ast.OrExpr) {
+	if expr.kind == .absent {
+		b.writeln('.absent')
+		return
+	}
+	b.begin_struct('OrExpr')
+	b.write_field('pos', expr.pos)
+	b.write_field('kind', expr.kind)
+	b.write_label('stmts')
+	b.stmts(...expr.stmts)
 	b.end_struct()
 }
