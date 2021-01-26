@@ -64,6 +64,10 @@ pub fn (mut b Inspector) expr(expr ast.Expr) {
 		b.writeln(expr)
 		return
 	}
+	if expr.type_name().starts_with('unknown') {
+		b.writeln('')
+		return
+	}
 	match expr {
 		ast.Ident { b.ident(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
