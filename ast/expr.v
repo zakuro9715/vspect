@@ -70,6 +70,7 @@ pub fn (mut b Inspector) expr(expr ast.Expr) {
 		ast.OrExpr { b.or_expr(expr) }
 		ast.ParExpr { b.par_expr(expr) }
 		ast.PostfixExpr { b.postfix_expr(expr) }
+		ast.PrefixExpr { b.prefix_expr(expr) }
 		else { b.writeln(expr) }
 	}
 }
@@ -126,5 +127,18 @@ pub fn (mut b Inspector) postfix_expr(expr ast.PostfixExpr) {
 	b.write_label('expr')
 	b.expr(expr.expr)
 	b.write_field('auto_locked', expr.auto_locked)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) prefix_expr(expr ast.PrefixExpr) {
+	b.begin_struct('PrefixExpr')
+	b.write_field('pos', expr.pos)
+	b.write_field('op', expr.op)
+	b.write_label('right')
+	b.expr(expr.right)
+	b.write_label('right_type')
+	b.typ(expr.right_type)
+	b.write_label('or_block')
+	b.or_expr(expr.or_block)
 	b.end_struct()
 }
