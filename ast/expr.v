@@ -35,7 +35,7 @@ o	InfixExpr
 	None
 o	OrExpr
 o	ParExpr
-	PostfixExpr
+o	PostfixExpr
 	PrefixExpr
 	RangeExpr
 	SelectExpr
@@ -118,7 +118,6 @@ pub fn (mut b Inspector) par_expr(expr ast.ParExpr) {
 	b.expr(expr.expr)
 	b.end_struct()
 }
-
 
 pub fn (mut b Inspector) postfix_expr(expr ast.PostfixExpr) {
 	b.begin_struct('PostfixExpr')
