@@ -19,7 +19,11 @@ pub fn (mut b Inspector) types(types ...table.Type) {
 }
 
 pub fn (mut b Inspector) typ(v table.Type) {
-	b.writeln('${b.table.type_to_str(v)} -> table.Type($v)')
+	if v.idx() == 0 {
+		b.writeln('unknown -> table.Type($v)')
+	} else {
+		b.writeln('${b.table.type_to_str(v)} -> table.Type($v)')
+	}
 }
 
 pub fn (mut b Inspector) params(params ...table.Param) {
