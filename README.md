@@ -1,4 +1,4 @@
-# vinspect
+# vspect
 
 inspect [vlang](https://github.com/vlang/v) source file
 
@@ -10,9 +10,9 @@ inspect [vlang](https://github.com/vlang/v) source file
 ## Installation
 
 ```
-git clone git@github.com:zakuro9715/vinspect && cd vinspect
+git clone git@github.com:zakuro9715/vspect && cd vspect
 v . -prod
-./vinspect
+./vspect
 ```
 
 ## Development
