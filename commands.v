@@ -45,7 +45,7 @@ const (
 				paths := cmd.args
 				prefs := new_prefs()
 				func := cmd.flags.get_string('fn') or { '' }
-				use_checker := cmd.flags.get_bool('checker') or { false }
+				use_checker := cmd.flags.get_bool('use-checker') or { false }
 				short_ident := cmd.flags.get_bool('short-ident') or { false }
 				short_expr := cmd.flags.get_bool('short-expr') or { false }
 				opts := ast.InspectOpts{
