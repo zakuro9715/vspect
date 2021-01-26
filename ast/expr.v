@@ -114,6 +114,7 @@ pub fn (mut b Inspector) or_expr(expr ast.OrExpr) {
 pub fn (mut b Inspector) par_expr(expr ast.ParExpr) {
 	b.begin_struct('ParExpr')
 	b.write_field('pos', expr.pos)
+	b.write_label('expr')
 	b.expr(expr.expr)
 	b.end_struct()
 }
