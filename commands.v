@@ -39,13 +39,15 @@ const (
 					name: 'use-checker'
 					abbrev: 'c'
 					description: 'Use checker'
+					init: true
+					value: ['true']
 				},
 			]
 			execute: fn (cmd Command) ? {
 				paths := cmd.args
 				prefs := new_prefs()
 				func := cmd.flags.get_string('fn') or { '' }
-				use_checker := cmd.flags.get_bool('use-checker') or { false }
+				use_checker := cmd.flags.get_bool('use-checker') or { true }
 				short_ident := cmd.flags.get_bool('short-ident') or { false }
 				short_expr := cmd.flags.get_bool('short-expr') or { false }
 				opts := ast.InspectOpts{
