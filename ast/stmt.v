@@ -3,7 +3,7 @@ module ast
 import v.ast
 
 /*
-	AssertStmt
+o	AssertStmt
 	AssignStmt
 	Block
 	BranchStmt
@@ -45,6 +45,7 @@ pub fn (mut b Inspector) stmts(stmts ...ast.Stmt) {
 
 pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
 	match stmt {
+		ast.AssertStmt { b.assert_stmt(stmt) }
 		ast.FnDecl { b.fn_decl(stmt) }
 		ast.Module { b.writeln(stmt) }
 		ast.ExprStmt { b.expr_stmt(stmt) }
@@ -69,6 +70,14 @@ fn (p GenericParam) str() string {
 
 pub fn (mut b Inspector) generic_param(param ast.GenericParam) {
 	b.writeln(GenericParam(param))
+}
+
+pub fn (mut b Inspector) assert_stmt(stmt ast.AssertStmt) {
+	b.begin_struct('AssertStmt')
+	b.write_field('pos', stmt.pos)
+	b.write_label('expr')
+	b.expr(stmt.expr)
+	b.end_struct()
 }
 
 pub fn (mut b Inspector) fn_decl(v ast.FnDecl) {
