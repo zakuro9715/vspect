@@ -63,8 +63,8 @@ pub struct Inspector {
 	short_ident bool
 	short_expr  bool
 	short_fn    bool
+	short_stmt  bool
 mut:
-	short_stmt      bool
 	pos             Pos
 	array_begin_pos []Pos
 	table           &table.Table
