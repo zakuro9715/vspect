@@ -14,6 +14,7 @@ pub struct InspectOpts {
 	use_checker bool
 	short_ident bool
 	short_expr  bool
+	short_stmt  bool
 }
 
 pub fn inspect(paths []string, prefs &pref.Preferences, opts &InspectOpts) {
@@ -32,6 +33,7 @@ pub fn inspect(paths []string, prefs &pref.Preferences, opts &InspectOpts) {
 			target_fn: opts.func
 			short_ident: opts.short_ident
 			short_expr: opts.short_expr
+			short_stmt: opts.short_stmt
 		}
 		if b.target_fn.len > 0 {
 			walker.walk(b, f)
@@ -59,6 +61,7 @@ pub struct Inspector {
 	short_ident bool
 	short_expr  bool
 mut:
+	short_stmt      bool
 	pos             Pos
 	array_begin_pos []Pos
 	table           &table.Table

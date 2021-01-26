@@ -34,6 +34,15 @@ o	Return
 */
 
 
+fn (mut b Inspector) stmts_detail(stmts ...ast.Stmt) {
+	b.begin_array()
+	for stmt in stmts {
+		b.stmt_detail(stmt)
+		b.array_comma()
+	}
+	b.end_array()
+}
+
 pub fn (mut b Inspector) stmts(stmts ...ast.Stmt) {
 	b.begin_array()
 	for stmt in stmts {
@@ -44,6 +53,14 @@ pub fn (mut b Inspector) stmts(stmts ...ast.Stmt) {
 }
 
 pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
+	if b.short_stmt {
+		b.writeln(stmt)
+	} else {
+		b.stmt_detail(stmt)
+	}
+}
+
+fn (mut b Inspector) stmt_detail(stmt ast.Stmt) {
 	match stmt {
 		ast.AssertStmt { b.assert_stmt(stmt) }
 		ast.FnDecl { b.fn_decl(stmt) }
