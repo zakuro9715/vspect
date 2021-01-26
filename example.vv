@@ -6,5 +6,5 @@ fn add<T>(a T, b T) T {
 
 fn main() {
 	println(add(1, 2))
-	assert add(1, 2) == 3
+	assert (add(1, 2)) == 3
 }

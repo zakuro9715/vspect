@@ -34,7 +34,7 @@ o	InfixExpr
 	MatchExpr
 	None
 o	OrExpr
-	ParExpr
+o	ParExpr
 	PostfixExpr
 	PrefixExpr
 	RangeExpr
@@ -68,6 +68,7 @@ pub fn (mut b Inspector) expr(expr ast.Expr) {
 		ast.Ident { b.ident(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
 		ast.OrExpr { b.or_expr(expr) }
+		ast.ParExpr { b.par_expr(expr) }
 		else { b.writeln(expr) }
 	}
 }
@@ -106,5 +107,12 @@ pub fn (mut b Inspector) or_expr(expr ast.OrExpr) {
 	b.write_field('kind', expr.kind)
 	b.write_label('stmts')
 	b.stmts(...expr.stmts)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) par_expr(expr ast.ParExpr) {
+	b.begin_struct('ParExpr')
+	b.write_field('pos', expr.pos)
+	b.expr(expr.expr)
 	b.end_struct()
 }
