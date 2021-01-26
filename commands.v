@@ -47,9 +47,9 @@ const (
 				paths := cmd.args
 				prefs := new_prefs()
 				func := cmd.flags.get_string('fn') or { '' }
-				use_checker := cmd.flags.get_bool('use-checker') or { true }
-				short_ident := cmd.flags.get_bool('short-ident') or { false }
-				short_expr := cmd.flags.get_bool('short-expr') or { false }
+				use_checker := cmd.flags.get_bool('use-checker') or { panic(err) }
+				short_ident := cmd.flags.get_bool('short-ident') or { panic(err) }
+				short_expr := cmd.flags.get_bool('short-expr') or { panic(err) }
 				opts := ast.InspectOpts{
 					func: func
 					use_checker: use_checker
