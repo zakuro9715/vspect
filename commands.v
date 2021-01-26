@@ -41,6 +41,11 @@ const (
 				},
 				Flag{
 					flag: .bool
+					name: 'short-fn'
+					description: 'Omit fn details'
+				},
+				Flag{
+					flag: .bool
 					name: 'use-checker'
 					abbrev: 'c'
 					description: 'Use checker'
@@ -56,12 +61,14 @@ const (
 				short_ident := cmd.flags.get_bool('short-ident') or { panic(err) }
 				short_expr := cmd.flags.get_bool('short-expr') or { panic(err) }
 				short_stmt := cmd.flags.get_bool('short-stmt') or { panic(err) }
+				short_fn := cmd.flags.get_bool('short-fn') or { panic(err) }
 				opts := ast.InspectOpts{
 					func: func
 					use_checker: use_checker
 					short_ident: short_ident
 					short_expr: short_expr
 					short_stmt: short_stmt
+					short_fn: short_fn
 				}
 				ast.inspect(paths, prefs, opts)
 				return

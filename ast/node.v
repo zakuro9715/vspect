@@ -57,7 +57,11 @@ pub fn (mut b Inspector) file(file &ast.File) {
 	// b.begin_struct<ast.File>(file)
 	b.begin_struct('File')
 	b.write_label('stmts')
-	b.stmts_detail(...file.stmts)
+	if b.short_fn {
+		b.stmts(...file.stmts)
+	} else {
+		b.stmts_detail(...file.stmts)
+	}
 	b.end_struct()
 }
 
