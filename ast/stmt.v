@@ -4,7 +4,7 @@ import v.ast
 
 /*
 o	AssertStmt
-	AssignStmt
+o	AssignStmt
 	Block
 	BranchStmt
 	CompFor
@@ -63,12 +63,35 @@ pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
 fn (mut b Inspector) stmt_detail(stmt ast.Stmt) {
 	match stmt {
 		ast.AssertStmt { b.assert_stmt(stmt) }
+		ast.AssignStmt { b.assign_stmt(stmt) }
 		ast.FnDecl { b.fn_decl(stmt) }
 		ast.Module { b.writeln(stmt) }
 		ast.ExprStmt { b.expr_stmt(stmt) }
 		ast.Return { b.return_stmt(stmt) }
 		else { b.writeln(stmt) }
 	}
+}
+
+pub fn (mut b Inspector) assign_stmt(stmt ast.AssignStmt) {
+	b.begin_struct('AssignStmt')
+	b.write_field('pos', stmt.pos)
+	b.write_field('op', stmt.op)
+	b.write_label('left')
+	b.exprs(...stmt.left)
+	b.write_label('left_types')
+	b.types(...stmt.left_types)
+	b.write_label('right')
+	b.exprs(...stmt.right)
+	b.write_label('right_types')
+	b.types(...stmt.right_types)
+	b.write_field('is_static', stmt.is_static)
+	b.write_field('is_simple', stmt.is_simple)
+	b.write_field('has_cross_var', stmt.has_cross_var)
+	b.write_label('comments')
+	b.exprs(...stmt.comments)
+	b.write_label('end_comments')
+	b.exprs(...stmt.end_comments)
+	b.end_struct()
 }
 
 pub fn (mut b Inspector) generic_params(params ...ast.GenericParam) {
