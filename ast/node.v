@@ -1,9 +1,13 @@
 module ast
 
-import v.ast
+import v.ast {
+	Node,
+	Field,
+	File,
+}
 
 /*
-	ConstField
+ConstField
 	EnumField
 	Expr
 o	Field
@@ -19,7 +23,7 @@ o	Stmt
 o	table.Param
 */
 
-pub fn (mut b Inspector) nodes(nodes ...ast.Node) {
+pub fn (mut b Inspector) nodes(nodes ...Node) {
 	b.begin_array()
 	for node in nodes {
 		b.node(node)
@@ -28,7 +32,7 @@ pub fn (mut b Inspector) nodes(nodes ...ast.Node) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) node(v ast.Node) {
+pub fn (mut b Inspector) node(v Node) {
 	match v {
 		ast.Expr {
 			b.expr(v)
@@ -53,7 +57,7 @@ pub fn (mut b Inspector) node(v ast.Node) {
 }
 
 // WIP
-pub fn (mut b Inspector) file(file &ast.File) {
+pub fn (mut b Inspector) file(file &File) {
 	// b.begin_struct<ast.File>(file)
 	b.begin_struct('File')
 	b.write_label('stmts')
@@ -65,7 +69,7 @@ pub fn (mut b Inspector) file(file &ast.File) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) visit(node ast.Node) ? {
+pub fn (mut b Inspector) visit(node Node) ? {
 	if node is ast.Stmt {
 		if node is ast.FnDecl {
 			if node.name.split('.').last() == b.target_fn {

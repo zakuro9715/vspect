@@ -1,6 +1,5 @@
 module ast
 
-
 fn (mut b Inspector) write<T>(v T) {
 	if b.pos.is_line_head {
 		b.write_indent()
@@ -91,4 +90,3 @@ fn (mut b Inspector) write_field<T>(name string, v T) {
 		b.writeln(v.str())
 	}
 }
-

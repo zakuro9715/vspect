@@ -33,8 +33,8 @@ pub fn (mut b Inspector) params(params ...table.Param) {
 		b.array_comma()
 	}
 	b.end_array()
-
 }
+
 pub fn (mut b Inspector) param(v table.Param) {
 	b.begin_struct('Param')
 

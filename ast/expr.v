@@ -1,6 +1,17 @@
 module ast
 
-import v.ast
+import v.ast {
+	Expr,
+	AnonFn,
+	CallArg,
+	CallExpr,
+	Ident,
+	InfixExpr,
+	OrExpr,
+	ParExpr,
+	PostfixExpr,
+	PrefixExpr,
+}
 
 /*
 o	AnonFn
@@ -50,7 +61,7 @@ o	PostfixExpr
 	UnsafeExpr
 */
 
-pub fn (mut b Inspector) exprs(exprs ...ast.Expr) {
+pub fn (mut b Inspector) exprs(exprs ...Expr) {
 	b.begin_array()
 	for expr in exprs {
 		b.expr(expr)
@@ -59,7 +70,7 @@ pub fn (mut b Inspector) exprs(exprs ...ast.Expr) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) expr(expr ast.Expr) {
+pub fn (mut b Inspector) expr(expr Expr) {
 	if b.short_expr {
 		b.writeln(expr)
 		return
@@ -81,8 +92,17 @@ pub fn (mut b Inspector) expr(expr ast.Expr) {
 	}
 }
 
+pub fn (mut b Inspector) anon_fn(expr AnonFn) {
+	b.begin_struct('AnonFn')
+	b.write_label('decl')
+	b.fn_decl(expr.decl)
+	b.write_label('typ')
+	b.typ(expr.typ)
+	b.end_struct()
+}
+
 // TODO: share type
-fn (mut b Inspector) call_arg(arg ast.CallArg) {
+fn (mut b Inspector) call_arg(arg CallArg) {
 	b.begin_struct('CallArg')
 
 	b.write_field('pos', arg.pos)
@@ -100,7 +120,7 @@ fn (mut b Inspector) call_arg(arg ast.CallArg) {
 }
 
 // TODO: scope
-pub fn (mut b Inspector) call_expr(expr ast.CallExpr) {
+pub fn (mut b Inspector) call_expr(expr CallExpr) {
 	b.begin_struct('CallExpr')
 
 	b.write_field('language', expr.language)
@@ -143,16 +163,7 @@ pub fn (mut b Inspector) call_expr(expr ast.CallExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) anon_fn(expr ast.AnonFn) {
-	b.begin_struct('AnonFn')
-	b.write_label('decl')
-	b.fn_decl(expr.decl)
-	b.write_label('typ')
-	b.typ(expr.typ)
-	b.end_struct()
-}
-
-pub fn (mut b Inspector) ident(expr ast.Ident) {
+pub fn (mut b Inspector) ident(expr Ident) {
 	if b.short_ident {
 		b.writeln(expr.name)
 	} else {
@@ -160,7 +171,7 @@ pub fn (mut b Inspector) ident(expr ast.Ident) {
 	}
 }
 
-pub fn (mut b Inspector) infix_expr(expr ast.InfixExpr) {
+pub fn (mut b Inspector) infix_expr(expr InfixExpr) {
 	b.begin_struct('InfixExpr')
 
 	b.write_field('op', expr.op)
@@ -176,7 +187,7 @@ pub fn (mut b Inspector) infix_expr(expr ast.InfixExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) or_expr(expr ast.OrExpr) {
+pub fn (mut b Inspector) or_expr(expr OrExpr) {
 	if expr.kind == .absent {
 		b.writeln('.absent')
 		return
@@ -189,7 +200,7 @@ pub fn (mut b Inspector) or_expr(expr ast.OrExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) par_expr(expr ast.ParExpr) {
+pub fn (mut b Inspector) par_expr(expr ParExpr) {
 	b.begin_struct('ParExpr')
 	b.write_field('pos', expr.pos)
 	b.write_label('expr')
@@ -197,7 +208,7 @@ pub fn (mut b Inspector) par_expr(expr ast.ParExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) postfix_expr(expr ast.PostfixExpr) {
+pub fn (mut b Inspector) postfix_expr(expr PostfixExpr) {
 	b.begin_struct('PostfixExpr')
 	b.write_field('pos', expr.pos)
 	b.write_field('op', expr.op)
@@ -207,7 +218,7 @@ pub fn (mut b Inspector) postfix_expr(expr ast.PostfixExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) prefix_expr(expr ast.PrefixExpr) {
+pub fn (mut b Inspector) prefix_expr(expr PrefixExpr) {
 	b.begin_struct('PrefixExpr')
 	b.write_field('pos', expr.pos)
 	b.write_field('op', expr.op)

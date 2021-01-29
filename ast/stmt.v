@@ -1,6 +1,13 @@
 module ast
 
-import v.ast
+import v.ast {
+	Stmt,
+	AssertStmt,
+	AssignStmt,
+	ExprStmt,
+	FnDecl,
+	Return,
+}
 
 /*
 o	AssertStmt
@@ -11,7 +18,7 @@ o	AssignStmt
 	ConstDecl
 	DeferStmt
 	EnumDecl
-	ExprStmt
+o	ExprStmt
 o FnDecl
 	ForCStmt
 	ForInStmt
@@ -33,8 +40,7 @@ o	Return
 		SumTypeDecl
 */
 
-
-fn (mut b Inspector) stmts_detail(stmts ...ast.Stmt) {
+fn (mut b Inspector) stmts_detail(stmts ...Stmt) {
 	b.begin_array()
 	for stmt in stmts {
 		b.stmt_detail(stmt)
@@ -43,7 +49,7 @@ fn (mut b Inspector) stmts_detail(stmts ...ast.Stmt) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) stmts(stmts ...ast.Stmt) {
+pub fn (mut b Inspector) stmts(stmts ...Stmt) {
 	b.begin_array()
 	for stmt in stmts {
 		b.stmt(stmt)
@@ -52,7 +58,7 @@ pub fn (mut b Inspector) stmts(stmts ...ast.Stmt) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
+pub fn (mut b Inspector) stmt(stmt Stmt) {
 	if b.short_stmt {
 		b.writeln(stmt)
 	} else {
@@ -60,7 +66,7 @@ pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
 	}
 }
 
-fn (mut b Inspector) stmt_detail(stmt ast.Stmt) {
+fn (mut b Inspector) stmt_detail(stmt Stmt) {
 	match stmt {
 		ast.AssertStmt { b.assert_stmt(stmt) }
 		ast.AssignStmt { b.assign_stmt(stmt) }
@@ -72,7 +78,7 @@ fn (mut b Inspector) stmt_detail(stmt ast.Stmt) {
 	}
 }
 
-pub fn (mut b Inspector) assign_stmt(stmt ast.AssignStmt) {
+pub fn (mut b Inspector) assign_stmt(stmt AssignStmt) {
 	b.begin_struct('AssignStmt')
 	b.write_field('pos', stmt.pos)
 	b.write_field('op', stmt.op)
@@ -94,7 +100,7 @@ pub fn (mut b Inspector) assign_stmt(stmt ast.AssignStmt) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) generic_params(params ...ast.GenericParam) {
+pub fn (mut b Inspector) generic_params(params ...GenericParam) {
 	b.begin_array()
 	for param in params {
 		b.generic_param(param)
@@ -104,15 +110,16 @@ pub fn (mut b Inspector) generic_params(params ...ast.GenericParam) {
 }
 
 type GenericParam = ast.GenericParam
+
 fn (p GenericParam) str() string {
 	return 'GenericParam{ name: $p.name }'
 }
 
-pub fn (mut b Inspector) generic_param(param ast.GenericParam) {
+pub fn (mut b Inspector) generic_param(param GenericParam) {
 	b.writeln(GenericParam(param))
 }
 
-pub fn (mut b Inspector) assert_stmt(stmt ast.AssertStmt) {
+pub fn (mut b Inspector) assert_stmt(stmt AssertStmt) {
 	b.begin_struct('AssertStmt')
 	b.write_field('pos', stmt.pos)
 	b.write_label('expr')
@@ -120,7 +127,7 @@ pub fn (mut b Inspector) assert_stmt(stmt ast.AssertStmt) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) fn_decl(v ast.FnDecl) {
+pub fn (mut b Inspector) fn_decl(v FnDecl) {
 	b.begin_struct('FnDecl')
 
 	b.write_field('name', v.name)
@@ -155,7 +162,7 @@ pub fn (mut b Inspector) fn_decl(v ast.FnDecl) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) expr_stmt(stmt ast.ExprStmt) {
+pub fn (mut b Inspector) expr_stmt(stmt ExprStmt) {
 	b.begin_struct('ExprStmt')
 
 	b.write_label('expr')
@@ -168,7 +175,7 @@ pub fn (mut b Inspector) expr_stmt(stmt ast.ExprStmt) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) return_stmt(stmt ast.Return) {
+pub fn (mut b Inspector) return_stmt(stmt Return) {
 	b.begin_struct('Return')
 	b.write_field('pos', stmt.pos)
 	b.write_label('exprs')
