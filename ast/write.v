@@ -80,22 +80,35 @@ fn (mut b Inspector) array_comma() {
 	b.writeln(',')
 }
 
-type FieldValue = int | bool | string | token.Position | token.Kind
+type FieldValue = bool | int | string | token.Kind | token.Position
 
 fn (mut b Inspector) write_label(name string) {
 	b.write('$name: ')
 }
 
+fn (mut b Inspector) write_field_value(v FieldValue) {
+	match v {
+		string { b.writeln("'$v'") }
+		token.Position { b.writeln(v.str()) }
+		token.Kind { b.writeln(v.str()) }
+		int { b.writeln(v.str()) }
+		bool { b.writeln(v.str()) }
+	}
+}
+
 fn (mut b Inspector) write_field(name string, v FieldValue) {
 	b.write_label(name)
-	match v {
-		string {
-			b.writeln("'$v'")
-		}
-		else {
-			b.writeln(v.str())
-		}
+	b.write_field_value(v)
+}
+
+fn (mut b Inspector) write_array_field(name string, values ...FieldValue) {
+	b.write_label(name)
+	b.begin_array()
+	for v in values {
+		b.write_field_value(v)
+		b.array_comma()
 	}
+	b.end_array()
 }
 
 fn (mut b Inspector) write_any_field<T>(name string, v T) {
