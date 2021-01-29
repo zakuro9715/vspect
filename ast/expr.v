@@ -3,7 +3,7 @@ module ast
 import v.ast
 
 /*
-	AnonFn
+o	AnonFn
 	ArrayDecompose
 	ArrayInit
 	AsCast
@@ -69,6 +69,7 @@ pub fn (mut b Inspector) expr(expr ast.Expr) {
 		return
 	}
 	match expr {
+		ast.AnonFn { b.anon_fn(expr) }
 		ast.CallExpr { b.call_expr(expr) }
 		ast.Ident { b.ident(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
@@ -139,6 +140,15 @@ pub fn (mut b Inspector) call_expr(expr ast.CallExpr) {
 	b.write_label('comments')
 	b.exprs(...expr.comments)
 
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) anon_fn(expr ast.AnonFn) {
+	b.begin_struct('AnonFn')
+	b.write_label('decl')
+	b.fn_decl(expr.decl)
+	b.write_label('typ')
+	b.typ(expr.typ)
 	b.end_struct()
 }
 
