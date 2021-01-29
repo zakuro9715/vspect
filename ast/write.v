@@ -1,7 +1,5 @@
 module ast
 
-import v.token
-
 fn (mut b Inspector) write<T>(v T) {
 	if b.pos.is_line_head {
 		b.write_indent()
@@ -80,25 +78,15 @@ fn (mut b Inspector) array_comma() {
 	b.writeln(',')
 }
 
-type FieldValue = int | bool | string | token.Position | token.Kind
-
 fn (mut b Inspector) write_label(name string) {
 	b.write('$name: ')
 }
 
-fn (mut b Inspector) write_field(name string, v FieldValue) {
+fn (mut b Inspector) write_field<T>(name string, v T) {
 	b.write_label(name)
-	match v {
-		string {
-			b.writeln("'$v'")
-		}
-		else {
-			b.writeln(v.str())
-		}
+	$if T is string {
+		b.writeln("'$v'")
+	} $else {
+		b.writeln(v.str())
 	}
-}
-
-fn (mut b Inspector) write_any_field<T>(name string, v T) {
-	b.write_label(name)
-	b.writeln(v.str())
 }

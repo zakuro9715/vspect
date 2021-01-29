@@ -108,7 +108,7 @@ fn (mut b Inspector) call_arg(arg CallArg) {
 	b.write_field('pos', arg.pos)
 	b.write_field('is_mut', arg.is_mut)
 	b.write_field('is_tmp_autofree', arg.is_tmp_autofree)
-	b.write_any_field('share_type', arg.share)
+	b.write_field('share_type', arg.share)
 	b.write_label('expr')
 	b.expr(arg.expr)
 	b.write_label('comments')
@@ -123,7 +123,7 @@ fn (mut b Inspector) call_arg(arg CallArg) {
 pub fn (mut b Inspector) call_expr(expr CallExpr) {
 	b.begin_struct('CallExpr')
 
-	b.write_any_field('language', expr.language)
+	b.write_field('language', expr.language)
 	b.write_field('mod', expr.mod)
 	b.write_field('name', expr.name)
 	b.write_field('pos', expr.pos)
@@ -194,7 +194,7 @@ pub fn (mut b Inspector) or_expr(expr OrExpr) {
 	}
 	b.begin_struct('OrExpr')
 	b.write_field('pos', expr.pos)
-	b.write_any_field('kind', expr.kind)
+	b.write_field('kind', expr.kind)
 	b.write_label('stmts')
 	b.stmts(...expr.stmts)
 	b.end_struct()
