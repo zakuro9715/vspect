@@ -85,7 +85,7 @@ fn (mut b Inspector) write_label(name string) {
 	b.write('$name: ')
 }
 
-fn (mut b Inspector) write_field<T>(name string, v T) {
+fn (mut b Inspector) write_any_field<T>(name string, v T) {
 	b.write_label(name)
 	$if T is string {
 		b.writeln("'$v'")

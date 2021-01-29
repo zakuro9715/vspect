@@ -38,12 +38,12 @@ pub fn (mut b Inspector) params(params ...table.Param) {
 pub fn (mut b Inspector) param(v table.Param) {
 	b.begin_struct('Param')
 
-	b.write_field('name', v.name)
-	b.write_field('is_mut', v.is_mut)
-	b.write_field('is_hidden', v.is_hidden)
-	b.write_field('pos', v.pos)
+	b.write_any_field('name', v.name)
+	b.write_any_field('is_mut', v.is_mut)
+	b.write_any_field('is_hidden', v.is_hidden)
+	b.write_any_field('pos', v.pos)
 	b.write_type_field('typ', v.typ)
-	b.write_field('type_pos', v.type_pos)
+	b.write_any_field('type_pos', v.type_pos)
 
 	b.end_struct()
 }
