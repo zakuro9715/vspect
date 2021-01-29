@@ -7,6 +7,7 @@ import v.parser
 import v.pref
 import v.checker { new_checker }
 import v.table
+import v.token
 
 // V 0.2.1 71d3d4c
 pub struct InspectOpts {
@@ -159,9 +160,11 @@ fn (mut b Inspector) write_label(name string) {
 }
 
 fn (mut b Inspector) write_field<T>(name string, v T) {
-	mut val := v.str()
+	b.write_label(name)
 	$if T is string {
-		val = "'$v'"
+		b.writeln("'$v'")
+	} $else {
+		b.writeln(v.str())
 	}
-	b.writeln('$name: $val')
 }
+
