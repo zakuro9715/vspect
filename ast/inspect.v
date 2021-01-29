@@ -7,7 +7,6 @@ import v.parser
 import v.pref
 import v.checker { new_checker }
 import v.table
-import v.token
 
 // V 0.2.1 71d3d4c
 pub struct InspectOpts {
