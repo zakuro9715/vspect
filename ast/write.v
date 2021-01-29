@@ -1,5 +1,8 @@
 module ast
 
+import v.ast { Node, Stmt, Expr }
+import v.table
+
 fn (mut b Inspector) write<T>(v T) {
 	if b.pos.is_line_head {
 		b.write_indent()
@@ -89,4 +92,49 @@ fn (mut b Inspector) write_field<T>(name string, v T) {
 	} $else {
 		b.writeln(v.str())
 	}
+}
+
+fn (mut b Inspector) write_stmt_field(name string, v Stmt) {
+	b.write_label(name)
+	b.stmt(v)
+}
+
+fn (mut b Inspector) write_stmts_field(name string, v ...Stmt) {
+	b.write_label(name)
+	b.stmts(...v)
+}
+
+fn (mut b Inspector) write_expr_field(name string, v Expr) {
+	b.write_label(name)
+	b.expr(v)
+}
+
+fn (mut b Inspector) write_exprs_field(name string, v ...Expr) {
+	b.write_label(name)
+	b.exprs(...v)
+}
+
+fn (mut b Inspector) write_node_field(name string, v Node) {
+	b.write_label(name)
+	b.node(v)
+}
+
+fn (mut b Inspector) write_nodes_field(name string, v ...Node) {
+	b.write_label(name)
+	b.nodes(...v)
+}
+
+fn (mut b Inspector) write_type_field(name string, v table.Type) {
+	b.write_label(name)
+	b.typ(v)
+}
+
+fn (mut b Inspector) write_types_field(name string, v ...table.Type) {
+	b.write_label(name)
+	b.types(...v)
+}
+
+fn (mut b Inspector) write_params_field(name string, v ...table.Param) {
+	b.write_label(name)
+	b.params(...v)
 }

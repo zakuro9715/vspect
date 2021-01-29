@@ -42,8 +42,7 @@ pub fn (mut b Inspector) param(v table.Param) {
 	b.write_field('is_mut', v.is_mut)
 	b.write_field('is_hidden', v.is_hidden)
 	b.write_field('pos', v.pos)
-	b.write_label('typ')
-	b.typ(v.typ)
+	b.write_type_field('typ', v.typ)
 	b.write_field('type_pos', v.type_pos)
 
 	b.end_struct()
