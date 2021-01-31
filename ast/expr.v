@@ -11,6 +11,7 @@ import v.ast {
 	CallArg,
 	CallExpr,
 	ChanInit,
+	CharLiteral,
 	ComptimeSelector
 	ConcatExpr,
 	GoExpr,
@@ -42,7 +43,7 @@ o	BoolLiteral
 o	CallExpr
 	CastExpr
 o	ChanInit
-	CharLiteral
+o	CharLiteral
 	Comment
 	ComptimeCall
 o	ComptimeSelector
@@ -105,6 +106,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.BoolLiteral { b.bool_literal(expr) }
 		ast.CallExpr { b.call_expr(expr) }
 		ast.ChanInit { b.chan_init(expr) }
+		ast.CharLiteral { b.char_literal(expr) }
 		ast.ComptimeSelector { b.comptime_selector(expr) }
 		ast.ConcatExpr { b.concat_expr(expr) }
 		ast.GoExpr { b.go_expr(expr) }
@@ -246,6 +248,13 @@ pub fn (mut b Inspector) chan_init(expr ChanInit) {
 	b.write_expr_field('cap_expr', expr.cap_expr)
 	b.write_type_field('', expr.typ)
 	b.write_type_field('elem_type', expr.elem_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) char_literal(expr CharLiteral) {
+	b.begin_struct('CharLiteral')
+	b.write_pos_field('', expr.pos)
+	b.write_any_field('val', expr.val)
 	b.end_struct()
 }
 
