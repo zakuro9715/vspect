@@ -18,7 +18,8 @@ import v.ast {
 	PostfixExpr,
 	PrefixExpr,
 	RangeExpr,
-	SizeOf
+	SizeOf,
+	TypeOf,
 }
 
 /*
@@ -65,7 +66,7 @@ o	SizeOf
 	StringLiteral
 	StructInit
 	Type
-	TypeOf
+o	TypeOf
 	UnsafeExpr
 */
 
@@ -104,6 +105,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.PrefixExpr { b.prefix_expr(expr) }
 		ast.RangeExpr { b.range_expr(expr) }
 		ast.SizeOf { b.size_of(expr) }
+		ast.TypeOf { b.type_of(expr) }
 		else { b.writeln(expr) }
 	}
 }
@@ -314,5 +316,12 @@ pub fn (mut b Inspector) size_of(expr SizeOf) {
 	b.write_any_field('is_type', expr.is_type)
 	b.write_expr_field('', expr.expr)
 	b.write_type_field('', expr.typ)
+	b.end_struct()
+}
+pub fn (mut b Inspector) type_of(expr TypeOf) {
+	b.begin_struct('TypeOf')
+	b.write_pos_field('', expr.pos)
+	b.write_expr_field('', expr.expr)
+	b.write_type_field('expr_type', expr.expr_type)
 	b.end_struct()
 }
