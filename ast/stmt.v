@@ -6,6 +6,7 @@ import v.ast {
 	AssignStmt,
 	ExprStmt,
 	FnDecl,
+	GoStmt,
 	GotoLabel,
 	GotoStmt,
 	Return,
@@ -26,7 +27,7 @@ o FnDecl
 	ForInStmt
 	ForStmt
 	GlobalDecl
-	GoStmt
+o	GoStmt
 o	GotoLabel
 o	GotoStmt
 	HashStmt
@@ -73,6 +74,7 @@ fn (mut b Inspector) stmt_detail(stmt Stmt) {
 		ast.AssertStmt { b.assert_stmt(stmt) }
 		ast.AssignStmt { b.assign_stmt(stmt) }
 		ast.FnDecl { b.fn_decl(stmt) }
+		ast.GoStmt { b.go_stmt(stmt) }
 		ast.GotoLabel { b.goto_label(stmt) }
 		ast.GotoStmt { b.goto_stmt(stmt) }
 		ast.Module { b.writeln(stmt) }
@@ -164,6 +166,12 @@ pub fn (mut b Inspector) expr_stmt(stmt ExprStmt) {
 	b.end_struct()
 }
 
+pub fn (mut b Inspector) go_stmt(stmt GoStmt) {
+	b.begin_struct('GoStmt')
+	b.write_pos_field('', stmt.pos)
+	b.write_expr_field('call_expr', stmt.call_expr)
+	b.end_struct()
+}
 pub fn (mut b Inspector) goto_label(stmt GotoLabel) {
 	b.begin_struct('GotoLabel')
 	b.write_pos_field('', stmt.pos)
