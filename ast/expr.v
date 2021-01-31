@@ -9,6 +9,7 @@ import v.ast {
 	CallExpr,
 	ChanInit,
 	Ident,
+	IfGuardExpr,
 	InfixExpr,
 	MapInit,
 	OrExpr,
@@ -40,7 +41,7 @@ o	ChanInit
 	GoExpr
 _	Ident
 	IfExpr
-	IfGuardExpr
+o	IfGuardExpr
 	IndexExpr
 o	InfixExpr
 	IntegerLiteral
@@ -91,6 +92,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.CallExpr { b.call_expr(expr) }
 		ast.ChanInit { b.chan_init(expr) }
 		ast.Ident { b.ident(expr) }
+		ast.IfGuardExpr { b.if_guard_expr(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
 		ast.MapInit { b.map_init(expr) }
 		ast.OrExpr { b.or_expr(expr) }
@@ -206,6 +208,15 @@ pub fn (mut b Inspector) ident(expr Ident) {
 	} else {
 		b.writeln(expr)
 	}
+}
+
+pub fn (mut b Inspector) if_guard_expr(expr IfGuardExpr) {
+	b.begin_struct('IfGuardExpr')
+	b.write_any_field('pos', expr.pos)
+	b.write_any_field('var_name', expr.var_name)
+	b.write_expr_field('expr', expr.expr)
+	b.write_type_field('expr_type', expr.expr_type)
+	b.end_struct()
 }
 
 pub fn (mut b Inspector) infix_expr(expr InfixExpr) {
