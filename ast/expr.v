@@ -19,6 +19,7 @@ import v.ast {
 	Ident,
 	IfGuardExpr,
 	InfixExpr,
+	IntegerLiteral,
 	Likely,
 	MapInit,
 	None,
@@ -57,7 +58,7 @@ _	Ident
 o	IfGuardExpr
 	IndexExpr
 o	InfixExpr
-	IntegerLiteral
+o	IntegerLiteral
 o	Likely
 	LockExpr
 o	MapInit
@@ -115,6 +116,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.Ident { b.ident(expr) }
 		ast.IfGuardExpr { b.if_guard_expr(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
+		ast.IntegerLiteral { b.integer_literal(expr) }
 		ast.Likely { b.likely(expr) }
 		ast.MapInit { b.map_init(expr) }
 		ast.None { b.none_expr(expr) }
@@ -320,6 +322,13 @@ pub fn (mut b Inspector) infix_expr(expr InfixExpr) {
 	b.write_any_field('auto_locked', expr.auto_locked)
 	b.write_expr_field('or_block', expr.or_block)
 
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) integer_literal(expr IntegerLiteral) {
+	b.begin_struct('IntegerLiteral')
+	b.write_pos_field('', expr.pos)
+	b.write_any_field('val', expr.val)
 	b.end_struct()
 }
 
