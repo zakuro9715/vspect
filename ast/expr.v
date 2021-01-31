@@ -7,6 +7,7 @@ import v.ast {
 	ArrayDecompose,
 	AsCast,
 	AtExpr,
+	BoolLiteral,
 	CallArg,
 	CallExpr,
 	ChanInit,
@@ -36,7 +37,7 @@ o	ArrayInit
 o	AsCast
 	Assoc
 o	AtExpr
-	BoolLiteral
+o	BoolLiteral
 	CTempVar
 o	CallExpr
 	CastExpr
@@ -101,6 +102,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.ArrayDecompose { b.array_decompose(expr) }
 		ast.AsCast { b.as_cast(expr) }
 		ast.AtExpr { b.at_expr(expr) }
+		ast.BoolLiteral { b.bool_literal(expr) }
 		ast.CallExpr { b.call_expr(expr) }
 		ast.ChanInit { b.chan_init(expr) }
 		ast.ComptimeSelector { b.comptime_selector(expr) }
@@ -176,6 +178,13 @@ pub fn (mut b Inspector) at_expr(expr AtExpr) {
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('kind', expr.kind)
 	b.write_any_field('name', expr.name)
+	b.write_any_field('val', expr.val)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) bool_literal(expr BoolLiteral) {
+	b.begin_struct('BoolLiteral')
+	b.write_pos_field('', expr.pos)
 	b.write_any_field('val', expr.val)
 	b.end_struct()
 }
