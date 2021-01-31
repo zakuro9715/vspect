@@ -10,6 +10,7 @@ import v.ast {
 	BoolLiteral,
 	CallArg,
 	CallExpr,
+	CastExpr,
 	ChanInit,
 	CharLiteral,
 	Comment,
@@ -45,7 +46,7 @@ o	AtExpr
 o	BoolLiteral
 	CTempVar
 o	CallExpr
-	CastExpr
+o	CastExpr
 o	ChanInit
 o	CharLiteral
 o	Comment
@@ -109,6 +110,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.AtExpr { b.at_expr(expr) }
 		ast.BoolLiteral { b.bool_literal(expr) }
 		ast.CallExpr { b.call_expr(expr) }
+		ast.CastExpr { b.cast_expr(expr) }
 		ast.ChanInit { b.chan_init(expr) }
 		ast.CharLiteral { b.char_literal(expr) }
 		ast.Comment { b.comment(expr) }
@@ -246,6 +248,19 @@ pub fn (mut b Inspector) call_expr(expr CallExpr) {
 	b.write_expr_field('or_block', expr.or_block)
 	b.write_exprs_field('comments', ...expr.comments)
 
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) cast_expr(expr CastExpr) {
+	b.begin_struct('CastExpr')
+	b.write_pos_field('', expr.pos)
+	b.write_type_field('', expr.typ)
+	b.write_expr_field('', expr.expr)
+	b.write_type_field('expr_type', expr.expr_type)
+	b.write_expr_field('arg', expr.arg)
+	b.write_any_field('typname', expr.typname)
+	b.write_any_field('has_arg', expr.has_arg)
+	b.write_any_field('in_prexpr', expr.in_prexpr)
 	b.end_struct()
 }
 
