@@ -104,7 +104,7 @@ fn (mut b Inspector) write_pos_field(name string, p token.Position) {
 }
 
 fn (mut b Inspector) write_stmt_field(name string, v Stmt) {
-	b.write_label(name)
+	b.write_label(name, 'stmt')
 	b.stmt(v)
 }
 
