@@ -3,6 +3,7 @@ module ast
 import v.ast {
 	Expr,
 	AnonFn,
+	ArrayInit,
 	CallArg,
 	CallExpr,
 	Ident,
@@ -16,7 +17,7 @@ import v.ast {
 /*
 o	AnonFn
 	ArrayDecompose
-	ArrayInit
+o	ArrayInit
 	AsCast
 	Assoc
 	AtExpr
@@ -81,6 +82,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 	}
 	match expr {
 		ast.AnonFn { b.anon_fn(expr) }
+		ast.ArrayInit { b.array_init(expr) }
 		ast.CallExpr { b.call_expr(expr) }
 		ast.Ident { b.ident(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
@@ -90,6 +92,28 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.PrefixExpr { b.prefix_expr(expr) }
 		else { b.writeln(expr) }
 	}
+}
+
+pub fn (mut b Inspector) array_init(expr ArrayInit) {
+	b.begin_struct('ArrayInit')
+	b.write_any_field('pos', expr.pos)
+	b.write_type_field('typ', expr.typ)
+	b.write_any_field('elem_type_pos', expr.elem_type_pos)
+	b.write_type_field('elem_type', expr.elem_type)
+	b.write_exprs_field('exprs', ...expr.exprs)
+	b.write_types_field('expr_types', ...expr.expr_types)
+	b.write_any_field('has_len', expr.has_len)
+	b.write_expr_field('len_expr', expr.len_expr)
+	b.write_any_field('has_cap', expr.has_cap)
+	b.write_expr_field('cap_expr', expr.cap_expr)
+	b.write_any_field('has_default', expr.has_default)
+	b.write_expr_field('default_expr', expr.default_expr)
+	b.write_any_field('is_fixed', expr.is_fixed)
+	b.write_any_field('has_val', expr.has_val)
+	b.write_any_field('mod', expr.mod)
+	b.write_any_field('is_interface', expr.is_interface)
+	b.write_type_field('interface_type', expr.interface_type)
+	b.end_struct()
 }
 
 pub fn (mut b Inspector) anon_fn(expr AnonFn) {
