@@ -14,7 +14,7 @@ import v.ast {
 	ChanInit,
 	CharLiteral,
 	Comment,
-	ComptimeSelector
+	ComptimeSelector,
 	ConcatExpr,
 	FloatLiteral,
 	GoExpr,
@@ -376,7 +376,7 @@ pub fn (mut b Inspector) likely(expr Likely) {
 	b.write_pos_field('', expr.pos)
 	b.write_expr_field('', expr.expr)
 	b.write_label('is_likely')
-	b.write('${expr.is_likely} ')
+	b.write('$expr.is_likely ')
 	if expr.is_likely {
 		b.writeln('(_likely_)')
 	} else {
