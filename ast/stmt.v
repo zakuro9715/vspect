@@ -181,6 +181,7 @@ pub fn (mut b Inspector) go_stmt(stmt GoStmt) {
 	b.write_expr_field('call_expr', stmt.call_expr)
 	b.end_struct()
 }
+
 pub fn (mut b Inspector) goto_label(stmt GotoLabel) {
 	b.begin_struct('GotoLabel')
 	b.write_pos_field('', stmt.pos)
