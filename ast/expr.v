@@ -9,6 +9,7 @@ import v.ast {
 	CallArg,
 	CallExpr,
 	ChanInit,
+	ComptimeSelector
 	ConcatExpr,
 	Ident,
 	IfGuardExpr,
@@ -39,7 +40,7 @@ o	ChanInit
 	CharLiteral
 	Comment
 	ComptimeCall
-	ComptimeSelector
+o	ComptimeSelector
 o	ConcatExpr
 	EnumVal
 	FloatLiteral
@@ -97,6 +98,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.AtExpr { b.at_expr(expr) }
 		ast.CallExpr { b.call_expr(expr) }
 		ast.ChanInit { b.chan_init(expr) }
+		ast.ComptimeSelector { b.comptime_selector(expr) }
 		ast.ConcatExpr { b.concat_expr(expr) }
 		ast.Ident { b.ident(expr) }
 		ast.IfGuardExpr { b.if_guard_expr(expr) }
@@ -218,6 +220,16 @@ pub fn (mut b Inspector) chan_init(expr ChanInit) {
 	b.write_expr_field('cap_expr', expr.cap_expr)
 	b.write_type_field('', expr.typ)
 	b.write_type_field('elem_type', expr.elem_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) comptime_selector(expr ComptimeSelector) {
+	b.begin_struct('ComptimeSelector')
+	b.write_type_field('', expr.typ)
+	b.write_expr_field('left', expr.left)
+	b.write_type_field('left_type', expr.left_type)
+	b.write_expr_field('field_expr', expr.field_expr)
+	b.write_any_field('has_parens', expr.has_parens)
 	b.end_struct()
 }
 
