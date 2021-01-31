@@ -16,6 +16,7 @@ import v.ast {
 	InfixExpr,
 	Likely,
 	MapInit,
+	None,
 	OrExpr,
 	ParExpr,
 	PostfixExpr,
@@ -55,7 +56,7 @@ o	Likely
 	LockExpr
 o	MapInit
 	MatchExpr
-	None
+o	None
 o	OrExpr
 o	ParExpr
 o	PostfixExpr
@@ -105,6 +106,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.InfixExpr { b.infix_expr(expr) }
 		ast.Likely { b.likely(expr) }
 		ast.MapInit { b.map_init(expr) }
+		ast.None { b.none_expr(expr) }
 		ast.OrExpr { b.or_expr(expr) }
 		ast.ParExpr { b.par_expr(expr) }
 		ast.PostfixExpr { b.postfix_expr(expr) }
@@ -284,6 +286,7 @@ pub fn (mut b Inspector) likely(expr Likely) {
 	}
 	b.end_struct()
 }
+
 pub fn (mut b Inspector) map_init(expr MapInit) {
 	b.begin_struct('MapInit')
 	b.write_pos_field('', expr.pos)
@@ -292,6 +295,13 @@ pub fn (mut b Inspector) map_init(expr MapInit) {
 	b.write_type_field('', expr.typ)
 	b.write_type_field('key_type', expr.key_type)
 	b.write_type_field('value_type', expr.value_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) none_expr(expr None) {
+	b.begin_struct('None')
+	b.write_pos_field('', expr.pos)
+	b.write_any_field('foo', expr.foo)
 	b.end_struct()
 }
 
