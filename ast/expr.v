@@ -15,6 +15,7 @@ import v.ast {
 	ParExpr,
 	PostfixExpr,
 	PrefixExpr,
+	RangeExpr,
 }
 
 /*
@@ -52,7 +53,7 @@ o	OrExpr
 o	ParExpr
 o	PostfixExpr
 	PrefixExpr
-	RangeExpr
+o	RangeExpr
 	SelectExpr
 	SelectorExpr
 	SizeOf
@@ -96,6 +97,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.ParExpr { b.par_expr(expr) }
 		ast.PostfixExpr { b.postfix_expr(expr) }
 		ast.PrefixExpr { b.prefix_expr(expr) }
+		ast.RangeExpr { b.range_expr(expr) }
 		else { b.writeln(expr) }
 	}
 }
@@ -265,5 +267,15 @@ pub fn (mut b Inspector) prefix_expr(expr PrefixExpr) {
 	b.write_expr_field('right', expr.right)
 	b.write_type_field('right_type', expr.right_type)
 	b.write_expr_field('or_block', expr.or_block)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) range_expr(expr RangeExpr) {
+	b.begin_struct('RangeExpr')
+	b.write_any_field('pos', expr.pos)
+	b.write_any_field('has_low', expr.has_low)
+	b.write_expr_field('low', expr.low)
+	b.write_any_field('has_high', expr.has_high)
+	b.write_expr_field('high', expr.high)
 	b.end_struct()
 }
