@@ -10,6 +10,7 @@ import v.ast {
 	GotoLabel,
 	GotoStmt,
 	Return,
+	SumTypeDecl,
 }
 
 /*
@@ -37,10 +38,7 @@ o	GotoStmt
 o	Return
 	SqlStmt
 	StructDecl
-	TypeDecl
-		AliasTypeDecl
-		FnTypeDecl
-		SumTypeDecl
+o	TypeDecl
 */
 
 fn (mut b Inspector) stmts_detail(stmts ...Stmt) {
@@ -80,6 +78,7 @@ fn (mut b Inspector) stmt_detail(stmt Stmt) {
 		ast.Module { b.writeln(stmt) }
 		ast.ExprStmt { b.expr_stmt(stmt) }
 		ast.Return { b.return_stmt(stmt) }
+		ast.TypeDecl { b.type_decl(stmt) }
 		else { b.writeln(stmt) }
 	}
 }
