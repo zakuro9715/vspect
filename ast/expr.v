@@ -8,6 +8,7 @@ import v.ast {
 	CallArg,
 	CallExpr,
 	ChanInit,
+	ConcatExpr,
 	Ident,
 	IfGuardExpr,
 	InfixExpr,
@@ -38,7 +39,7 @@ o	ChanInit
 	Comment
 	ComptimeCall
 	ComptimeSelector
-	ConcatExpr
+o	ConcatExpr
 	EnumVal
 	FloatLiteral
 	GoExpr
@@ -94,6 +95,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.ArrayDecompose { b.array_decompose(expr) }
 		ast.CallExpr { b.call_expr(expr) }
 		ast.ChanInit { b.chan_init(expr) }
+		ast.ConcatExpr { b.concat_expr(expr) }
 		ast.Ident { b.ident(expr) }
 		ast.IfGuardExpr { b.if_guard_expr(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
@@ -205,6 +207,14 @@ pub fn (mut b Inspector) chan_init(expr ChanInit) {
 	b.write_expr_field('cap_expr', expr.cap_expr)
 	b.write_type_field('', expr.typ)
 	b.write_type_field('elem_type', expr.elem_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) concat_expr(expr ConcatExpr) {
+	b.begin_struct('ConcatExpr')
+	b.write_pos_field('', expr.pos)
+	b.write_exprs_field('vals', ...expr.vals)
+	b.write_type_field('return_type', expr.return_type)
 	b.end_struct()
 }
 
