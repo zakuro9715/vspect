@@ -11,6 +11,7 @@ import v.ast {
 	Ident,
 	IfGuardExpr,
 	InfixExpr,
+	Likely,
 	MapInit,
 	OrExpr,
 	ParExpr,
@@ -46,7 +47,7 @@ o	IfGuardExpr
 	IndexExpr
 o	InfixExpr
 	IntegerLiteral
-	Likely
+o	Likely
 	LockExpr
 o	MapInit
 	MatchExpr
@@ -95,6 +96,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.Ident { b.ident(expr) }
 		ast.IfGuardExpr { b.if_guard_expr(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
+		ast.Likely { b.likely(expr) }
 		ast.MapInit { b.map_init(expr) }
 		ast.OrExpr { b.or_expr(expr) }
 		ast.ParExpr { b.par_expr(expr) }
@@ -234,6 +236,19 @@ pub fn (mut b Inspector) infix_expr(expr InfixExpr) {
 	b.end_struct()
 }
 
+pub fn (mut b Inspector) likely(expr Likely) {
+	b.begin_struct('Likely')
+	b.write_pos_field('', expr.pos)
+	b.write_expr_field('', expr.expr)
+	b.write_label('is_likely')
+	b.write('${expr.is_likely} ')
+	if expr.is_likely {
+		b.writeln('(_likely_)')
+	} else {
+		b.writeln('(_unlikely_)')
+	}
+	b.end_struct()
+}
 pub fn (mut b Inspector) map_init(expr MapInit) {
 	b.begin_struct('MapInit')
 	b.write_pos_field('', expr.pos)
