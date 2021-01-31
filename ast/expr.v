@@ -96,6 +96,13 @@ pub fn (mut b Inspector) expr(expr Expr) {
 	}
 }
 
+pub fn (mut b Inspector) anon_fn(expr AnonFn) {
+	b.begin_struct('AnonFn')
+	b.write_stmt_field('decl', expr.decl)
+	b.write_type_field('typ', expr.typ)
+	b.end_struct()
+}
+
 pub fn (mut b Inspector) array_init(expr ArrayInit) {
 	b.begin_struct('ArrayInit')
 	b.write_any_field('pos', expr.pos)
@@ -124,13 +131,6 @@ pub fn (mut b Inspector) array_decompose(expr ArrayDecompose) {
 	b.write_expr_field('expr', expr.expr)
 	b.write_type_field('expr_type', expr.expr_type)
 	b.write_type_field('arg_type', expr.arg_type)
-	b.end_struct()
-}
-
-pub fn (mut b Inspector) anon_fn(expr AnonFn) {
-	b.begin_struct('AnonFn')
-	b.write_stmt_field('decl', expr.decl)
-	b.write_type_field('typ', expr.typ)
 	b.end_struct()
 }
 
