@@ -109,7 +109,7 @@ fn (mut b Inspector) write_stmt_field(name string, v Stmt) {
 }
 
 fn (mut b Inspector) write_stmts_field(name string, v ...Stmt) {
-	b.write_label(name)
+	b.write_label(name, 'stmts')
 	b.stmts(...v)
 }
 

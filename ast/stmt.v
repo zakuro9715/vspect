@@ -141,7 +141,7 @@ pub fn (mut b Inspector) fn_decl(v FnDecl) {
 	b.write_any_field('no_body', v.no_body)
 	b.write_pos_field('', v.pos)
 	b.write_pos_field('body_pos', v.body_pos)
-	b.write_stmts_field('stmts', ...v.stmts)
+	b.write_stmts_field('', ...v.stmts)
 	b.write_type_field('return_type', v.return_type)
 	b.write_exprs_field('comments', ...v.comments)
 	b.write_exprs_field('next_comments', ...v.next_comments)

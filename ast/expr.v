@@ -253,7 +253,7 @@ pub fn (mut b Inspector) or_expr(expr OrExpr) {
 	b.begin_struct('OrExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('kind', expr.kind)
-	b.write_stmts_field('stmts', ...expr.stmts)
+	b.write_stmts_field('', ...expr.stmts)
 	b.end_struct()
 }
 
