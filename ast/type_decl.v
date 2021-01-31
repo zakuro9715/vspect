@@ -33,6 +33,7 @@ pub fn (mut b Inspector) alias_type_decl(decl AliasTypeDecl) {
 	b.write_exprs_field('comments', ...decl.comments)
 	b.end_struct()
 }
+
 pub fn (mut b Inspector) fn_type_decl(decl FnTypeDecl) {
 	b.begin_struct('FnTypeDecl')
 	b.write_pos_field('', decl.pos)
@@ -42,6 +43,7 @@ pub fn (mut b Inspector) fn_type_decl(decl FnTypeDecl) {
 	b.write_exprs_field('comments', ...decl.comments)
 	b.end_struct()
 }
+
 pub fn (mut b Inspector) sum_type_decl(decl SumTypeDecl) {
 	b.begin_struct('SumTypeDecl')
 
