@@ -7,6 +7,7 @@ import v.ast {
 	ArrayDecompose,
 	CallArg,
 	CallExpr,
+	ChanInit,
 	Ident,
 	InfixExpr,
 	OrExpr,
@@ -26,7 +27,7 @@ o	ArrayInit
 	CTempVar
 o	CallExpr
 	CastExpr
-	ChanInit
+o	ChanInit
 	CharLiteral
 	Comment
 	ComptimeCall
@@ -86,6 +87,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.ArrayInit { b.array_init(expr) }
 		ast.ArrayDecompose { b.array_decompose(expr) }
 		ast.CallExpr { b.call_expr(expr) }
+		ast.ChanInit { b.chan_init(expr) }
 		ast.Ident { b.ident(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
 		ast.OrExpr { b.or_expr(expr) }
@@ -181,6 +183,16 @@ pub fn (mut b Inspector) call_expr(expr CallExpr) {
 	b.write_expr_field('or_block', expr.or_block)
 	b.write_exprs_field('comments', ...expr.comments)
 
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) chan_init(expr ChanInit) {
+	b.begin_struct('ChanInit')
+	b.write_any_field('pos', expr.pos)
+	b.write_any_field('has_cap', expr.has_cap)
+	b.write_expr_field('cap_expr', expr.cap_expr)
+	b.write_type_field('typ', expr.typ)
+	b.write_type_field('elem_type', expr.elem_type)
 	b.end_struct()
 }
 
