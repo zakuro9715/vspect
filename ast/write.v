@@ -82,8 +82,11 @@ fn (mut b Inspector) array_comma() {
 	b.writeln(',')
 }
 
-fn (mut b Inspector) write_label(name string) {
-	b.write('$name: ')
+fn (mut b Inspector) write_label(name string, default ...string) {
+	if default.len > 1 {
+		panic('too many default values')
+	}
+	b.write(if name.len == 0 && default.len > 0 { default[0] } else { name } + ': ')
 }
 
 fn (mut b Inspector) write_any_field<T>(name string, v T) {
@@ -96,7 +99,7 @@ fn (mut b Inspector) write_any_field<T>(name string, v T) {
 }
 
 fn (mut b Inspector) write_pos_field(name string, p token.Position) {
-	b.write_label(if name.len > 0 { name } else { 'pos' })
+	b.write_label(name, 'pos')
 	b.writeln(p.str())
 }
 
@@ -111,7 +114,7 @@ fn (mut b Inspector) write_stmts_field(name string, v ...Stmt) {
 }
 
 fn (mut b Inspector) write_expr_field(name string, v Expr) {
-	b.write_label(if name.len > 0 { name } else { 'expr' })
+	b.write_label(name, 'expr')
 	b.expr(v)
 }
 
