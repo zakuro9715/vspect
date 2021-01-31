@@ -11,6 +11,7 @@ import v.ast {
 	ChanInit,
 	ComptimeSelector
 	ConcatExpr,
+	GoExpr,
 	Ident,
 	IfGuardExpr,
 	InfixExpr,
@@ -45,7 +46,7 @@ o	ComptimeSelector
 o	ConcatExpr
 	EnumVal
 	FloatLiteral
-	GoExpr
+o	GoExpr
 _	Ident
 	IfExpr
 o	IfGuardExpr
@@ -101,6 +102,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.ChanInit { b.chan_init(expr) }
 		ast.ComptimeSelector { b.comptime_selector(expr) }
 		ast.ConcatExpr { b.concat_expr(expr) }
+		ast.GoExpr { b.go_expr(expr) }
 		ast.Ident { b.ident(expr) }
 		ast.IfGuardExpr { b.if_guard_expr(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
@@ -240,6 +242,14 @@ pub fn (mut b Inspector) concat_expr(expr ConcatExpr) {
 	b.write_pos_field('', expr.pos)
 	b.write_exprs_field('vals', ...expr.vals)
 	b.write_type_field('return_type', expr.return_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) go_expr(expr GoExpr) {
+	b.begin_struct('GoExpr')
+	b.write_pos_field('', expr.pos)
+	b.write_stmt_field('go_stmt', expr.go_stmt)
+	// b.write_type_field('return_type', expr.return_type)
 	b.end_struct()
 }
 
