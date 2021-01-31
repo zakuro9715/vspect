@@ -116,7 +116,7 @@ pub fn (mut b Inspector) generic_param(param GenericParam) {
 pub fn (mut b Inspector) assert_stmt(stmt AssertStmt) {
 	b.begin_struct('AssertStmt')
 	b.write_pos_field('', stmt.pos)
-	b.write_expr_field('expr', stmt.expr)
+	b.write_expr_field('', stmt.expr)
 	b.end_struct()
 }
 
@@ -152,7 +152,7 @@ pub fn (mut b Inspector) fn_decl(v FnDecl) {
 pub fn (mut b Inspector) expr_stmt(stmt ExprStmt) {
 	b.begin_struct('ExprStmt')
 
-	b.write_expr_field('expr', stmt.expr)
+	b.write_expr_field('', stmt.expr)
 	b.write_pos_field('', stmt.pos)
 	b.write_exprs_field('comments', ...stmt.comments)
 	b.write_any_field('is_expr', stmt.is_expr)

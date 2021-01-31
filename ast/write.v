@@ -111,7 +111,7 @@ fn (mut b Inspector) write_stmts_field(name string, v ...Stmt) {
 }
 
 fn (mut b Inspector) write_expr_field(name string, v Expr) {
-	b.write_label(name)
+	b.write_label(if name.len > 0 { name } else { 'expr' })
 	b.expr(v)
 }
 

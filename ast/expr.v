@@ -138,7 +138,7 @@ pub fn (mut b Inspector) array_init(expr ArrayInit) {
 pub fn (mut b Inspector) array_decompose(expr ArrayDecompose) {
 	b.begin_struct('ArrayDecompose')
 	b.write_pos_field('', expr.pos)
-	b.write_expr_field('expr', expr.expr)
+	b.write_expr_field('', expr.expr)
 	b.write_type_field('expr_type', expr.expr_type)
 	b.write_type_field('arg_type', expr.arg_type)
 	b.end_struct()
@@ -152,7 +152,7 @@ fn (mut b Inspector) call_arg(arg CallArg) {
 	b.write_any_field('is_mut', arg.is_mut)
 	b.write_any_field('is_tmp_autofree', arg.is_tmp_autofree)
 	b.write_any_field('share_type', arg.share)
-	b.write_expr_field('expr', arg.expr)
+	b.write_expr_field('', arg.expr)
 	b.write_exprs_field('comments', ...arg.comments)
 	b.write_type_field('type', arg.typ)
 
@@ -216,7 +216,7 @@ pub fn (mut b Inspector) if_guard_expr(expr IfGuardExpr) {
 	b.begin_struct('IfGuardExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('var_name', expr.var_name)
-	b.write_expr_field('expr', expr.expr)
+	b.write_expr_field('', expr.expr)
 	b.write_type_field('expr_type', expr.expr_type)
 	b.end_struct()
 }
@@ -260,7 +260,7 @@ pub fn (mut b Inspector) or_expr(expr OrExpr) {
 pub fn (mut b Inspector) par_expr(expr ParExpr) {
 	b.begin_struct('ParExpr')
 	b.write_pos_field('', expr.pos)
-	b.write_expr_field('expr', expr.expr)
+	b.write_expr_field('', expr.expr)
 	b.end_struct()
 }
 
@@ -268,7 +268,7 @@ pub fn (mut b Inspector) postfix_expr(expr PostfixExpr) {
 	b.begin_struct('PostfixExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('op', expr.op)
-	b.write_expr_field('expr', expr.expr)
+	b.write_expr_field('', expr.expr)
 	b.write_any_field('auto_locked', expr.auto_locked)
 	b.end_struct()
 }
@@ -297,7 +297,7 @@ pub fn (mut b Inspector) size_of(expr SizeOf) {
 	b.begin_struct('SizeOf')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('is_type', expr.is_type)
-	b.write_expr_field('expr', expr.expr)
+	b.write_expr_field('', expr.expr)
 	b.write_type_field('typ', expr.typ)
 	b.end_struct()
 }
