@@ -82,16 +82,16 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		return
 	}
 	match expr {
-		AnonFn { b.anon_fn(expr) }
-		ArrayInit { b.array_init(expr) }
-		ArrayDecompose { b.array_decompose(expr) }
-		CallExpr { b.call_expr(expr) }
-		Ident { b.ident(expr) }
-		InfixExpr { b.infix_expr(expr) }
-		OrExpr { b.or_expr(expr) }
-		ParExpr { b.par_expr(expr) }
-		PostfixExpr { b.postfix_expr(expr) }
-		PrefixExpr { b.prefix_expr(expr) }
+		ast.AnonFn { b.anon_fn(expr) }
+		ast.ArrayInit { b.array_init(expr) }
+		ast.ArrayDecompose { b.array_decompose(expr) }
+		ast.CallExpr { b.call_expr(expr) }
+		ast.Ident { b.ident(expr) }
+		ast.InfixExpr { b.infix_expr(expr) }
+		ast.OrExpr { b.or_expr(expr) }
+		ast.ParExpr { b.par_expr(expr) }
+		ast.PostfixExpr { b.postfix_expr(expr) }
+		ast.PrefixExpr { b.prefix_expr(expr) }
 		else { b.writeln(expr) }
 	}
 }
