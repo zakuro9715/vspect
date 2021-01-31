@@ -11,4 +11,5 @@ fn main() {
 	f := fn () { println('anon') }
 	f()
 	arr := [0, 1, 2]
+	println(sizeof(0))
 }
