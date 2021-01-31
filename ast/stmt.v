@@ -5,6 +5,7 @@ import v.ast {
 	AssertStmt,
 	AssignStmt,
 	ExprStmt,
+	DeferStmt,
 	FnDecl,
 	GoStmt,
 	GotoLabel,
@@ -20,7 +21,7 @@ o	AssignStmt
 	BranchStmt
 	CompFor
 	ConstDecl
-	DeferStmt
+o	DeferStmt
 	EnumDecl
 o	ExprStmt
 o FnDecl
@@ -71,6 +72,7 @@ fn (mut b Inspector) stmt_detail(stmt Stmt) {
 	match stmt {
 		ast.AssertStmt { b.assert_stmt(stmt) }
 		ast.AssignStmt { b.assign_stmt(stmt) }
+		ast.DeferStmt { b.defer_stmt(stmt) }
 		ast.FnDecl { b.fn_decl(stmt) }
 		ast.GoStmt { b.go_stmt(stmt) }
 		ast.GotoLabel { b.goto_label(stmt) }
@@ -122,6 +124,14 @@ pub fn (mut b Inspector) assert_stmt(stmt AssertStmt) {
 	b.begin_struct('AssertStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_expr_field('', stmt.expr)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) defer_stmt(stmt DeferStmt) {
+	b.begin_struct('DeferStmt')
+	b.write_pos_field('', stmt.pos)
+	b.write_stmts_field('', ...stmt.stmts)
+	b.write_any_field('ifdef', stmt.ifdef)
 	b.end_struct()
 }
 
