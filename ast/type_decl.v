@@ -2,6 +2,7 @@ module ast
 
 import v.ast {
 	TypeDecl,
+	AliasTypeDecl,
 	SumTypeDecl,
 }
 
@@ -22,11 +23,21 @@ pub fn (mut b Inspector) type_decls(decls ...TypeDecl) {
 
 pub fn (mut b Inspector) type_decl(decl TypeDecl) {
 	match decl {
+		ast.AliasTypeDecl { b.alias_type_decl(decl) }
 		ast.SumTypeDecl { b.sum_type_decl(decl) }
 		else { b.writeln(decl) }
 	}
 }
 
+pub fn (mut b Inspector) alias_type_decl(decl AliasTypeDecl) {
+	b.begin_struct('AliasTypeDecl')
+	b.write_pos_field('', decl.pos)
+	b.write_any_field('name', decl.name)
+	b.write_any_field('is_pub', decl.is_pub)
+	b.write_type_field('parent_type', decl.parent_type)
+	b.write_exprs_field('comments', ...decl.comments)
+	b.end_struct()
+}
 pub fn (mut b Inspector) sum_type_decl(decl SumTypeDecl) {
 	b.begin_struct('SumTypeDecl')
 
