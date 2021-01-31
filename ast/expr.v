@@ -17,6 +17,7 @@ import v.ast {
 	PostfixExpr,
 	PrefixExpr,
 	RangeExpr,
+	SizeOf
 }
 
 /*
@@ -57,7 +58,7 @@ o	PostfixExpr
 o	RangeExpr
 	SelectExpr
 	SelectorExpr
-	SizeOf
+o	SizeOf
 	SqlExpr
 	StringInterLiteral
 	StringLiteral
@@ -100,6 +101,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.PostfixExpr { b.postfix_expr(expr) }
 		ast.PrefixExpr { b.prefix_expr(expr) }
 		ast.RangeExpr { b.range_expr(expr) }
+		ast.SizeOf { b.size_of(expr) }
 		else { b.writeln(expr) }
 	}
 }
@@ -288,5 +290,14 @@ pub fn (mut b Inspector) range_expr(expr RangeExpr) {
 	b.write_expr_field('low', expr.low)
 	b.write_any_field('has_high', expr.has_high)
 	b.write_expr_field('high', expr.high)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) size_of(expr SizeOf) {
+	b.begin_struct('SizeOf')
+	b.write_any_field('pos', expr.pos)
+	b.write_any_field('is_type', expr.is_type)
+	b.write_expr_field('expr', expr.expr)
+	b.write_type_field('typ', expr.typ)
 	b.end_struct()
 }
