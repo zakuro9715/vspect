@@ -14,6 +14,7 @@ import v.ast {
 	CharLiteral,
 	ComptimeSelector
 	ConcatExpr,
+	FloatLiteral,
 	GoExpr,
 	Ident,
 	IfGuardExpr,
@@ -49,7 +50,7 @@ o	CharLiteral
 o	ComptimeSelector
 o	ConcatExpr
 	EnumVal
-	FloatLiteral
+o	FloatLiteral
 o	GoExpr
 _	Ident
 	IfExpr
@@ -109,6 +110,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.CharLiteral { b.char_literal(expr) }
 		ast.ComptimeSelector { b.comptime_selector(expr) }
 		ast.ConcatExpr { b.concat_expr(expr) }
+		ast.FloatLiteral { b.float_literal(expr) }
 		ast.GoExpr { b.go_expr(expr) }
 		ast.Ident { b.ident(expr) }
 		ast.IfGuardExpr { b.if_guard_expr(expr) }
@@ -273,6 +275,13 @@ pub fn (mut b Inspector) concat_expr(expr ConcatExpr) {
 	b.write_pos_field('', expr.pos)
 	b.write_exprs_field('vals', ...expr.vals)
 	b.write_type_field('return_type', expr.return_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) float_literal(expr FloatLiteral) {
+	b.begin_struct('FloatLiteral')
+	b.write_pos_field('', expr.pos)
+	b.write_any_field('val', expr.val)
 	b.end_struct()
 }
 
