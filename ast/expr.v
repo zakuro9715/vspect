@@ -4,6 +4,7 @@ import v.ast {
 	Expr,
 	AnonFn,
 	ArrayInit,
+	ArrayDecompose,
 	CallArg,
 	CallExpr,
 	Ident,
@@ -16,7 +17,7 @@ import v.ast {
 
 /*
 o	AnonFn
-	ArrayDecompose
+o	ArrayDecompose
 o	ArrayInit
 	AsCast
 	Assoc
@@ -83,6 +84,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 	match expr {
 		AnonFn { b.anon_fn(expr) }
 		ArrayInit { b.array_init(expr) }
+		ArrayDecompose { b.array_decompose(expr) }
 		CallExpr { b.call_expr(expr) }
 		Ident { b.ident(expr) }
 		InfixExpr { b.infix_expr(expr) }
@@ -113,6 +115,15 @@ pub fn (mut b Inspector) array_init(expr ArrayInit) {
 	b.write_any_field('mod', expr.mod)
 	b.write_any_field('is_interface', expr.is_interface)
 	b.write_type_field('interface_type', expr.interface_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) array_decompose(expr ArrayDecompose) {
+	b.begin_struct('ArrayDecompose')
+	b.write_any_field('pos', expr.pos)
+	b.write_expr_field('expr', expr.expr)
+	b.write_type_field('expr_type', expr.expr_type)
+	b.write_type_field('arg_type', expr.arg_type)
 	b.end_struct()
 }
 
