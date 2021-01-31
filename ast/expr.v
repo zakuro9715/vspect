@@ -10,6 +10,7 @@ import v.ast {
 	ChanInit,
 	Ident,
 	InfixExpr,
+	MapInit,
 	OrExpr,
 	ParExpr,
 	PostfixExpr,
@@ -44,7 +45,7 @@ o	InfixExpr
 	IntegerLiteral
 	Likely
 	LockExpr
-	MapInit
+o	MapInit
 	MatchExpr
 	None
 o	OrExpr
@@ -90,6 +91,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.ChanInit { b.chan_init(expr) }
 		ast.Ident { b.ident(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
+		ast.MapInit { b.map_init(expr) }
 		ast.OrExpr { b.or_expr(expr) }
 		ast.ParExpr { b.par_expr(expr) }
 		ast.PostfixExpr { b.postfix_expr(expr) }
@@ -214,6 +216,17 @@ pub fn (mut b Inspector) infix_expr(expr InfixExpr) {
 	b.write_any_field('auto_locked', expr.auto_locked)
 	b.write_expr_field('or_block', expr.or_block)
 
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) map_init(expr MapInit) {
+	b.begin_struct('MapInit')
+	b.write_any_field('pos', expr.pos)
+	b.write_exprs_field('keys', ...expr.keys)
+	b.write_exprs_field('vals', ...expr.vals)
+	b.write_type_field('typ', expr.typ)
+	b.write_type_field('key_type', expr.key_type)
+	b.write_type_field('value_type', expr.value_type)
 	b.end_struct()
 }
 
