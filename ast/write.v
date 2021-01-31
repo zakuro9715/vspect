@@ -139,7 +139,7 @@ fn (mut b Inspector) write_type_field(name string, v table.Type) {
 }
 
 fn (mut b Inspector) write_types_field(name string, v ...table.Type) {
-	b.write_label(name)
+	b.write_label(name, 'types')
 	b.types(...v)
 }
 

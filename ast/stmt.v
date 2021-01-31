@@ -165,6 +165,6 @@ pub fn (mut b Inspector) return_stmt(stmt Return) {
 	b.write_pos_field('', stmt.pos)
 	b.write_exprs_field('', ...stmt.exprs)
 	b.write_exprs_field('comments', ...stmt.comments)
-	b.write_types_field('types', ...stmt.types)
+	b.write_types_field('', ...stmt.types)
 	b.end_struct()
 }
