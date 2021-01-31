@@ -109,14 +109,14 @@ pub fn (mut b Inspector) expr(expr Expr) {
 pub fn (mut b Inspector) anon_fn(expr AnonFn) {
 	b.begin_struct('AnonFn')
 	b.write_stmt_field('decl', expr.decl)
-	b.write_type_field('typ', expr.typ)
+	b.write_type_field('', expr.typ)
 	b.end_struct()
 }
 
 pub fn (mut b Inspector) array_init(expr ArrayInit) {
 	b.begin_struct('ArrayInit')
 	b.write_pos_field('', expr.pos)
-	b.write_type_field('typ', expr.typ)
+	b.write_type_field('', expr.typ)
 	b.write_any_field('elem_type_pos', expr.elem_type_pos)
 	b.write_type_field('elem_type', expr.elem_type)
 	b.write_exprs_field('', ...expr.exprs)
@@ -199,7 +199,7 @@ pub fn (mut b Inspector) chan_init(expr ChanInit) {
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('has_cap', expr.has_cap)
 	b.write_expr_field('cap_expr', expr.cap_expr)
-	b.write_type_field('typ', expr.typ)
+	b.write_type_field('', expr.typ)
 	b.write_type_field('elem_type', expr.elem_type)
 	b.end_struct()
 }
@@ -239,7 +239,7 @@ pub fn (mut b Inspector) map_init(expr MapInit) {
 	b.write_pos_field('', expr.pos)
 	b.write_exprs_field('keys', ...expr.keys)
 	b.write_exprs_field('vals', ...expr.vals)
-	b.write_type_field('typ', expr.typ)
+	b.write_type_field('', expr.typ)
 	b.write_type_field('key_type', expr.key_type)
 	b.write_type_field('value_type', expr.value_type)
 	b.end_struct()
@@ -298,6 +298,6 @@ pub fn (mut b Inspector) size_of(expr SizeOf) {
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('is_type', expr.is_type)
 	b.write_expr_field('', expr.expr)
-	b.write_type_field('typ', expr.typ)
+	b.write_type_field('', expr.typ)
 	b.end_struct()
 }
