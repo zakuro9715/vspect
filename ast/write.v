@@ -86,7 +86,11 @@ fn (mut b Inspector) write_label(name string, default ...string) {
 	if default.len > 1 {
 		panic('too many default values')
 	}
-	b.write(if name.len == 0 && default.len > 0 { default[0] } else { name } + ': ')
+	b.write(if name.len == 0 && default.len > 0 {
+		default[0]
+	} else {
+		name
+	} + ': ')
 }
 
 fn (mut b Inspector) write_any_field<T>(name string, v T) {
