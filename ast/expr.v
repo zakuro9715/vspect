@@ -5,6 +5,7 @@ import v.ast {
 	AnonFn,
 	ArrayInit,
 	ArrayDecompose,
+	AsCast,
 	AtExpr,
 	CallArg,
 	CallExpr,
@@ -31,7 +32,7 @@ import v.ast {
 o	AnonFn
 o	ArrayDecompose
 o	ArrayInit
-	AsCast
+o	AsCast
 	Assoc
 o	AtExpr
 	BoolLiteral
@@ -97,6 +98,7 @@ pub fn (mut b Inspector) expr(expr Expr) {
 		ast.AnonFn { b.anon_fn(expr) }
 		ast.ArrayInit { b.array_init(expr) }
 		ast.ArrayDecompose { b.array_decompose(expr) }
+		ast.AsCast { b.as_cast(expr) }
 		ast.AtExpr { b.at_expr(expr) }
 		ast.CallExpr { b.call_expr(expr) }
 		ast.ChanInit { b.chan_init(expr) }
@@ -155,6 +157,15 @@ pub fn (mut b Inspector) array_decompose(expr ArrayDecompose) {
 	b.write_expr_field('', expr.expr)
 	b.write_type_field('expr_type', expr.expr_type)
 	b.write_type_field('arg_type', expr.arg_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) as_cast(expr AsCast) {
+	b.begin_struct('AsCast')
+	b.write_pos_field('', expr.pos)
+	b.write_type_field('', expr.typ)
+	b.write_expr_field('', expr.expr)
+	b.write_type_field('expr_type', expr.expr_type)
 	b.end_struct()
 }
 
