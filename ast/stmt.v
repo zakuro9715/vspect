@@ -163,7 +163,7 @@ pub fn (mut b Inspector) expr_stmt(stmt ExprStmt) {
 pub fn (mut b Inspector) return_stmt(stmt Return) {
 	b.begin_struct('Return')
 	b.write_pos_field('', stmt.pos)
-	b.write_exprs_field('exprs', ...stmt.exprs)
+	b.write_exprs_field('', ...stmt.exprs)
 	b.write_exprs_field('comments', ...stmt.comments)
 	b.write_types_field('types', ...stmt.types)
 	b.end_struct()

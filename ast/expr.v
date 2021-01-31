@@ -119,7 +119,7 @@ pub fn (mut b Inspector) array_init(expr ArrayInit) {
 	b.write_type_field('typ', expr.typ)
 	b.write_any_field('elem_type_pos', expr.elem_type_pos)
 	b.write_type_field('elem_type', expr.elem_type)
-	b.write_exprs_field('exprs', ...expr.exprs)
+	b.write_exprs_field('', ...expr.exprs)
 	b.write_types_field('expr_types', ...expr.expr_types)
 	b.write_any_field('has_len', expr.has_len)
 	b.write_expr_field('len_expr', expr.len_expr)

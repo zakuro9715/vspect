@@ -119,7 +119,7 @@ fn (mut b Inspector) write_expr_field(name string, v Expr) {
 }
 
 fn (mut b Inspector) write_exprs_field(name string, v ...Expr) {
-	b.write_label(name)
+	b.write_label(name, 'exprs')
 	b.exprs(...v)
 }
 
