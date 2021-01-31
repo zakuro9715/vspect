@@ -80,7 +80,7 @@ fn (mut b Inspector) stmt_detail(stmt Stmt) {
 
 pub fn (mut b Inspector) assign_stmt(stmt AssignStmt) {
 	b.begin_struct('AssignStmt')
-	b.write_any_field('pos', stmt.pos)
+	b.write_pos_field('', stmt.pos)
 	b.write_any_field('op', stmt.op)
 	b.write_exprs_field('left', ...stmt.left)
 	b.write_types_field('left_types', ...stmt.left_types)
@@ -115,7 +115,7 @@ pub fn (mut b Inspector) generic_param(param GenericParam) {
 
 pub fn (mut b Inspector) assert_stmt(stmt AssertStmt) {
 	b.begin_struct('AssertStmt')
-	b.write_any_field('pos', stmt.pos)
+	b.write_pos_field('', stmt.pos)
 	b.write_expr_field('expr', stmt.expr)
 	b.end_struct()
 }
@@ -139,8 +139,8 @@ pub fn (mut b Inspector) fn_decl(v FnDecl) {
 	b.write_any_field('no_body', v.no_body)
 	b.write_node_field('receiver', v.receiver)
 	b.write_any_field('no_body', v.no_body)
-	b.write_any_field('pos', v.pos)
-	b.write_any_field('body_pos', v.body_pos)
+	b.write_pos_field('', v.pos)
+	b.write_pos_field('body_pos', v.body_pos)
 	b.write_stmts_field('stmts', ...v.stmts)
 	b.write_type_field('return_type', v.return_type)
 	b.write_exprs_field('comments', ...v.comments)
@@ -153,7 +153,7 @@ pub fn (mut b Inspector) expr_stmt(stmt ExprStmt) {
 	b.begin_struct('ExprStmt')
 
 	b.write_expr_field('expr', stmt.expr)
-	b.write_any_field('pos', stmt.pos)
+	b.write_pos_field('', stmt.pos)
 	b.write_exprs_field('comments', ...stmt.comments)
 	b.write_any_field('is_expr', stmt.is_expr)
 
@@ -162,7 +162,7 @@ pub fn (mut b Inspector) expr_stmt(stmt ExprStmt) {
 
 pub fn (mut b Inspector) return_stmt(stmt Return) {
 	b.begin_struct('Return')
-	b.write_any_field('pos', stmt.pos)
+	b.write_pos_field('', stmt.pos)
 	b.write_exprs_field('exprs', ...stmt.exprs)
 	b.write_exprs_field('comments', ...stmt.comments)
 	b.write_types_field('types', ...stmt.types)

@@ -1,6 +1,7 @@
 module ast
 
 import v.ast { Node, Stmt, Expr }
+import v.token
 import v.table
 
 fn (mut b Inspector) write<T>(v T) {
@@ -92,6 +93,11 @@ fn (mut b Inspector) write_any_field<T>(name string, v T) {
 	} $else {
 		b.writeln(v.str())
 	}
+}
+
+fn (mut b Inspector) write_pos_field(name string, p token.Position) {
+	b.write_label(if name.len > 0 { name } else { 'pos' })
+	b.writeln(p.str())
 }
 
 fn (mut b Inspector) write_stmt_field(name string, v Stmt) {
