@@ -1,6 +1,6 @@
 module astspect
 
-import v.ast { Node, Stmt, Expr }
+import v.ast
 import v.token
 import v.table
 
@@ -107,32 +107,32 @@ fn (mut b Inspector) write_pos_field(name string, p token.Position) {
 	b.writeln(p.str())
 }
 
-fn (mut b Inspector) write_stmt_field(name string, v Stmt) {
+fn (mut b Inspector) write_stmt_field(name string, v ast.Stmt) {
 	b.write_label(name, 'stmt')
 	b.stmt(v)
 }
 
-fn (mut b Inspector) write_stmts_field(name string, v ...Stmt) {
+fn (mut b Inspector) write_stmts_field(name string, v ...ast.Stmt) {
 	b.write_label(name, 'stmts')
 	b.stmts(...v)
 }
 
-fn (mut b Inspector) write_expr_field(name string, v Expr) {
+fn (mut b Inspector) write_expr_field(name string, v ast.Expr) {
 	b.write_label(name, 'expr')
 	b.expr(v)
 }
 
-fn (mut b Inspector) write_exprs_field(name string, v ...Expr) {
+fn (mut b Inspector) write_exprs_field(name string, v ...ast.Expr) {
 	b.write_label(name, 'exprs')
 	b.exprs(...v)
 }
 
-fn (mut b Inspector) write_node_field(name string, v Node) {
+fn (mut b Inspector) write_node_field(name string, v ast.Node) {
 	b.write_label(name)
 	b.node(v)
 }
 
-fn (mut b Inspector) write_nodes_field(name string, v ...Node) {
+fn (mut b Inspector) write_nodes_field(name string, v ...ast.Node) {
 	b.write_label(name)
 	b.nodes(...v)
 }
