@@ -8,7 +8,8 @@ import v.pref
 import v.checker { new_checker }
 import v.table
 
-// V 0.2.1 71d3d4c
+// V 0.2.2 4f9a9a4
+
 pub struct InspectOpts {
 	func        string
 	use_checker bool
