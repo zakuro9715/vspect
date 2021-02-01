@@ -10,7 +10,7 @@ o	AsCast
 o	Assoc
 o	AtExpr
 o	BoolLiteral
-	CTempVar
+o	CTempVar
 o	CallExpr
 o	CastExpr
 o	ChanInit
@@ -83,6 +83,7 @@ pub fn (mut b Inspector) expr(expr ast.Expr) {
 		ast.Comment { b.comment(expr) }
 		ast.ComptimeSelector { b.comptime_selector(expr) }
 		ast.ConcatExpr { b.concat_expr(expr) }
+		ast.CTempVar { b.c_temp_var(expr) }
 		ast.FloatLiteral { b.float_literal(expr) }
 		ast.GoExpr { b.go_expr(expr) }
 		ast.Ident { b.ident(expr) }
@@ -288,6 +289,15 @@ pub fn (mut b Inspector) concat_expr(expr ast.ConcatExpr) {
 	b.write_pos_field('', expr.pos)
 	b.write_exprs_field('vals', ...expr.vals)
 	b.write_type_field('return_type', expr.return_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) c_temp_var(expr ast.CTempVar) {
+	b.begin_struct('CTempVar')
+	b.write_any_field('name', expr.name)
+	b.write_expr_field('orig', expr.orig)
+	b.write_type_field('', expr.typ)
+	b.write_any_field('is_ptr', expr.is_ptr)
 	b.end_struct()
 }
 
