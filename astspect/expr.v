@@ -16,7 +16,7 @@ o	CastExpr
 o	ChanInit
 o	CharLiteral
 o	Comment
-	ComptimeCall
+o	ComptimeCall
 o	ComptimeSelector
 o	ConcatExpr
 	EnumVal
@@ -81,6 +81,7 @@ pub fn (mut b Inspector) expr(expr ast.Expr) {
 		ast.ChanInit { b.chan_init(expr) }
 		ast.CharLiteral { b.char_literal(expr) }
 		ast.Comment { b.comment(expr) }
+		ast.ComptimeCall { b.comptime_call(expr) }
 		ast.ComptimeSelector { b.comptime_selector(expr) }
 		ast.ConcatExpr { b.concat_expr(expr) }
 		ast.CTempVar { b.c_temp_var(expr) }
@@ -274,6 +275,32 @@ pub fn (mut b Inspector) comment(expr ast.Comment) {
 	b.end_struct()
 }
 
+// TODO EmbededFile TypeSymbol
+pub fn (mut b Inspector) comptime_call(expr ast.ComptimeCall) {
+	b.begin_struct('ComptimeCall')
+	b.write_expr_field('left', expr.left)
+	b.write_pos_field('method_pos', expr.method_pos)
+	b.write_any_field('method_name', expr.method_name)
+	b.write_any_field('has_parents', expr.has_parens)
+	b.write_scope_field('scope', expr.scope)
+	b.write_any_field('args_var', expr.args_var)
+
+	b.write_any_field('is_vweb', expr.is_vweb)
+	b.write_label('vweb_temp')
+	b.file(expr.vweb_tmpl)
+
+	b.write_any_field('is_embed', expr.is_embed)
+	b.write_any_field('embed_file', expr.embed_file)
+
+	b.write_any_field('is_env', expr.is_env)
+	b.write_pos_field('env_pos', expr.env_pos)
+	b.write_any_field('env_value', expr.env_value)
+
+	// b.write_any_field('sym', expr.sym)
+	b.write_type_field('result_type', expr.result_type)
+
+	b.end_struct()
+}
 pub fn (mut b Inspector) comptime_selector(expr ast.ComptimeSelector) {
 	b.begin_struct('ComptimeSelector')
 	b.write_type_field('', expr.typ)
