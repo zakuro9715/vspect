@@ -7,7 +7,7 @@ o	AnonFn
 o	ArrayDecompose
 o	ArrayInit
 o	AsCast
-	Assoc
+o	Assoc
 o	AtExpr
 o	BoolLiteral
 	CTempVar
@@ -73,6 +73,7 @@ pub fn (mut b Inspector) expr(expr ast.Expr) {
 		ast.ArrayInit { b.array_init(expr) }
 		ast.ArrayDecompose { b.array_decompose(expr) }
 		ast.AsCast { b.as_cast(expr) }
+		ast.Assoc { b.assoc(expr) }
 		ast.AtExpr { b.at_expr(expr) }
 		ast.BoolLiteral { b.bool_literal(expr) }
 		ast.CallExpr { b.call_expr(expr) }
@@ -154,6 +155,17 @@ pub fn (mut b Inspector) as_cast(expr ast.AsCast) {
 	b.write_type_field('', expr.typ)
 	b.write_expr_field('', expr.expr)
 	b.write_type_field('expr_type', expr.expr_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) assoc(expr ast.Assoc) {
+	b.begin_struct('Assoc')
+	b.write_pos_field('', expr.pos)
+	b.write_any_field('var_name', expr.var_name)
+	b.write_any_field('fields', expr.fields)
+	b.write_exprs_field('', ...expr.exprs)
+	b.write_type_field('', expr.typ)
+	b.write_scope_field('', expr.scope)
 	b.end_struct()
 }
 
