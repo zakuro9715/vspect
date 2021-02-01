@@ -1,10 +1,6 @@
 module astspect
 
-import v.ast {
-	Node,
-	Field,
-	File,
-}
+import v.ast
 
 /*
 ConstField
@@ -23,7 +19,7 @@ o	Stmt
 o	table.Param
 */
 
-pub fn (mut b Inspector) nodes(nodes ...Node) {
+pub fn (mut b Inspector) nodes(nodes ...ast.Node) {
 	b.begin_array()
 	for node in nodes {
 		b.node(node)
@@ -32,7 +28,7 @@ pub fn (mut b Inspector) nodes(nodes ...Node) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) node(v Node) {
+pub fn (mut b Inspector) node(v ast.Node) {
 	match v {
 		ast.Expr {
 			b.expr(v)
@@ -57,7 +53,7 @@ pub fn (mut b Inspector) node(v Node) {
 }
 
 // WIP
-pub fn (mut b Inspector) file(file &File) {
+pub fn (mut b Inspector) file(file &ast.File) {
 	// b.begin_struct<ast.File>(file)
 	b.begin_struct('File')
 	b.write_label('stmts')
@@ -69,7 +65,7 @@ pub fn (mut b Inspector) file(file &File) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) visit(node Node) ? {
+pub fn (mut b Inspector) visit(node ast.Node) ? {
 	if node is ast.Stmt {
 		if node is ast.FnDecl {
 			if node.name.split('.').last() == b.target_fn {
