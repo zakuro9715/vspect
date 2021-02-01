@@ -128,8 +128,14 @@ pub fn (mut b Inspector) array_init(expr ast.ArrayInit) {
 	b.write_any_field('is_fixed', expr.is_fixed)
 	b.write_any_field('has_val', expr.has_val)
 	b.write_any_field('mod', expr.mod)
-	b.write_any_field('is_interface', expr.is_interface)
-	b.write_type_field('interface_type', expr.interface_type)
+
+	b.write_label('ecmnts')
+	b.begin_array()
+	for comments in expr.ecmnts {
+		b.exprs(...comments)
+		b.array_comma()
+	}
+	b.end_array()
 	b.end_struct()
 }
 
