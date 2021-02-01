@@ -1,40 +1,6 @@
 module astspect
 
-import v.ast {
-	Expr,
-	AnonFn,
-	ArrayInit,
-	ArrayDecompose,
-	AsCast,
-	AtExpr,
-	BoolLiteral,
-	CallArg,
-	CallExpr,
-	CastExpr,
-	ChanInit,
-	CharLiteral,
-	Comment,
-	ComptimeSelector,
-	ConcatExpr,
-	FloatLiteral,
-	GoExpr,
-	Ident,
-	IfGuardExpr,
-	InfixExpr,
-	IndexExpr,
-	IntegerLiteral,
-	Likely,
-	MapInit,
-	None,
-	OrExpr,
-	ParExpr,
-	PostfixExpr,
-	PrefixExpr,
-	RangeExpr,
-	SizeOf,
-	TypeOf,
-	UnsafeExpr,
-}
+import v.ast
 
 /*
 o	AnonFn
@@ -84,7 +50,7 @@ o	TypeOf
 o	UnsafeExpr
 */
 
-pub fn (mut b Inspector) exprs(exprs ...Expr) {
+pub fn (mut b Inspector) exprs(exprs ...ast.Expr) {
 	b.begin_array()
 	for expr in exprs {
 		b.expr(expr)
@@ -93,7 +59,7 @@ pub fn (mut b Inspector) exprs(exprs ...Expr) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) expr(expr Expr) {
+pub fn (mut b Inspector) expr(expr ast.Expr) {
 	if b.short_expr {
 		b.writeln(expr)
 		return
@@ -138,14 +104,14 @@ pub fn (mut b Inspector) expr(expr Expr) {
 	}
 }
 
-pub fn (mut b Inspector) anon_fn(expr AnonFn) {
+pub fn (mut b Inspector) anon_fn(expr ast.AnonFn) {
 	b.begin_struct('AnonFn')
 	b.write_stmt_field('decl', expr.decl)
 	b.write_type_field('', expr.typ)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) array_init(expr ArrayInit) {
+pub fn (mut b Inspector) array_init(expr ast.ArrayInit) {
 	b.begin_struct('ArrayInit')
 	b.write_pos_field('', expr.pos)
 	b.write_type_field('', expr.typ)
@@ -167,7 +133,7 @@ pub fn (mut b Inspector) array_init(expr ArrayInit) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) array_decompose(expr ArrayDecompose) {
+pub fn (mut b Inspector) array_decompose(expr ast.ArrayDecompose) {
 	b.begin_struct('ArrayDecompose')
 	b.write_pos_field('', expr.pos)
 	b.write_expr_field('', expr.expr)
@@ -176,7 +142,7 @@ pub fn (mut b Inspector) array_decompose(expr ArrayDecompose) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) as_cast(expr AsCast) {
+pub fn (mut b Inspector) as_cast(expr ast.AsCast) {
 	b.begin_struct('AsCast')
 	b.write_pos_field('', expr.pos)
 	b.write_type_field('', expr.typ)
@@ -185,7 +151,7 @@ pub fn (mut b Inspector) as_cast(expr AsCast) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) at_expr(expr AtExpr) {
+pub fn (mut b Inspector) at_expr(expr ast.AtExpr) {
 	b.begin_struct('AtExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('kind', expr.kind)
@@ -194,7 +160,7 @@ pub fn (mut b Inspector) at_expr(expr AtExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) bool_literal(expr BoolLiteral) {
+pub fn (mut b Inspector) bool_literal(expr ast.BoolLiteral) {
 	b.begin_struct('BoolLiteral')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('val', expr.val)
@@ -202,7 +168,7 @@ pub fn (mut b Inspector) bool_literal(expr BoolLiteral) {
 }
 
 // TODO: share type
-fn (mut b Inspector) call_arg(arg CallArg) {
+fn (mut b Inspector) call_arg(arg ast.CallArg) {
 	b.begin_struct('CallArg')
 
 	b.write_pos_field('', arg.pos)
@@ -217,7 +183,7 @@ fn (mut b Inspector) call_arg(arg CallArg) {
 }
 
 // TODO: scope
-pub fn (mut b Inspector) call_expr(expr CallExpr) {
+pub fn (mut b Inspector) call_expr(expr ast.CallExpr) {
 	b.begin_struct('CallExpr')
 
 	b.write_any_field('language', expr.language)
@@ -251,7 +217,7 @@ pub fn (mut b Inspector) call_expr(expr CallExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) cast_expr(expr CastExpr) {
+pub fn (mut b Inspector) cast_expr(expr ast.CastExpr) {
 	b.begin_struct('CastExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_type_field('', expr.typ)
@@ -264,7 +230,7 @@ pub fn (mut b Inspector) cast_expr(expr CastExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) chan_init(expr ChanInit) {
+pub fn (mut b Inspector) chan_init(expr ast.ChanInit) {
 	b.begin_struct('ChanInit')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('has_cap', expr.has_cap)
@@ -274,14 +240,14 @@ pub fn (mut b Inspector) chan_init(expr ChanInit) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) char_literal(expr CharLiteral) {
+pub fn (mut b Inspector) char_literal(expr ast.CharLiteral) {
 	b.begin_struct('CharLiteral')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('val', expr.val)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) comment(expr Comment) {
+pub fn (mut b Inspector) comment(expr ast.Comment) {
 	b.begin_struct('Comment')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('line_nr', expr.line_nr)
@@ -290,7 +256,7 @@ pub fn (mut b Inspector) comment(expr Comment) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) comptime_selector(expr ComptimeSelector) {
+pub fn (mut b Inspector) comptime_selector(expr ast.ComptimeSelector) {
 	b.begin_struct('ComptimeSelector')
 	b.write_type_field('', expr.typ)
 	b.write_expr_field('left', expr.left)
@@ -300,7 +266,7 @@ pub fn (mut b Inspector) comptime_selector(expr ComptimeSelector) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) concat_expr(expr ConcatExpr) {
+pub fn (mut b Inspector) concat_expr(expr ast.ConcatExpr) {
 	b.begin_struct('ConcatExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_exprs_field('vals', ...expr.vals)
@@ -308,14 +274,14 @@ pub fn (mut b Inspector) concat_expr(expr ConcatExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) float_literal(expr FloatLiteral) {
+pub fn (mut b Inspector) float_literal(expr ast.FloatLiteral) {
 	b.begin_struct('FloatLiteral')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('val', expr.val)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) go_expr(expr GoExpr) {
+pub fn (mut b Inspector) go_expr(expr ast.GoExpr) {
 	b.begin_struct('GoExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_stmt_field('go_stmt', expr.go_stmt)
@@ -323,7 +289,7 @@ pub fn (mut b Inspector) go_expr(expr GoExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) ident(expr Ident) {
+pub fn (mut b Inspector) ident(expr ast.Ident) {
 	if b.short_ident {
 		b.writeln(expr.name)
 	} else {
@@ -331,7 +297,7 @@ pub fn (mut b Inspector) ident(expr Ident) {
 	}
 }
 
-pub fn (mut b Inspector) if_guard_expr(expr IfGuardExpr) {
+pub fn (mut b Inspector) if_guard_expr(expr ast.IfGuardExpr) {
 	b.begin_struct('IfGuardExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('var_name', expr.var_name)
@@ -340,7 +306,7 @@ pub fn (mut b Inspector) if_guard_expr(expr IfGuardExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) infix_expr(expr InfixExpr) {
+pub fn (mut b Inspector) infix_expr(expr ast.InfixExpr) {
 	b.begin_struct('InfixExpr')
 
 	b.write_any_field('op', expr.op)
@@ -353,7 +319,7 @@ pub fn (mut b Inspector) infix_expr(expr InfixExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) index_expr(expr IndexExpr) {
+pub fn (mut b Inspector) index_expr(expr ast.IndexExpr) {
 	b.begin_struct('IndexExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_expr_field('left', expr.left)
@@ -364,14 +330,14 @@ pub fn (mut b Inspector) index_expr(expr IndexExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) integer_literal(expr IntegerLiteral) {
+pub fn (mut b Inspector) integer_literal(expr ast.IntegerLiteral) {
 	b.begin_struct('IntegerLiteral')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('val', expr.val)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) likely(expr Likely) {
+pub fn (mut b Inspector) likely(expr ast.Likely) {
 	b.begin_struct('Likely')
 	b.write_pos_field('', expr.pos)
 	b.write_expr_field('', expr.expr)
@@ -385,7 +351,7 @@ pub fn (mut b Inspector) likely(expr Likely) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) map_init(expr MapInit) {
+pub fn (mut b Inspector) map_init(expr ast.MapInit) {
 	b.begin_struct('MapInit')
 	b.write_pos_field('', expr.pos)
 	b.write_exprs_field('keys', ...expr.keys)
@@ -396,14 +362,14 @@ pub fn (mut b Inspector) map_init(expr MapInit) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) none_expr(expr None) {
+pub fn (mut b Inspector) none_expr(expr ast.None) {
 	b.begin_struct('None')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('foo', expr.foo)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) or_expr(expr OrExpr) {
+pub fn (mut b Inspector) or_expr(expr ast.OrExpr) {
 	if expr.kind == .absent {
 		b.writeln('.absent')
 		return
@@ -415,14 +381,14 @@ pub fn (mut b Inspector) or_expr(expr OrExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) par_expr(expr ParExpr) {
+pub fn (mut b Inspector) par_expr(expr ast.ParExpr) {
 	b.begin_struct('ParExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_expr_field('', expr.expr)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) postfix_expr(expr PostfixExpr) {
+pub fn (mut b Inspector) postfix_expr(expr ast.PostfixExpr) {
 	b.begin_struct('PostfixExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('op', expr.op)
@@ -431,7 +397,7 @@ pub fn (mut b Inspector) postfix_expr(expr PostfixExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) prefix_expr(expr PrefixExpr) {
+pub fn (mut b Inspector) prefix_expr(expr ast.PrefixExpr) {
 	b.begin_struct('PrefixExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('op', expr.op)
@@ -441,7 +407,7 @@ pub fn (mut b Inspector) prefix_expr(expr PrefixExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) range_expr(expr RangeExpr) {
+pub fn (mut b Inspector) range_expr(expr ast.RangeExpr) {
 	b.begin_struct('RangeExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('has_low', expr.has_low)
@@ -451,7 +417,7 @@ pub fn (mut b Inspector) range_expr(expr RangeExpr) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) size_of(expr SizeOf) {
+pub fn (mut b Inspector) size_of(expr ast.SizeOf) {
 	b.begin_struct('SizeOf')
 	b.write_pos_field('', expr.pos)
 	b.write_any_field('is_type', expr.is_type)
@@ -460,7 +426,7 @@ pub fn (mut b Inspector) size_of(expr SizeOf) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) type_of(expr TypeOf) {
+pub fn (mut b Inspector) type_of(expr ast.TypeOf) {
 	b.begin_struct('TypeOf')
 	b.write_pos_field('', expr.pos)
 	b.write_expr_field('', expr.expr)
@@ -468,7 +434,7 @@ pub fn (mut b Inspector) type_of(expr TypeOf) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) unsafe_expr(expr UnsafeExpr) {
+pub fn (mut b Inspector) unsafe_expr(expr ast.UnsafeExpr) {
 	b.begin_struct('UnsafeExpr')
 	b.write_pos_field('', expr.pos)
 	b.write_expr_field('', expr.expr)
