@@ -185,7 +185,6 @@ pub fn (mut b Inspector) bool_literal(expr ast.BoolLiteral) {
 	b.end_struct()
 }
 
-// TODO: share type
 fn (mut b Inspector) call_arg(arg ast.CallArg) {
 	b.begin_struct('CallArg')
 
