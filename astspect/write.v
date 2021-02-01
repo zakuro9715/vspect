@@ -147,6 +147,11 @@ fn (mut b Inspector) write_types_field(name string, v ...table.Type) {
 	b.types(...v)
 }
 
+fn (mut b Inspector) write_scope_field(name string, v &ast.Scope) {
+	b.write_label(name, 'scope')
+	b.scope(v)
+}
+
 fn (mut b Inspector) write_params_field(name string, v ...table.Param) {
 	b.write_label(name)
 	b.params(...v)

@@ -188,7 +188,6 @@ fn (mut b Inspector) call_arg(arg ast.CallArg) {
 	b.end_struct()
 }
 
-// TODO: scope
 pub fn (mut b Inspector) call_expr(expr ast.CallExpr) {
 	b.begin_struct('CallExpr')
 
@@ -218,6 +217,7 @@ pub fn (mut b Inspector) call_expr(expr ast.CallExpr) {
 	b.write_types_field('generic_types', ...expr.generic_types)
 	b.write_pos_field('generic_list_pos', expr.generic_list_pos)
 	b.write_expr_field('or_block', expr.or_block)
+	b.write_scope_field('', expr.scope)
 	b.write_exprs_field('comments', ...expr.comments)
 
 	b.end_struct()
