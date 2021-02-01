@@ -1,18 +1,6 @@
 module astspect
 
-import v.ast {
-	Stmt,
-	AssertStmt,
-	AssignStmt,
-	ExprStmt,
-	DeferStmt,
-	FnDecl,
-	GoStmt,
-	GotoLabel,
-	GotoStmt,
-	Return,
-	SumTypeDecl,
-}
+import v.ast
 
 /*
 o	AssertStmt
@@ -42,7 +30,7 @@ o	Return
 o	TypeDecl
 */
 
-fn (mut b Inspector) stmts_detail(stmts ...Stmt) {
+fn (mut b Inspector) stmts_detail(stmts ...ast.Stmt) {
 	b.begin_array()
 	for stmt in stmts {
 		b.stmt_detail(stmt)
@@ -51,7 +39,7 @@ fn (mut b Inspector) stmts_detail(stmts ...Stmt) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) stmts(stmts ...Stmt) {
+pub fn (mut b Inspector) stmts(stmts ...ast.Stmt) {
 	b.begin_array()
 	for stmt in stmts {
 		b.stmt(stmt)
@@ -60,7 +48,7 @@ pub fn (mut b Inspector) stmts(stmts ...Stmt) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) stmt(stmt Stmt) {
+pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
 	if b.short_stmt {
 		b.writeln(stmt)
 	} else {
@@ -68,7 +56,7 @@ pub fn (mut b Inspector) stmt(stmt Stmt) {
 	}
 }
 
-fn (mut b Inspector) stmt_detail(stmt Stmt) {
+fn (mut b Inspector) stmt_detail(stmt ast.Stmt) {
 	match stmt {
 		ast.AssertStmt { b.assert_stmt(stmt) }
 		ast.AssignStmt { b.assign_stmt(stmt) }
@@ -85,7 +73,7 @@ fn (mut b Inspector) stmt_detail(stmt Stmt) {
 	}
 }
 
-pub fn (mut b Inspector) assign_stmt(stmt AssignStmt) {
+pub fn (mut b Inspector) assign_stmt(stmt ast.AssignStmt) {
 	b.begin_struct('AssignStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_any_field('op', stmt.op)
@@ -120,14 +108,14 @@ pub fn (mut b Inspector) generic_param(param GenericParam) {
 	b.writeln(GenericParam(param))
 }
 
-pub fn (mut b Inspector) assert_stmt(stmt AssertStmt) {
+pub fn (mut b Inspector) assert_stmt(stmt ast.AssertStmt) {
 	b.begin_struct('AssertStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_expr_field('', stmt.expr)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) defer_stmt(stmt DeferStmt) {
+pub fn (mut b Inspector) defer_stmt(stmt ast.DeferStmt) {
 	b.begin_struct('DeferStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_stmts_field('', ...stmt.stmts)
@@ -135,7 +123,7 @@ pub fn (mut b Inspector) defer_stmt(stmt DeferStmt) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) fn_decl(v FnDecl) {
+pub fn (mut b Inspector) fn_decl(v ast.FnDecl) {
 	b.begin_struct('FnDecl')
 
 	b.write_any_field('name', v.name)
@@ -164,7 +152,7 @@ pub fn (mut b Inspector) fn_decl(v FnDecl) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) expr_stmt(stmt ExprStmt) {
+pub fn (mut b Inspector) expr_stmt(stmt ast.ExprStmt) {
 	b.begin_struct('ExprStmt')
 
 	b.write_expr_field('', stmt.expr)
@@ -175,28 +163,28 @@ pub fn (mut b Inspector) expr_stmt(stmt ExprStmt) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) go_stmt(stmt GoStmt) {
+pub fn (mut b Inspector) go_stmt(stmt ast.GoStmt) {
 	b.begin_struct('GoStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_expr_field('call_expr', stmt.call_expr)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) goto_label(stmt GotoLabel) {
+pub fn (mut b Inspector) goto_label(stmt ast.GotoLabel) {
 	b.begin_struct('GotoLabel')
 	b.write_pos_field('', stmt.pos)
 	b.write_any_field('name', stmt.name)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) goto_stmt(stmt GotoStmt) {
+pub fn (mut b Inspector) goto_stmt(stmt ast.GotoStmt) {
 	b.begin_struct('GotoStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_any_field('name', stmt.name)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) return_stmt(stmt Return) {
+pub fn (mut b Inspector) return_stmt(stmt ast.Return) {
 	b.begin_struct('Return')
 	b.write_pos_field('', stmt.pos)
 	b.write_exprs_field('', ...stmt.exprs)
