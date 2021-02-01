@@ -1,4 +1,4 @@
-module ast
+module astspect
 
 import v.ast {
 	Expr,
