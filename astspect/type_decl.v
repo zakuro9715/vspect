@@ -1,13 +1,8 @@
 module astspect
 
-import v.ast {
-	TypeDecl,
-	AliasTypeDecl,
-	FnTypeDecl,
-	SumTypeDecl,
-}
+import v.ast
 
-pub fn (mut b Inspector) type_decls(decls ...TypeDecl) {
+pub fn (mut b Inspector) type_decls(decls ...ast.TypeDecl) {
 	b.begin_array()
 	for decl in decls {
 		b.type_decl(decl)
@@ -16,7 +11,7 @@ pub fn (mut b Inspector) type_decls(decls ...TypeDecl) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) type_decl(decl TypeDecl) {
+pub fn (mut b Inspector) type_decl(decl ast.TypeDecl) {
 	match decl {
 		ast.AliasTypeDecl { b.alias_type_decl(decl) }
 		ast.FnTypeDecl { b.fn_type_decl(decl) }
@@ -24,7 +19,7 @@ pub fn (mut b Inspector) type_decl(decl TypeDecl) {
 	}
 }
 
-pub fn (mut b Inspector) alias_type_decl(decl AliasTypeDecl) {
+pub fn (mut b Inspector) alias_type_decl(decl ast.AliasTypeDecl) {
 	b.begin_struct('AliasTypeDecl')
 	b.write_pos_field('', decl.pos)
 	b.write_any_field('name', decl.name)
@@ -34,7 +29,7 @@ pub fn (mut b Inspector) alias_type_decl(decl AliasTypeDecl) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) fn_type_decl(decl FnTypeDecl) {
+pub fn (mut b Inspector) fn_type_decl(decl ast.FnTypeDecl) {
 	b.begin_struct('FnTypeDecl')
 	b.write_pos_field('', decl.pos)
 	b.write_any_field('name', decl.name)
@@ -44,7 +39,7 @@ pub fn (mut b Inspector) fn_type_decl(decl FnTypeDecl) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) sum_type_decl(decl SumTypeDecl) {
+pub fn (mut b Inspector) sum_type_decl(decl ast.SumTypeDecl) {
 	b.begin_struct('SumTypeDecl')
 
 	b.write_pos_field('', decl.pos)
