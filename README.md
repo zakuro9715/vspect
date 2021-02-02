@@ -7,6 +7,17 @@ inspect [vlang](https://github.com/vlang/v) source file
 - ast   : Print ast
 - tokens: Print tokens
 
+## Usage
+
+```sh
+# Print ast
+vspect ast example.vv
+# Print ast only specified function
+vspect ast --fn=add example.vv
+# Omit expr details
+vspect ast --short-expr example.vv
+```
+
 ## Installation
 
 ```
