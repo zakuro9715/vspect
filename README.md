@@ -2,7 +2,7 @@
 
 inspect [vlang](https://github.com/vlang/v) source file
 
-## Feature
+## Commands
 
 - ast   : Print ast
 - tokens: Print tokens
