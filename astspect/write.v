@@ -128,6 +128,11 @@ fn (mut b Inspector) write_exprs_field(name string, v ...ast.Expr) {
 	b.exprs(...v)
 }
 
+fn (mut b Inspector) write_comments_field(name string, v ...ast.Comment) {
+	b.write_label(name, 'comments')
+	b.exprs(...v)
+}
+
 fn (mut b Inspector) write_node_field(name string, v ast.Node) {
 	b.write_label(name)
 	b.node(v)

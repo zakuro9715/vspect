@@ -195,7 +195,7 @@ fn (mut b Inspector) call_arg(arg ast.CallArg) {
 	b.write_any_field('is_tmp_autofree', arg.is_tmp_autofree)
 	b.write_any_field('share_type', arg.share)
 	b.write_expr_field('', arg.expr)
-	b.write_exprs_field('comments', ...arg.comments)
+	b.write_comments_field('', ...arg.comments)
 	b.write_type_field('type', arg.typ)
 
 	b.end_struct()
@@ -231,7 +231,7 @@ pub fn (mut b Inspector) call_expr(expr ast.CallExpr) {
 	b.write_pos_field('generic_list_pos', expr.generic_list_pos)
 	b.write_expr_field('or_block', expr.or_block)
 	b.write_scope_field('', expr.scope)
-	b.write_exprs_field('comments', ...expr.comments)
+	b.write_comments_field('', ...expr.comments)
 
 	b.end_struct()
 }

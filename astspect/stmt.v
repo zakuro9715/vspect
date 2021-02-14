@@ -84,8 +84,8 @@ pub fn (mut b Inspector) assign_stmt(stmt ast.AssignStmt) {
 	b.write_any_field('is_static', stmt.is_static)
 	b.write_any_field('is_simple', stmt.is_simple)
 	b.write_any_field('has_cross_var', stmt.has_cross_var)
-	b.write_exprs_field('comments', ...stmt.comments)
-	b.write_exprs_field('end_comments', ...stmt.end_comments)
+	b.write_comments_field('', ...stmt.comments)
+	b.write_comments_field('end_comments', ...stmt.end_comments)
 	b.end_struct()
 }
 
@@ -146,8 +146,8 @@ pub fn (mut b Inspector) fn_decl(v ast.FnDecl) {
 	b.write_pos_field('body_pos', v.body_pos)
 	b.write_stmts_field('', ...v.stmts)
 	b.write_type_field('return_type', v.return_type)
-	b.write_exprs_field('comments', ...v.comments)
-	b.write_exprs_field('next_comments', ...v.next_comments)
+	b.write_comments_field('', ...v.comments)
+	b.write_comments_field('next_comments', ...v.next_comments)
 
 	b.end_struct()
 }
@@ -157,7 +157,7 @@ pub fn (mut b Inspector) expr_stmt(stmt ast.ExprStmt) {
 
 	b.write_expr_field('', stmt.expr)
 	b.write_pos_field('', stmt.pos)
-	b.write_exprs_field('comments', ...stmt.comments)
+	b.write_comments_field('', ...stmt.comments)
 	b.write_any_field('is_expr', stmt.is_expr)
 
 	b.end_struct()
@@ -188,7 +188,7 @@ pub fn (mut b Inspector) return_stmt(stmt ast.Return) {
 	b.begin_struct('Return')
 	b.write_pos_field('', stmt.pos)
 	b.write_exprs_field('', ...stmt.exprs)
-	b.write_exprs_field('comments', ...stmt.comments)
+	b.write_comments_field('', ...stmt.comments)
 	b.write_types_field('', ...stmt.types)
 	b.end_struct()
 }
