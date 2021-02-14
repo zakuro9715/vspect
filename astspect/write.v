@@ -70,7 +70,8 @@ fn (mut b Inspector) end_array() {
 	b.writeln(']')
 	if b.pos.line - begin_pos.line <= 2 { // [\n]\n
 		b.buf.go_back_to(begin_pos.i)
-		b.buf.writeln('[]')
+		b.pos = begin_pos
+		b.writeln('[]')
 	}
 }
 
