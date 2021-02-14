@@ -5,8 +5,8 @@ import v.pref { Preferences }
 import astspect
 import tokens
 
-fn new_prefs() pref.Preferences {
-	mut prefs := Preferences{}
+fn new_prefs() &pref.Preferences {
+	mut prefs := &Preferences{}
 	prefs.fill_with_defaults()
 	prefs.is_fmt = true
 	return prefs
@@ -80,7 +80,7 @@ const (
 			execute: fn (cmd Command) ? {
 				paths := cmd.args
 				prefs := new_prefs()
-				tokens.inspect_tokens(paths, &prefs)
+				tokens.inspect_tokens(paths, prefs)
 				return
 			}
 		},
