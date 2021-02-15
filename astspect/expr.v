@@ -31,7 +31,7 @@ o	IntegerLiteral
 o	Likely
 	LockExpr
 o	MapInit
-	MatchExpr
+o	MatchExpr
 o	None
 o	OrExpr
 o	ParExpr
@@ -95,6 +95,7 @@ pub fn (mut b Inspector) expr(expr ast.Expr) {
 		ast.IntegerLiteral { b.integer_literal(expr) }
 		ast.Likely { b.likely(expr) }
 		ast.MapInit { b.map_init(expr) }
+		ast.MatchExpr { b.match_expr(expr) }
 		ast.None { b.none_expr(expr) }
 		ast.OrExpr { b.or_expr(expr) }
 		ast.ParExpr { b.par_expr(expr) }
@@ -440,6 +441,39 @@ pub fn (mut b Inspector) map_init(expr ast.MapInit) {
 	b.write_type_field('', expr.typ)
 	b.write_type_field('key_type', expr.key_type)
 	b.write_type_field('value_type', expr.value_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) match_branches(branches ...ast.MatchBranch) {
+	b.begin_array()
+	for v in branches {
+		b.begin_struct('MatchBranch')
+		b.write_pos_field('', v.pos)
+		b.write_exprs_field('', ...v.exprs)
+		b.write_ecmnts_field('', ...v.ecmnts)
+		b.write_stmts_field('', ...v.stmts)
+		b.write_any_field('is_else', v.is_else)
+		b.write_comments_field('post_comments', ...v.post_comments)
+		b.write_scope_field('', v.scope)
+		b.end_struct()
+		b.array_comma()
+	}
+	b.end_array()
+}
+
+pub fn (mut b Inspector) match_expr(expr ast.MatchExpr) {
+	b.begin_struct('MatchExpr')
+	b.write_pos_field('', expr.pos)
+	b.write_any_field('tok_Kind', expr.tok_kind)
+	b.write_expr_field('cond', expr.cond)
+	b.write_type_field('cond_type', expr.cond_type)
+	b.write_type_field('return_type', expr.return_type)
+	b.write_type_field('expected_type', expr.expected_type)
+	b.write_any_field('is_expr', expr.is_expr)
+	b.write_any_field('is_sum_type', expr.is_sum_type)
+	b.write_comments_field('', ...expr.comments)
+	b.write_label('branches')
+	b.match_branches(...expr.branches)
 	b.end_struct()
 }
 
