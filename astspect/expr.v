@@ -23,7 +23,7 @@ o	ConcatExpr
 o	FloatLiteral
 o	GoExpr
 _	Ident
-	IfExpr
+o	IfExpr
 o	IfGuardExpr
 o	IndexExpr
 o	InfixExpr
@@ -88,6 +88,7 @@ pub fn (mut b Inspector) expr(expr ast.Expr) {
 		ast.FloatLiteral { b.float_literal(expr) }
 		ast.GoExpr { b.go_expr(expr) }
 		ast.Ident { b.ident(expr) }
+		ast.IfExpr { b.if_expr(expr) }
 		ast.IfGuardExpr { b.if_guard_expr(expr) }
 		ast.IndexExpr { b.index_expr(expr) }
 		ast.InfixExpr { b.infix_expr(expr) }
@@ -357,6 +358,38 @@ pub fn (mut b Inspector) if_guard_expr(expr ast.IfGuardExpr) {
 	b.write_any_field('var_name', expr.var_name)
 	b.write_expr_field('', expr.expr)
 	b.write_type_field('expr_type', expr.expr_type)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) if_branches(branches ...ast.IfBranch) {
+	b.begin_array()
+	for v in branches {
+		b.begin_struct('IfBranch')
+		b.write_pos_field('', v.pos)
+		b.write_pos_field('body_pos', v.body_pos)
+		b.write_expr_field('cond', v.cond)
+		b.write_comments_field('', ...v.comments)
+		b.write_stmts_field('', ...v.stmts)
+		b.write_any_field('smartcast', v.smartcast)
+		b.write_scope_field('', v.scope)
+		b.end_struct()
+		b.array_comma()
+	}
+	b.end_array()
+}
+
+pub fn (mut b Inspector) if_expr(expr ast.IfExpr) {
+	b.begin_struct('IfExpr')
+	b.write_pos_field('', expr.pos)
+	b.write_any_field('tok_Kind', expr.tok_kind)
+	b.write_any_field('is_comptime', expr.is_comptime)
+	b.write_any_field('is_expr', expr.is_expr)
+	b.write_any_field('has_else', expr.has_else)
+	b.write_type_field('', expr.typ)
+	b.write_expr_field('left', expr.left)
+	b.write_exprs_field('post_comments', ...expr.post_comments)
+	b.write_label('branches')
+	b.if_branches(...expr.branches)
 	b.end_struct()
 }
 
