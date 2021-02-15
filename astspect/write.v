@@ -32,8 +32,11 @@ fn (mut b Inspector) writeln<T>(v T) {
 			b.write_indent()
 		}
 		// Hack to remove v.ast from struct type name. v.ast.File -> File
-		s := if i == 0 && line.contains('v.ast.') && line.contains('{') { line.replace('v.ast.',
-				'') } else { line }
+		s := if i == 0 && line.contains('v.ast.') && line.contains('{') {
+			line.replace('v.ast.', '')
+		} else {
+			line
+		}
 		b.buf.writeln(s)
 		b.pos.inc_line()
 	}
@@ -87,11 +90,7 @@ fn (mut b Inspector) write_label(name string, default ...string) {
 	if default.len > 1 {
 		panic('too many default values')
 	}
-	b.write(if name.len == 0 && default.len > 0 {
-		default[0]
-	} else {
-		name
-	} + ': ')
+	b.write(if name.len == 0 && default.len > 0 { default[0] } else { name } + ': ')
 }
 
 fn (mut b Inspector) write_any_field<T>(name string, v T) {

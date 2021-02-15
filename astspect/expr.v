@@ -297,6 +297,7 @@ pub fn (mut b Inspector) comptime_call(expr ast.ComptimeCall) {
 
 	b.end_struct()
 }
+
 pub fn (mut b Inspector) comptime_selector(expr ast.ComptimeSelector) {
 	b.begin_struct('ComptimeSelector')
 	b.write_type_field('', expr.typ)

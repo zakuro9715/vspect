@@ -1,7 +1,7 @@
 module main
 
 import cli { Command }
-import os { system, dir }
+import os
 import v.vmod
 
 fn new_app() Command {
