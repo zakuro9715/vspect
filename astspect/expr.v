@@ -133,13 +133,7 @@ pub fn (mut b Inspector) array_init(expr ast.ArrayInit) {
 	b.write_any_field('has_val', expr.has_val)
 	b.write_any_field('mod', expr.mod)
 
-	b.write_label('ecmnts')
-	b.begin_array()
-	for comments in expr.ecmnts {
-		b.exprs(...comments)
-		b.array_comma()
-	}
-	b.end_array()
+	b.write_ecmnts_field('', ...expr.ecmnts)
 	b.end_struct()
 }
 

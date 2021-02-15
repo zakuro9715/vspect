@@ -133,6 +133,16 @@ fn (mut b Inspector) write_comments_field(name string, v ...ast.Comment) {
 	b.exprs(...v)
 }
 
+fn (mut b Inspector) write_ecmnts_field(name string, ecmnts ...[]ast.Comment) {
+	b.write_label(name, 'ecmnts')
+	b.begin_array()
+	for comments in ecmnts {
+		b.exprs(...comments)
+		b.array_comma()
+	}
+	b.end_array()
+}
+
 fn (mut b Inspector) write_node_field(name string, v ast.Node) {
 	b.write_label(name)
 	b.node(v)
