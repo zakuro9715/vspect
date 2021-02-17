@@ -1,4 +1,4 @@
-module astspect
+module ast
 
 import strings
 import v.ast { Scope }

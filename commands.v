@@ -2,7 +2,7 @@ module main
 
 import cli { Command, Flag }
 import v.pref { Preferences }
-import astspect
+import ast
 import tokens
 
 fn new_prefs() &pref.Preferences {
@@ -62,7 +62,7 @@ const (
 				short_expr := cmd.flags.get_bool('short-expr') or { panic(err) }
 				short_stmt := cmd.flags.get_bool('short-stmt') or { panic(err) }
 				short_fn := cmd.flags.get_bool('short-fn') or { panic(err) }
-				opts := astspect.InspectOpts{
+				opts := ast.InspectOpts{
 					func: func
 					use_checker: use_checker
 					short_ident: short_ident
@@ -70,7 +70,7 @@ const (
 					short_stmt: short_stmt
 					short_fn: short_fn
 				}
-				astspect.inspect(paths, prefs, opts)
+				ast.inspect(paths, prefs, opts)
 				return
 			}
 		},

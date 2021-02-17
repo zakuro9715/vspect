@@ -1,6 +1,6 @@
-module astspect
+module ast
 
-import v.ast
+import v.ast as v
 import v.token
 import v.table
 
@@ -31,9 +31,9 @@ fn (mut b Inspector) writeln<T>(v T) {
 		if b.pos.is_line_head {
 			b.write_indent()
 		}
-		// Hack to remove v.ast from struct type name. v.ast.File -> File
-		s := if i == 0 && line.contains('v.ast.') && line.contains('{') {
-			line.replace('v.ast.', '')
+		// Hack to remove v.ast from struct type name. v.v.File -> File
+		s := if i == 0 && line.contains('v.v.') && line.contains('{') {
+			line.replace('v.v.', '')
 		} else {
 			line
 		}
@@ -107,32 +107,32 @@ fn (mut b Inspector) write_pos_field(name string, p token.Position) {
 	b.writeln(p.str())
 }
 
-fn (mut b Inspector) write_stmt_field(name string, v ast.Stmt) {
+fn (mut b Inspector) write_stmt_field(name string, v v.Stmt) {
 	b.write_label(name, 'stmt')
 	b.stmt(v)
 }
 
-fn (mut b Inspector) write_stmts_field(name string, v ...ast.Stmt) {
+fn (mut b Inspector) write_stmts_field(name string, v ...v.Stmt) {
 	b.write_label(name, 'stmts')
 	b.stmts(...v)
 }
 
-fn (mut b Inspector) write_expr_field(name string, v ast.Expr) {
+fn (mut b Inspector) write_expr_field(name string, v v.Expr) {
 	b.write_label(name, 'expr')
 	b.expr(v)
 }
 
-fn (mut b Inspector) write_exprs_field(name string, v ...ast.Expr) {
+fn (mut b Inspector) write_exprs_field(name string, v ...v.Expr) {
 	b.write_label(name, 'exprs')
 	b.exprs(...v)
 }
 
-fn (mut b Inspector) write_comments_field(name string, v ...ast.Comment) {
+fn (mut b Inspector) write_comments_field(name string, v ...v.Comment) {
 	b.write_label(name, 'comments')
 	b.exprs(...v)
 }
 
-fn (mut b Inspector) write_ecmnts_field(name string, ecmnts ...[]ast.Comment) {
+fn (mut b Inspector) write_ecmnts_field(name string, ecmnts ...[]v.Comment) {
 	b.write_label(name, 'ecmnts')
 	b.begin_array()
 	for comments in ecmnts {
@@ -142,12 +142,12 @@ fn (mut b Inspector) write_ecmnts_field(name string, ecmnts ...[]ast.Comment) {
 	b.end_array()
 }
 
-fn (mut b Inspector) write_node_field(name string, v ast.Node) {
+fn (mut b Inspector) write_node_field(name string, v v.Node) {
 	b.write_label(name)
 	b.node(v)
 }
 
-fn (mut b Inspector) write_nodes_field(name string, v ...ast.Node) {
+fn (mut b Inspector) write_nodes_field(name string, v ...v.Node) {
 	b.write_label(name)
 	b.nodes(...v)
 }
@@ -162,7 +162,7 @@ fn (mut b Inspector) write_types_field(name string, v ...table.Type) {
 	b.types(...v)
 }
 
-fn (mut b Inspector) write_scope_field(name string, v &ast.Scope) {
+fn (mut b Inspector) write_scope_field(name string, v &v.Scope) {
 	b.write_label(name, 'scope')
 	b.scope(v)
 }

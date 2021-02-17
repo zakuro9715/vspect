@@ -1,6 +1,6 @@
-module astspect
+module ast
 
-import v.ast
+import v.ast as v
 
 /*
 ConstField
@@ -19,7 +19,7 @@ o	Stmt
 o	table.Param
 */
 
-pub fn (mut b Inspector) nodes(nodes ...ast.Node) {
+pub fn (mut b Inspector) nodes(nodes ...v.Node) {
 	b.begin_array()
 	for node in nodes {
 		b.node(node)
@@ -28,18 +28,18 @@ pub fn (mut b Inspector) nodes(nodes ...ast.Node) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) node(v ast.Node) {
+pub fn (mut b Inspector) node(v v.Node) {
 	match v {
-		ast.Expr {
+		v.Expr {
 			b.expr(v)
 		}
-		ast.Stmt {
+		v.Stmt {
 			b.stmt(v)
 		}
-		ast.File {
+		v.File {
 			b.file(v)
 		}
-		ast.Field {
+		v.Field {
 			if v.name.len > 0 {
 				b.writeln(v)
 			} else {
@@ -53,8 +53,8 @@ pub fn (mut b Inspector) node(v ast.Node) {
 }
 
 // WIP
-pub fn (mut b Inspector) file(file &ast.File) {
-	// b.begin_struct<ast.File>(file)
+pub fn (mut b Inspector) file(file &v.File) {
+	// b.begin_struct<v.File>(file)
 	b.begin_struct('File')
 	b.write_label('stmts')
 	if b.short_fn {
@@ -65,9 +65,9 @@ pub fn (mut b Inspector) file(file &ast.File) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) visit(node ast.Node) ? {
-	if node is ast.Stmt {
-		if node is ast.FnDecl {
+pub fn (mut b Inspector) visit(node v.Node) ? {
+	if node is v.Stmt {
+		if node is v.FnDecl {
 			if node.name.split('.').last() == b.target_fn {
 				b.fn_decl(node)
 			}

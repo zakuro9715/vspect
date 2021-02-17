@@ -1,4 +1,4 @@
-module astspect
+module ast
 
 import v.table
 

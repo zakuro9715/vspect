@@ -1,6 +1,6 @@
-module astspect
+module ast
 
-import v.ast
+import v.ast as v
 
 /*
 o	AssertStmt
@@ -30,7 +30,7 @@ o	Return
 o	TypeDecl
 */
 
-fn (mut b Inspector) stmts_detail(stmts ...ast.Stmt) {
+fn (mut b Inspector) stmts_detail(stmts ...v.Stmt) {
 	b.begin_array()
 	for stmt in stmts {
 		b.stmt_detail(stmt)
@@ -39,7 +39,7 @@ fn (mut b Inspector) stmts_detail(stmts ...ast.Stmt) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) stmts(stmts ...ast.Stmt) {
+pub fn (mut b Inspector) stmts(stmts ...v.Stmt) {
 	b.begin_array()
 	for stmt in stmts {
 		b.stmt(stmt)
@@ -48,7 +48,7 @@ pub fn (mut b Inspector) stmts(stmts ...ast.Stmt) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
+pub fn (mut b Inspector) stmt(stmt v.Stmt) {
 	if b.short_stmt {
 		b.writeln(stmt)
 	} else {
@@ -56,24 +56,24 @@ pub fn (mut b Inspector) stmt(stmt ast.Stmt) {
 	}
 }
 
-fn (mut b Inspector) stmt_detail(stmt ast.Stmt) {
+fn (mut b Inspector) stmt_detail(stmt v.Stmt) {
 	match stmt {
-		ast.AssertStmt { b.assert_stmt(stmt) }
-		ast.AssignStmt { b.assign_stmt(stmt) }
-		ast.DeferStmt { b.defer_stmt(stmt) }
-		ast.FnDecl { b.fn_decl(stmt) }
-		ast.GoStmt { b.go_stmt(stmt) }
-		ast.GotoLabel { b.goto_label(stmt) }
-		ast.GotoStmt { b.goto_stmt(stmt) }
-		ast.Module { b.writeln(stmt) }
-		ast.ExprStmt { b.expr_stmt(stmt) }
-		ast.Return { b.return_stmt(stmt) }
-		ast.TypeDecl { b.type_decl(stmt) }
+		v.AssertStmt { b.assert_stmt(stmt) }
+		v.AssignStmt { b.assign_stmt(stmt) }
+		v.DeferStmt { b.defer_stmt(stmt) }
+		v.FnDecl { b.fn_decl(stmt) }
+		v.GoStmt { b.go_stmt(stmt) }
+		v.GotoLabel { b.goto_label(stmt) }
+		v.GotoStmt { b.goto_stmt(stmt) }
+		v.Module { b.writeln(stmt) }
+		v.ExprStmt { b.expr_stmt(stmt) }
+		v.Return { b.return_stmt(stmt) }
+		v.TypeDecl { b.type_decl(stmt) }
 		else { b.writeln(stmt) }
 	}
 }
 
-pub fn (mut b Inspector) assign_stmt(stmt ast.AssignStmt) {
+pub fn (mut b Inspector) assign_stmt(stmt v.AssignStmt) {
 	b.begin_struct('AssignStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_any_field('op', stmt.op)
@@ -98,7 +98,7 @@ pub fn (mut b Inspector) generic_params(params ...GenericParam) {
 	b.end_array()
 }
 
-type GenericParam = ast.GenericParam
+type GenericParam = v.GenericParam
 
 fn (p GenericParam) str() string {
 	return 'GenericParam{ name: $p.name }'
@@ -108,14 +108,14 @@ pub fn (mut b Inspector) generic_param(param GenericParam) {
 	b.writeln(GenericParam(param))
 }
 
-pub fn (mut b Inspector) assert_stmt(stmt ast.AssertStmt) {
+pub fn (mut b Inspector) assert_stmt(stmt v.AssertStmt) {
 	b.begin_struct('AssertStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_expr_field('', stmt.expr)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) defer_stmt(stmt ast.DeferStmt) {
+pub fn (mut b Inspector) defer_stmt(stmt v.DeferStmt) {
 	b.begin_struct('DeferStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_stmts_field('', ...stmt.stmts)
@@ -123,7 +123,7 @@ pub fn (mut b Inspector) defer_stmt(stmt ast.DeferStmt) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) fn_decl(v ast.FnDecl) {
+pub fn (mut b Inspector) fn_decl(v v.FnDecl) {
 	b.begin_struct('FnDecl')
 
 	b.write_any_field('name', v.name)
@@ -152,7 +152,7 @@ pub fn (mut b Inspector) fn_decl(v ast.FnDecl) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) expr_stmt(stmt ast.ExprStmt) {
+pub fn (mut b Inspector) expr_stmt(stmt v.ExprStmt) {
 	b.begin_struct('ExprStmt')
 
 	b.write_expr_field('', stmt.expr)
@@ -163,28 +163,28 @@ pub fn (mut b Inspector) expr_stmt(stmt ast.ExprStmt) {
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) go_stmt(stmt ast.GoStmt) {
+pub fn (mut b Inspector) go_stmt(stmt v.GoStmt) {
 	b.begin_struct('GoStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_expr_field('call_expr', stmt.call_expr)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) goto_label(stmt ast.GotoLabel) {
+pub fn (mut b Inspector) goto_label(stmt v.GotoLabel) {
 	b.begin_struct('GotoLabel')
 	b.write_pos_field('', stmt.pos)
 	b.write_any_field('name', stmt.name)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) goto_stmt(stmt ast.GotoStmt) {
+pub fn (mut b Inspector) goto_stmt(stmt v.GotoStmt) {
 	b.begin_struct('GotoStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_any_field('name', stmt.name)
 	b.end_struct()
 }
 
-pub fn (mut b Inspector) return_stmt(stmt ast.Return) {
+pub fn (mut b Inspector) return_stmt(stmt v.Return) {
 	b.begin_struct('Return')
 	b.write_pos_field('', stmt.pos)
 	b.write_exprs_field('', ...stmt.exprs)
