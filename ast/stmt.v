@@ -14,7 +14,7 @@ o	DeferStmt
 o	ExprStmt
 o FnDecl
 	ForCStmt
-	ForInStmt
+o	ForInStmt
 	ForStmt
 	GlobalDecl
 o	GoStmt
@@ -62,6 +62,7 @@ fn (mut b Inspector) stmt_detail(stmt v.Stmt) {
 		v.AssignStmt { b.assign_stmt(stmt) }
 		v.DeferStmt { b.defer_stmt(stmt) }
 		v.FnDecl { b.fn_decl(stmt) }
+		v.ForInStmt { b.for_in_stmt(stmt) }
 		v.GoStmt { b.go_stmt(stmt) }
 		v.GotoLabel { b.goto_label(stmt) }
 		v.GotoStmt { b.goto_stmt(stmt) }
@@ -149,6 +150,25 @@ pub fn (mut b Inspector) fn_decl(v v.FnDecl) {
 	b.write_comments_field('', ...v.comments)
 	b.write_comments_field('next_comments', ...v.next_comments)
 
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) for_in_stmt(stmt v.ForInStmt) {
+	b.begin_struct('ForInStmt')
+	b.write_pos_field('', stmt.pos)
+	b.write_any_field('key_var', stmt.key_var)
+	b.write_any_field('val_var', stmt.val_var)
+	b.write_any_field('val_is_mut', stmt.val_is_mut)
+	b.write_expr_field('cond', stmt.cond)
+	b.write_any_field('is_range', stmt.is_range)
+	b.write_expr_field('high', stmt.high)
+	b.write_type_field('key_type', stmt.key_type)
+	b.write_type_field('val_type', stmt.val_type)
+	b.write_type_field('cond_type', stmt.cond_type)
+	b.write_any_field('kind', stmt.kind)
+	b.write_any_field('label', stmt.label)
+	b.write_scope_field('', stmt.scope)
+	b.write_stmts_field('', ...stmt.stmts)
 	b.end_struct()
 }
 
