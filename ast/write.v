@@ -4,7 +4,7 @@ import v.ast as v
 import v.token
 import v.table
 
-fn (mut b Inspector) write<T>(v T) {
+fn (mut b Inspector) write(v string) {
 	if b.pos.is_line_head {
 		b.write_indent()
 	}
@@ -26,7 +26,7 @@ fn (mut b Inspector) write_indent() {
 	b.pos.i = b.buf.len
 }
 
-fn (mut b Inspector) writeln<T>(v T) {
+fn (mut b Inspector) writeln(v string) {
 	for i, line in v.str().split_into_lines() {
 		if b.pos.is_line_head {
 			b.write_indent()

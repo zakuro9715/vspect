@@ -50,7 +50,7 @@ pub fn (mut b Inspector) stmts(stmts ...v.Stmt) {
 
 pub fn (mut b Inspector) stmt(stmt v.Stmt) {
 	if b.short_stmt {
-		b.writeln(stmt)
+		b.writeln(stmt.str())
 	} else {
 		b.stmt_detail(stmt)
 	}
@@ -67,11 +67,11 @@ fn (mut b Inspector) stmt_detail(stmt v.Stmt) {
 		v.GoStmt { b.go_stmt(stmt) }
 		v.GotoLabel { b.goto_label(stmt) }
 		v.GotoStmt { b.goto_stmt(stmt) }
-		v.Module { b.writeln(stmt) }
+		v.Module { b.writeln(stmt.str()) }
 		v.ExprStmt { b.expr_stmt(stmt) }
 		v.Return { b.return_stmt(stmt) }
 		v.TypeDecl { b.type_decl(stmt) }
-		else { b.writeln(stmt) }
+		else { b.writeln(stmt.str()) }
 	}
 }
 
@@ -107,7 +107,7 @@ fn (p GenericParam) str() string {
 }
 
 pub fn (mut b Inspector) generic_param(param GenericParam) {
-	b.writeln(GenericParam(param))
+	b.writeln(GenericParam(param).str())
 }
 
 pub fn (mut b Inspector) assert_stmt(stmt v.AssertStmt) {

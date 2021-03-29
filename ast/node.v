@@ -42,13 +42,13 @@ pub fn (mut b Inspector) node(v v.Node) {
 		}
 		v.Field {
 			if v.name.len > 0 {
-				b.writeln(v)
+				b.writeln(v.str())
 			} else {
 				b.writeln('Field{}')
 			}
 		}
 		else {
-			b.writeln(v)
+			b.writeln(v.str())
 		}
 	}
 }

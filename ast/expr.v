@@ -61,7 +61,7 @@ pub fn (mut b Inspector) exprs(exprs ...v.Expr) {
 
 pub fn (mut b Inspector) expr(expr v.Expr) {
 	if b.short_expr {
-		b.writeln(expr)
+		b.writeln(expr.str())
 		return
 	}
 	if expr.type_name().starts_with('unknown') {
@@ -105,7 +105,7 @@ pub fn (mut b Inspector) expr(expr v.Expr) {
 		v.SizeOf { b.size_of(expr) }
 		v.TypeOf { b.type_of(expr) }
 		v.UnsafeExpr { b.unsafe_expr(expr) }
-		else { b.writeln(expr) }
+		else { b.writeln(expr.str()) }
 	}
 }
 
@@ -344,7 +344,7 @@ pub fn (mut b Inspector) ident(expr v.Ident) {
 	if b.short_ident {
 		b.writeln(expr.name)
 	} else {
-		b.writeln(expr)
+		b.writeln(expr.str())
 	}
 }
 
