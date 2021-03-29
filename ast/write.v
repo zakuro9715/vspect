@@ -10,7 +10,7 @@ fn (mut b Inspector) write<T>(v T) {
 	}
 	text := v.str()
 	if text.len > 0 {
-		b.buf.write(text)
+		b.buf.write_string(text)
 		if text[text.len - 1] == `\n` {
 			b.pos.inc_line()
 		} else {
@@ -21,7 +21,7 @@ fn (mut b Inspector) write<T>(v T) {
 }
 
 fn (mut b Inspector) write_indent() {
-	b.buf.write(' '.repeat(b.indent_n * 4))
+	b.buf.write_string(' '.repeat(b.indent_n * 4))
 	b.pos.is_line_head = false
 	b.pos.i = b.buf.len
 }
