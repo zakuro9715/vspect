@@ -10,7 +10,7 @@ o	AssignStmt
 	CompFor
 	ConstDecl
 o	DeferStmt
-	EnumDecl
+o	EnumDecl
 o	ExprStmt
 o FnDecl
 	ForCStmt
@@ -61,6 +61,7 @@ fn (mut b Inspector) stmt_detail(stmt v.Stmt) {
 		v.AssertStmt { b.assert_stmt(stmt) }
 		v.AssignStmt { b.assign_stmt(stmt) }
 		v.DeferStmt { b.defer_stmt(stmt) }
+		v.EnumDecl { b.enum_decl(stmt) }
 		v.FnDecl { b.fn_decl(stmt) }
 		v.ForInStmt { b.for_in_stmt(stmt) }
 		v.GoStmt { b.go_stmt(stmt) }
@@ -124,6 +125,31 @@ pub fn (mut b Inspector) defer_stmt(stmt v.DeferStmt) {
 	b.end_struct()
 }
 
+pub fn (mut b Inspector) enum_field(f v.EnumField) {
+	b.begin_struct('EnumField')
+	b.write_any_field('name', f.name)
+	b.write_pos_field('', f.pos)
+	b.write_any_field('has_expr', f.has_expr)
+	b.write_expr_field('', f.expr)
+	b.write_comments_field('', ...f.comments)
+	b.write_comments_field('next_comments', ...f.next_comments)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) enum_decl(decl v.EnumDecl) {
+	b.begin_struct('EnumDecl')
+	b.write_any_field('name', decl.name)
+	b.write_pos_field('', decl.pos)
+	b.write_any_field('is_pub', decl.is_pub)
+	b.write_any_field('is_flag', decl.is_flag)
+	b.write_any_field('is_multi_allowd', decl.is_multi_allowed)
+	b.write_comments_field('', ...decl.comments)
+	b.write_nodes_field('fields', ...decl.fields)
+	// TODO
+	//b.write_attrs_field('', ...decl.attrs)
+	b.end_struct()
+}
+
 pub fn (mut b Inspector) fn_decl(v v.FnDecl) {
 	b.begin_struct('FnDecl')
 
@@ -149,6 +175,8 @@ pub fn (mut b Inspector) fn_decl(v v.FnDecl) {
 	b.write_type_field('return_type', v.return_type)
 	b.write_comments_field('', ...v.comments)
 	b.write_comments_field('next_comments', ...v.next_comments)
+	// TODO
+	//b.write_attrs_field('', ...v.attrs)
 
 	b.end_struct()
 }

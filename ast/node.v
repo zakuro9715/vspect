@@ -4,7 +4,7 @@ import v.ast as v
 
 /*
 ConstField
-	EnumField
+o	EnumField
 	Expr
 o	Field
 _ File
@@ -30,6 +30,7 @@ pub fn (mut b Inspector) nodes(nodes ...v.Node) {
 
 pub fn (mut b Inspector) node(v v.Node) {
 	match v {
+		v.EnumField { b.enum_field(v) }
 		v.Expr {
 			b.expr(v)
 		}
