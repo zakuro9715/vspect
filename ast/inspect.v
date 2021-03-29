@@ -19,7 +19,7 @@ pub struct InspectOpts {
 	short_fn    bool
 }
 
-pub fn inspect(paths []string, prefs &pref.Preferences, opts &InspectOpts) {
+pub fn inspect(paths []string, prefs &pref.Preferences, opts InspectOpts) {
 	global_scope := Scope{
 		parent: 0
 	}
