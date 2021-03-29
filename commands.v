@@ -60,7 +60,6 @@ const (
 					name: 'use-checker'
 					abbrev: 'c'
 					description: 'Use checker'
-					default_value: ['true']
 				},
 			]
 			execute: fn (cmd Command) ? {
