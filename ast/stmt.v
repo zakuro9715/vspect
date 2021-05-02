@@ -8,7 +8,7 @@ o	AssignStmt
 	Block
 	BranchStmt
 	CompFor
-	ConstDecl
+o	ConstDecl
 o	DeferStmt
 o	EnumDecl
 o	ExprStmt
@@ -61,6 +61,7 @@ fn (mut b Inspector) stmt_detail(stmt v.Stmt) {
 		v.AssertStmt { b.assert_stmt(stmt) }
 		v.AssignStmt { b.assign_stmt(stmt) }
 		v.DeferStmt { b.defer_stmt(stmt) }
+		v.ConstDecl { b.const_decl(stmt) }
 		v.EnumDecl { b.enum_decl(stmt) }
 		v.FnDecl { b.fn_decl(stmt) }
 		v.ForInStmt { b.for_in_stmt(stmt) }
@@ -114,6 +115,29 @@ pub fn (mut b Inspector) assert_stmt(stmt v.AssertStmt) {
 	b.begin_struct('AssertStmt')
 	b.write_pos_field('', stmt.pos)
 	b.write_expr_field('', stmt.expr)
+	b.end_struct()
+}
+
+pub fn (mut b Inspector) const_field(f v.ConstField) {
+	b.begin_struct('ConstField')
+	b.write_any_field('mod', f.mod)
+	b.write_any_field('name', f.name)
+	b.write_any_field('is_pub', f.is_pub)
+	b.write_pos_field('', f.pos)
+	b.write_expr_field('', f.expr)
+	b.write_type_field('', f.typ)
+	b.write_comments_field('', ...f.comments)
+	b.end_struct()
+}
+pub fn (mut b Inspector) const_decl(stmt v.ConstDecl) {
+	b.begin_struct('ConstDecl')
+	b.write_pos_field('', stmt.pos)
+	b.write_any_field('is_pub', stmt.is_pub)
+	b.write_any_field('is_block', stmt.is_block)
+	b.write_label('field')
+	b.const_field(stmt.fields[0])
+	b.write_nodes_field('fields', ...stmt.fields)
+	b.write_comments_field('end_comments', ...stmt.end_comments)
 	b.end_struct()
 }
 
