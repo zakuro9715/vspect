@@ -3,7 +3,7 @@ module ast
 import v.ast as v
 
 /*
-ConstField
+o ConstField
 o	EnumField
 	Expr
 o	Field
@@ -28,27 +28,28 @@ pub fn (mut b Inspector) nodes(nodes ...v.Node) {
 	b.end_array()
 }
 
-pub fn (mut b Inspector) node(v v.Node) {
-	match v {
-		v.EnumField { b.enum_field(v) }
+pub fn (mut b Inspector) node(node v.Node) {
+	match node {
+		v.EnumField { b.enum_field(node) }
+		v.ConstField { b.const_field(node) }
 		v.Expr {
-			b.expr(v)
+			b.expr(node)
 		}
 		v.Stmt {
-			b.stmt(v)
+			b.stmt(node)
 		}
 		v.File {
-			b.file(v)
+			b.file(node)
 		}
 		v.Field {
-			if v.name.len > 0 {
-				b.writeln(v.str())
+			if node.name.len > 0 {
+				b.writeln(node.str())
 			} else {
 				b.writeln('Field{}')
 			}
 		}
 		else {
-			b.writeln(v.str())
+			b.writeln(node.str())
 		}
 	}
 }
