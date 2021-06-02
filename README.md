@@ -1,6 +1,6 @@
 # vspect
 
-**vspect had been archived and no longer work. Use V's [vast](https://github.com/vlang/v/tree/ba86d619fa41fded96391b712eaa00c5db0a57a4/cmd/tools/vast)**
+**vspect had been archived and no longer work. Use new V`s official command `v ast`**
 
 inspect [vlang](https://github.com/vlang/v) source file
 
